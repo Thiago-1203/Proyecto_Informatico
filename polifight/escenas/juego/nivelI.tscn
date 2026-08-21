@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cvg5tjm0ntvsv"]
+
+[ext_resource type="PackedScene" uid="uid://jyu0bvlx3jey" path="res://escenas/personajes/barbieri.tscn" id="1_vn2la"]
+[ext_resource type="PackedScene" uid="uid://kgniji247j48" path="res://escenas/objetos/piso.tscn" id="2_6g7x6"]
+
+[sub_resource type="GDScript" id="GDScript_6g7x6"]
+script/source = "extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="NivelI" type="Node2D" unique_id=1518494032]
+script = SubResource("GDScript_6g7x6")
+
+[node name="Barbieri" parent="." unique_id=1988390493 instance=ExtResource("1_vn2la")]
+position = Vector2(191, 721)
+
+[node name="Piso" parent="." unique_id=997064110 instance=ExtResource("2_6g7x6")]
+position = Vector2(812.00006, 925)
+scale = Vector2(15, 1)

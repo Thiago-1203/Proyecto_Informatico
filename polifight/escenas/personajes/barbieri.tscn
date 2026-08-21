@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://jyu0bvlx3jey"]
+
+[ext_resource type="Texture2D" uid="uid://blx6l67i22mnr" path="res://assets/Barbieri/idle/idle1.png" id="1_agrl3"]
+[ext_resource type="Script" uid="uid://cippgpxa35s4" path="res://scripts/personajes/personaje.gd" id="1_aujrn"]
+[ext_resource type="Texture2D" uid="uid://c722j8pm20ssl" path="res://assets/Barbieri/idle/idle2.png" id="2_aujrn"]
+[ext_resource type="Texture2D" uid="uid://djedard40ypw5" path="res://assets/Barbieri/Saltando/1(sf).png" id="4_w1lah"]
+[ext_resource type="Texture2D" uid="uid://b2uvjnm8lr42u" path="res://assets/Barbieri/Saltando/2(sf).png" id="5_8dte6"]
+[ext_resource type="Texture2D" uid="uid://pd7m5mwe4qhl" path="res://assets/Barbieri/Saltando/3(sf).png" id="6_up4jm"]
+[ext_resource type="Texture2D" uid="uid://ckne78ql7wajd" path="res://assets/Barbieri/Saltando/4(sf).png" id="7_36vp1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c1w2x"]
+size = Vector2(232.5, 334.25)
+
+[sub_resource type="Animation" id="Animation_u2063"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_agrl3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7s86b"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("1_agrl3"), ExtResource("2_aujrn")]
+}
+
+[sub_resource type="Animation" id="Animation_ow54q"]
+resource_name = "salto"
+length = 0.75
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_w1lah"), ExtResource("5_8dte6"), ExtResource("6_up4jm"), ExtResource("7_36vp1")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.26, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(6, 41), Vector2(-4, 44), Vector2(5, 42)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3rmif"]
+_data = {
+&"RESET": SubResource("Animation_u2063"),
+&"idle": SubResource("Animation_7s86b"),
+&"salto": SubResource("Animation_ow54q")
+}
+
+[node name="Barbieri" type="CharacterBody2D" unique_id=1988390493]
+script = ExtResource("1_aujrn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=261621108]
+texture = ExtResource("1_agrl3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=921690438]
+shape = SubResource("RectangleShape2D_c1w2x")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=244090168]
+libraries/ = SubResource("AnimationLibrary_3rmif")

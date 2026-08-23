@@ -1,23 +1,23 @@
-[gd_scene format=3 uid="uid://jyu0bvlx3jey"]
+[gd_scene format=3 uid="uid://cbkxwaldf88pc"]
 
-[ext_resource type="Script" uid="uid://bwl6yh7d33luh" path="res://scripts/personajes/barbieri.gd" id="2_agrl3"]
-[ext_resource type="Script" uid="uid://cbljp8exrfrnv" path="res://scripts/personajes/personaje_base/hurtbox.gd" id="3_3pqia"]
-[ext_resource type="Texture2D" uid="uid://dio6651otge01" path="res://assets/characters/Barbieri/Puño/puño2.png" id="3_aujrn"]
-[ext_resource type="Script" uid="uid://cw2fxpu24ebvf" path="res://scripts/personajes/personaje_base/hitbox.gd" id="4_ilho3"]
-[ext_resource type="Texture2D" uid="uid://pd7m5mwe4qhl" path="res://assets/characters/Barbieri/Saltando/3(sf).png" id="5_mo7sy"]
-[ext_resource type="Texture2D" uid="uid://ckne78ql7wajd" path="res://assets/characters/Barbieri/Saltando/4(sf).png" id="6_ierh7"]
-[ext_resource type="Texture2D" uid="uid://du2s61gijrady" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante1.png" id="7_ca64a"]
-[ext_resource type="Texture2D" uid="uid://j5nl0oif3uw4" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante2.png" id="8_ogwof"]
-[ext_resource type="Texture2D" uid="uid://blx6l67i22mnr" path="res://assets/characters/Barbieri/idle/idle1.png" id="9_ubqjv"]
-[ext_resource type="Texture2D" uid="uid://c722j8pm20ssl" path="res://assets/characters/Barbieri/idle/idle2.png" id="10_ai3k4"]
-[ext_resource type="Texture2D" uid="uid://co784fxvxxgbv" path="res://assets/characters/Barbieri/Puño/puño3.png" id="11_ot1f5"]
-[ext_resource type="Texture2D" uid="uid://djedard40ypw5" path="res://assets/characters/Barbieri/Saltando/1(sf).png" id="12_4qwpi"]
-[ext_resource type="Texture2D" uid="uid://b2uvjnm8lr42u" path="res://assets/characters/Barbieri/Saltando/2(sf).png" id="13_v67uq"]
-[ext_resource type="Script" uid="uid://er1dfvefh4an" path="res://scripts/personajes/personaje_base/Maquina_estados.gd" id="14_odpsu"]
-[ext_resource type="Script" uid="uid://i6gn3v4m17qy" path="res://scripts/personajes/personaje_base/estados/idle.gd" id="15_ds2l1"]
-[ext_resource type="Script" uid="uid://dr7ce2o8imbdp" path="res://scripts/personajes/personaje_base/estados/caminar.gd" id="16_h10p4"]
-[ext_resource type="Script" uid="uid://80mkw2g8t48m" path="res://scripts/personajes/personaje_base/estados/saltar.gd" id="17_ykllf"]
-[ext_resource type="Script" uid="uid://brlwx18dj83ba" path="res://scripts/personajes/personaje_base/estados/punio.gd" id="18_un1q3"]
+[ext_resource type="Script" uid="uid://cippgpxa35s4" path="res://scripts/personajes/personaje_base/personaje.gd" id="1_kxq8l"]
+[ext_resource type="Texture2D" uid="uid://co784fxvxxgbv" path="res://assets/characters/Barbieri/Puño/puño3.png" id="2_dj3lp"]
+[ext_resource type="Script" uid="uid://cbljp8exrfrnv" path="res://scripts/personajes/personaje_base/hurtbox.gd" id="3_t4bw6"]
+[ext_resource type="Script" uid="uid://cw2fxpu24ebvf" path="res://scripts/personajes/personaje_base/hitbox.gd" id="4_l0lbd"]
+[ext_resource type="Texture2D" uid="uid://pd7m5mwe4qhl" path="res://assets/characters/Barbieri/Saltando/3(sf).png" id="5_6ue5a"]
+[ext_resource type="Texture2D" uid="uid://ckne78ql7wajd" path="res://assets/characters/Barbieri/Saltando/4(sf).png" id="6_ivj4o"]
+[ext_resource type="Texture2D" uid="uid://du2s61gijrady" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante1.png" id="7_ibrcs"]
+[ext_resource type="Texture2D" uid="uid://j5nl0oif3uw4" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante2.png" id="8_s4veo"]
+[ext_resource type="Texture2D" uid="uid://blx6l67i22mnr" path="res://assets/characters/Barbieri/idle/idle1.png" id="9_ngpx8"]
+[ext_resource type="Texture2D" uid="uid://c722j8pm20ssl" path="res://assets/characters/Barbieri/idle/idle2.png" id="10_ytiok"]
+[ext_resource type="Texture2D" uid="uid://dio6651otge01" path="res://assets/characters/Barbieri/Puño/puño2.png" id="11_35se2"]
+[ext_resource type="Texture2D" uid="uid://djedard40ypw5" path="res://assets/characters/Barbieri/Saltando/1(sf).png" id="12_slta3"]
+[ext_resource type="Texture2D" uid="uid://b2uvjnm8lr42u" path="res://assets/characters/Barbieri/Saltando/2(sf).png" id="13_a4qtv"]
+[ext_resource type="Script" uid="uid://er1dfvefh4an" path="res://scripts/personajes/personaje_base/Maquina_estados.gd" id="14_yf4go"]
+[ext_resource type="Script" uid="uid://i6gn3v4m17qy" path="res://scripts/personajes/personaje_base/estados/idle.gd" id="15_np81v"]
+[ext_resource type="Script" uid="uid://dr7ce2o8imbdp" path="res://scripts/personajes/personaje_base/estados/caminar.gd" id="16_rkeue"]
+[ext_resource type="Script" uid="uid://80mkw2g8t48m" path="res://scripts/personajes/personaje_base/estados/saltar.gd" id="17_sv52w"]
+[ext_resource type="Script" uid="uid://brlwx18dj83ba" path="res://scripts/personajes/personaje_base/estados/punio.gd" id="18_leo8m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1lah"]
 size = Vector2(308, 236)
@@ -43,7 +43,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.7226879),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("5_mo7sy"), ExtResource("6_ierh7")]
+"values": [ExtResource("5_6ue5a"), ExtResource("6_ivj4o")]
 }
 
 [sub_resource type="Animation" id="Animation_vrece"]
@@ -59,7 +59,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("7_ca64a"), ExtResource("8_ogwof")]
+"values": [ExtResource("7_ibrcs"), ExtResource("8_s4veo")]
 }
 
 [sub_resource type="Animation" id="Animation_7s86b"]
@@ -75,7 +75,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.56666666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("9_ubqjv"), ExtResource("10_ai3k4")]
+"values": [ExtResource("9_ngpx8"), ExtResource("10_ytiok")]
 }
 
 [sub_resource type="Animation" id="Animation_u2o3s"]
@@ -91,7 +91,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.06666668),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("3_aujrn"), ExtResource("11_ot1f5")]
+"values": [ExtResource("11_35se2"), ExtResource("2_dj3lp")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -118,7 +118,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("12_4qwpi"), ExtResource("13_v67uq")]
+"values": [ExtResource("12_slta3"), ExtResource("13_a4qtv")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3rmif"]
@@ -131,13 +131,13 @@ _data = {
 &"salto": SubResource("Animation_ow54q")
 }
 
-[node name="barbieri" type="CharacterBody2D" unique_id=1988390493]
+[node name="personaje" type="CharacterBody2D" unique_id=1988390493]
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("2_agrl3")
+script = ExtResource("1_kxq8l")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=261621108]
-texture = ExtResource("3_aujrn")
+texture = ExtResource("2_dj3lp")
 
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=921690438]
 position = Vector2(6, 82)
@@ -146,7 +146,7 @@ shape = SubResource("RectangleShape2D_w1lah")
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1746904839]
 collision_layer = 8
 collision_mask = 4
-script = ExtResource("3_3pqia")
+script = ExtResource("3_t4bw6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1228414874]
 position = Vector2(-0.5, -0.5)
@@ -158,7 +158,7 @@ shape = SubResource("RectangleShape2D_imr41")
 collision_layer = 4
 collision_mask = 0
 monitoring = false
-script = ExtResource("4_ilho3")
+script = ExtResource("4_l0lbd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/Hitbox" unique_id=1398441848]
 position = Vector2(163, -39)
@@ -169,17 +169,17 @@ disabled = true
 libraries/ = SubResource("AnimationLibrary_3rmif")
 
 [node name="MaquinaEstados" type="Node" parent="." unique_id=225102525 node_paths=PackedStringArray("default_state")]
-script = ExtResource("14_odpsu")
+script = ExtResource("14_yf4go")
 default_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="MaquinaEstados" unique_id=753141644]
-script = ExtResource("15_ds2l1")
+script = ExtResource("15_np81v")
 
 [node name="Caminar" type="Node" parent="MaquinaEstados" unique_id=1271064760]
-script = ExtResource("16_h10p4")
+script = ExtResource("16_rkeue")
 
 [node name="Saltar" type="Node" parent="MaquinaEstados" unique_id=1278876554]
-script = ExtResource("17_ykllf")
+script = ExtResource("17_sv52w")
 
 [node name="Puño" type="Node" parent="MaquinaEstados" unique_id=1620483157]
-script = ExtResource("18_un1q3")
+script = ExtResource("18_leo8m")

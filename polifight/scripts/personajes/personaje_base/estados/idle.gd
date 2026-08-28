@@ -24,5 +24,5 @@ func on_input(_event):
 		maquina_estados.cambiar_a("Caminar")
 	elif Input.is_action_pressed(salto) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Saltar")
-	elif Input.is_action_pressed(ataque):
+	elif Input.is_action_just_pressed(ataque):
 		maquina_estados.cambiar_a("Puño")

@@ -35,6 +35,7 @@ func gravity(delta) -> void:
 	
 func on_input(_event)->void:
 	var ataque := nodo_controlado.accion("ataque")
+	var agacharse := nodo_controlado.accion("agacharse")
 	
-	if Input.is_action_pressed(ataque):
+	if Input.is_action_just_pressed(ataque):
 		maquina_estados.cambiar_a("Puño")

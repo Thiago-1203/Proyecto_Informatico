@@ -11,7 +11,7 @@ size = Vector2(109.5, 20)
 offset_left = -54.0
 offset_right = 55.0
 offset_bottom = 40.0
-color = Color(0, 0, 0, 1)
+color = Color(1, 1, 1, 0)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1156935370]

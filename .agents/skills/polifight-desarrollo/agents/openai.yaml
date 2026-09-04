@@ -1,0 +1,4 @@
+interface:
+  display_name: "PoliFight Desarrollo"
+  short_description: "Guía técnica y de diseño para PoliFight"
+  default_prompt: "Usa $polifight-desarrollo para analizar el estado actual del juego y proponer el siguiente cambio paso a paso."

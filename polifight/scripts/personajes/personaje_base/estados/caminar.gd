@@ -20,6 +20,7 @@ func on_input(_event):
 	var derecha := nodo_controlado.accion("derecha")
 	var salto := nodo_controlado.accion("salto")
 	var ataque := nodo_controlado.accion("ataque")
+	var agacharse := nodo_controlado.accion("agacharse")
 	
 	if not Input.is_action_pressed(derecha) and not Input.is_action_pressed(izquierda) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Idle")
@@ -27,3 +28,7 @@ func on_input(_event):
 		maquina_estados.cambiar_a("Saltar")
 	elif Input.is_action_just_pressed(ataque):
 		maquina_estados.cambiar_a("Puño")
+	elif Input.is_action_pressed(agacharse) and nodo_controlado.is_on_floor():
+		maquina_estados.cambiar_a("Agacharse")
+	
+		

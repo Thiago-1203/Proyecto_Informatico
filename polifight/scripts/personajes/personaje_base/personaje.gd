@@ -4,6 +4,8 @@ extends CharacterBody2D
 #ATTENTION esta clase es la base para todos los proximos personajes lo que se modifique aqui se le agregara a todos los personajes 
 # que extiendan de esta clase
 
+signal vida_cambiada(vida_actual: int, vida_maxima: int)
+signal vida_agotada(personaje: Personaje)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animacion = $AnimationPlayer
@@ -37,9 +39,16 @@ func _ready() -> void:
 	mirar_hacia(direccion_inicial)
 	
 func recibir_golpe(cantidad: int, _atacante: Personaje) -> void:
-	vida_actual = maxi(vida_actual - cantidad, 0)
-	print(name," recibió ",cantidad," de daño. Vida restante: ",vida_actual)
+	if vida_actual <= 0:
+		return
+	
+	vida_actual = clampi(vida_actual - cantidad, 0, vida_maxima)
+	vida_cambiada.emit(vida_actual, vida_maxima)
+	
+	print(name, " recibio", cantidad, " de danio. Vida restante: ", vida_actual)
+	
 	if vida_actual == 0:
+		vida_agotada.emit(self)
 		derrotado()
 
 func derrotado()-> void:

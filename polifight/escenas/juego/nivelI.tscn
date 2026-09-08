@@ -1,16 +1,19 @@
 [gd_scene format=3 uid="uid://cvg5tjm0ntvsv"]
 
 [ext_resource type="Texture2D" uid="uid://lhxpt1qdkbox" path="res://assets/ui/fondos/Fondo1.png" id="1_c1w2x"]
+[ext_resource type="Script" uid="uid://do3wv0s76lgtq" path="res://scripts/juego/controlador_combate.gd" id="1_pu5gc"]
 [ext_resource type="PackedScene" uid="uid://jyu0bvlx3jey" path="res://escenas/personajes/barbieri.tscn" id="1_vn2la"]
 [ext_resource type="PackedScene" uid="uid://kgniji247j48" path="res://escenas/objetos/piso.tscn" id="2_6g7x6"]
+[ext_resource type="PackedScene" uid="uid://dbugsdpf7qnw2" path="res://escenas/ui/HUD.tscn" id="4_udh6w"]
 
 [node name="NivelI" type="Node2D" unique_id=1518494032]
+script = ExtResource("1_pu5gc")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=956760734]
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=956760734]
 layer = -1
 follow_viewport_enabled = true
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1569208124]
+[node name="Background" type="TextureRect" parent="BackgroundLayer" unique_id=1569208124]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,3 +35,8 @@ position = Vector2(393, 795)
 position = Vector2(1731, 785)
 numero_jugador = 2
 direccion_inicial = -1
+
+[node name="HUDLayer" type="CanvasLayer" parent="." unique_id=1388264356]
+layer = 10
+
+[node name="HUD" parent="HUDLayer" unique_id=313447047 instance=ExtResource("4_udh6w")]

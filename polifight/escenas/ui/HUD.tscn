@@ -1,38 +1,46 @@
 [gd_scene format=3 uid="uid://dbugsdpf7qnw2"]
 
-[ext_resource type="Texture2D" uid="uid://cao6hpn4vqrek" path="res://assets/ui/hud/marcos_hud_vacios_pixelart.png" id="1_31h5w"]
 [ext_resource type="Script" uid="uid://dxm417eihxbnv" path="res://scripts/ui/hud.gd" id="1_uprwv"]
+[ext_resource type="Texture2D" uid="uid://b536t6x5wuatq" path="res://assets/ui/hud/marcos_hud_compactos_stamina_ulti_pixelart.png" id="2_uprwv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ipwu0"]
-atlas = ExtResource("1_31h5w")
-region = Rect2(10, 105, 1640, 320)
+atlas = ExtResource("2_uprwv")
+region = Rect2(10, 144, 1640, 320)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ewrvb"]
-bg_color = Color(0.1173548, 0.11735482, 0.11735474, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_giefl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amr1a"]
 bg_color = Color(0.34117648, 0.62352943, 0.23529412, 1)
 border_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tib63"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_giefl"]
+bg_color = Color(0, 0.3386316, 0.5617003, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_62mu1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1s4s"]
+bg_color = Color(0.82039315, 0.4254098, 1.92523e-07, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ewrvb"]
-atlas = ExtResource("1_31h5w")
+atlas = ExtResource("2_uprwv")
 region = Rect2(0, 500, 1640, 320)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhcg6"]
-bg_color = Color(0.15127608, 0.15127608, 0.15127605, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uprwv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31h5w"]
 bg_color = Color(0.34117648, 0.62352943, 0.23529412, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2oc8f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2oc8f"]
+bg_color = Color(0, 0.3372549, 0.56078434, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pqr2a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pqr2a"]
+bg_color = Color(0.81960785, 0.42352942, 0, 1)
 
 [node name="HUD" type="Control" unique_id=313447047]
 layout_mode = 3
@@ -49,9 +57,8 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 50.0
-offset_top = 40.0
 offset_right = -42.0
-offset_bottom = 200.0
+offset_bottom = 160.0
 grow_horizontal = 2
 theme_override_constants/separation = 0
 
@@ -73,16 +80,39 @@ expand_mode = 1
 [node name="BarraJugador1" type="ProgressBar" parent="Barras/PanelJugador1" unique_id=512916743]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 211.0
-offset_top = 62.0
-offset_right = 772.0
-offset_bottom = 80.0
+offset_left = 140.0
+offset_top = 75.0
+offset_right = 722.0
+offset_bottom = 91.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_ewrvb")
+theme_override_styles/background = SubResource("StyleBoxEmpty_giefl")
 theme_override_styles/fill = SubResource("StyleBoxFlat_amr1a")
 step = 1.0
 value = 100.0
+show_percentage = false
+
+[node name="StaminaBar1" type="ProgressBar" parent="Barras/PanelJugador1" unique_id=2144760003]
+layout_mode = 0
+offset_left = 155.0
+offset_top = 108.0
+offset_right = 723.0
+offset_bottom = 116.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_tib63")
+theme_override_styles/fill = SubResource("StyleBoxFlat_giefl")
+step = 1.0
+value = 100.0
+show_percentage = false
+
+[node name="UltiBar1" type="ProgressBar" parent="Barras/PanelJugador1" unique_id=2112927909]
+layout_mode = 0
+offset_left = 754.0
+offset_top = 72.0
+offset_right = 772.0
+offset_bottom = 116.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_62mu1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_w1s4s")
+step = 1.0
 show_percentage = false
 
 [node name="EspacioCentral" type="Control" parent="Barras" unique_id=2052105969]
@@ -107,15 +137,39 @@ expand_mode = 1
 [node name="BarraJugador2" type="ProgressBar" parent="Barras/PanelJugador2" unique_id=177330586]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 51.0
-offset_top = 58.0
-offset_right = 606.0
-offset_bottom = 76.0
+offset_left = 103.0
+offset_top = 75.0
+offset_right = 685.0
+offset_bottom = 91.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_hhcg6")
+theme_override_styles/background = SubResource("StyleBoxEmpty_uprwv")
 theme_override_styles/fill = SubResource("StyleBoxFlat_31h5w")
 step = 1.0
 value = 100.0
 fill_mode = 1
+show_percentage = false
+
+[node name="StaminaBar2" type="ProgressBar" parent="Barras/PanelJugador2" unique_id=173703573]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 108.0
+offset_right = 670.0
+offset_bottom = 116.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_2oc8f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_2oc8f")
+step = 1.0
+value = 100.0
+fill_mode = 1
+show_percentage = false
+
+[node name="UltiBar2" type="ProgressBar" parent="Barras/PanelJugador2" unique_id=950526329]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 72.0
+offset_right = 71.0
+offset_bottom = 116.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_pqr2a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pqr2a")
+step = 1.0
 show_percentage = false

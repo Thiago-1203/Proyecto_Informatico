@@ -61,6 +61,7 @@ offset_right = -42.0
 offset_bottom = 160.0
 grow_horizontal = 2
 theme_override_constants/separation = 0
+alignment = 1
 
 [node name="PanelJugador1" type="Control" parent="Barras" unique_id=1972268264]
 custom_minimum_size = Vector2(820, 160)

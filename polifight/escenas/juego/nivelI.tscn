@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://kgniji247j48" path="res://escenas/objetos/piso.tscn" id="2_6g7x6"]
 [ext_resource type="PackedScene" uid="uid://dbugsdpf7qnw2" path="res://escenas/ui/HUD.tscn" id="4_udh6w"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ipwu0"]
+size = Vector2(40, 2000)
+
 [node name="NivelI" type="Node2D" unique_id=1518494032]
 script = ExtResource("1_pu5gc")
 
@@ -40,3 +43,19 @@ direccion_inicial = -1
 layer = 10
 
 [node name="HUD" parent="HUDLayer" unique_id=313447047 instance=ExtResource("4_udh6w")]
+
+[node name="Limites" type="Node2D" parent="." unique_id=1495531474]
+
+[node name="ParedIzquierda" type="StaticBody2D" parent="Limites" unique_id=197944790]
+position = Vector2(-20, 540)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Limites/ParedIzquierda" unique_id=844108556]
+shape = SubResource("RectangleShape2D_ipwu0")
+
+[node name="ParedDerecha" type="StaticBody2D" parent="Limites" unique_id=1906106972]
+position = Vector2(1941, 540)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Limites/ParedDerecha" unique_id=1279279241]
+shape = SubResource("RectangleShape2D_ipwu0")

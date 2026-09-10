@@ -24,7 +24,8 @@ const SPEED: float = 300.0
 const JUMP_VELOCITY: float = -650.0
 
 @export var vida_maxima: int = 100
-@export var danio: int = 15
+@export var danio: int
+
 
 
 var vida_actual: int

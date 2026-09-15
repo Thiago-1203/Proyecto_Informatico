@@ -31,7 +31,6 @@ func cambiar_a(nuevo_estado:String) -> void:
 	estado_actual = get_node(nuevo_estado)
 	_iniciar_estado()
 	
-	
 func _process(delta: float) -> void:
 	if estado_actual and estado_actual.has_method("on_process"):
 		estado_actual.on_process(delta)

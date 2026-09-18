@@ -44,18 +44,21 @@ layer = 10
 
 [node name="HUD" parent="HUDLayer" unique_id=313447047 instance=ExtResource("4_udh6w")]
 
-[node name="Limites" type="Node2D" parent="." unique_id=1495531474]
+[node name="LimitesLayer" type="CanvasLayer" parent="." unique_id=812600424]
+follow_viewport_enabled = true
 
-[node name="ParedIzquierda" type="StaticBody2D" parent="Limites" unique_id=197944790]
+[node name="Limites" type="Node2D" parent="LimitesLayer" unique_id=1495531474]
+
+[node name="ParedIzquierda" type="StaticBody2D" parent="LimitesLayer/Limites" unique_id=197944790]
 position = Vector2(-20, 540)
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Limites/ParedIzquierda" unique_id=844108556]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LimitesLayer/Limites/ParedIzquierda" unique_id=844108556]
 shape = SubResource("RectangleShape2D_ipwu0")
 
-[node name="ParedDerecha" type="StaticBody2D" parent="Limites" unique_id=1906106972]
+[node name="ParedDerecha" type="StaticBody2D" parent="LimitesLayer/Limites" unique_id=1906106972]
 position = Vector2(1941, 540)
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Limites/ParedDerecha" unique_id=1279279241]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LimitesLayer/Limites/ParedDerecha" unique_id=1279279241]
 shape = SubResource("RectangleShape2D_ipwu0")

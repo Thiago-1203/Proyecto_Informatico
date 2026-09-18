@@ -1,7 +1,12 @@
-[gd_scene format=3 uid="uid://d0k4okrrhr7f5"]
+[gd_scene load_steps=7 format=3 uid="uid://d0k4okrrhr7f5"]
 
 [ext_resource type="Texture2D" uid="uid://pxb0gmbn3lix" path="res://assets/ui/PoliFight_LOGO.png" id="1_dap0m"]
 [ext_resource type="Script" uid="uid://bmkkbuvot3tyl" path="res://scripts/menu/menu.gd" id="1_yqnh4"]
+[ext_resource type="PackedScene" path="res://cinematica_polifight/cinematica_colegio.tscn" id="2_cinematica"]
+[ext_resource type="Script" uid="uid://b386ir1coo3wc" path="res://scripts/menu/boton_pixel.gd" id="3_boton_pixel"]
+[ext_resource type="Script" uid="uid://c5jwal2h20ecw" path="res://scripts/menu/flecha_pixel.gd" id="4_flecha_pixel"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBox_boton_transparente"]
 
 [node name="Menu" type="Control" unique_id=1493342530]
 layout_mode = 3
@@ -12,48 +17,161 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yqnh4")
 
-[node name="Background" type="ColorRect" parent="." unique_id=592957723]
+[node name="CinematicaColegio" parent="." instance=ExtResource("2_cinematica")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=518460153]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -35.0
+offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="MenuContent" type="VBoxContainer" parent="CenterContainer" unique_id=1499643424]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 14
 
-[node name="Logo" type="TextureRect" parent="CenterContainer/MenuContent" unique_id=2077436215]
-custom_minimum_size = Vector2(700, 500)
+[node name="LogoSlot" type="Control" parent="CenterContainer/MenuContent"]
+custom_minimum_size = Vector2(960, 580)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Logo" type="TextureRect" parent="CenterContainer/MenuContent/LogoSlot" unique_id=2077436215]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(480, 290)
+scale = Vector2(0.08, 0.08)
+mouse_filter = 2
 texture = ExtResource("1_dap0m")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Jugar" type="Button" parent="CenterContainer/MenuContent" unique_id=2110419982]
-custom_minimum_size = Vector2(300, 50)
+[node name="JugarRow" type="HBoxContainer" parent="CenterContainer/MenuContent"]
+custom_minimum_size = Vector2(420, 52)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 30
-text = "JUGAR"
+theme_override_constants/separation = 6
+alignment = 1
 
-[node name="Salir" type="Button" parent="CenterContainer/MenuContent" unique_id=772049481]
-custom_minimum_size = Vector2(300, 50)
+[node name="FlechaIzquierdaSlot" type="Control" parent="CenterContainer/MenuContent/JugarRow"]
+custom_minimum_size = Vector2(48, 52)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FlechaIzquierda" type="Control" parent="CenterContainer/MenuContent/JugarRow/FlechaIzquierdaSlot"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_flecha_pixel")
+tamano_pixel = 5
+
+[node name="Jugar" type="Button" parent="CenterContainer/MenuContent/JugarRow" unique_id=2110419982]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(300, 52)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../SalirRow/Salir")
+theme_override_styles/normal = SubResource("StyleBox_boton_transparente")
+theme_override_styles/hover = SubResource("StyleBox_boton_transparente")
+theme_override_styles/pressed = SubResource("StyleBox_boton_transparente")
+theme_override_styles/focus = SubResource("StyleBox_boton_transparente")
+theme_override_styles/disabled = SubResource("StyleBox_boton_transparente")
+disabled = true
+script = ExtResource("3_boton_pixel")
+tamano_pixel = 5
+
+[node name="FlechaDerechaSlot" type="Control" parent="CenterContainer/MenuContent/JugarRow"]
+custom_minimum_size = Vector2(48, 52)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FlechaDerecha" type="Control" parent="CenterContainer/MenuContent/JugarRow/FlechaDerechaSlot"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_flecha_pixel")
+direccion = -1
+tamano_pixel = 5
+
+[node name="SalirRow" type="HBoxContainer" parent="CenterContainer/MenuContent"]
+custom_minimum_size = Vector2(420, 52)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 30
-text = "SALIR"
+theme_override_constants/separation = 6
+alignment = 1
 
-[connection signal="pressed" from="CenterContainer/MenuContent/Jugar" to="." method="_on_jugar_pressed"]
-[connection signal="pressed" from="CenterContainer/MenuContent/Salir" to="." method="_on_salir_pressed"]
+[node name="FlechaIzquierdaSlot" type="Control" parent="CenterContainer/MenuContent/SalirRow"]
+custom_minimum_size = Vector2(48, 52)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FlechaIzquierda" type="Control" parent="CenterContainer/MenuContent/SalirRow/FlechaIzquierdaSlot"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_flecha_pixel")
+tamano_pixel = 5
+
+[node name="Salir" type="Button" parent="CenterContainer/MenuContent/SalirRow" unique_id=772049481]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(300, 52)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../JugarRow/Jugar")
+theme_override_styles/normal = SubResource("StyleBox_boton_transparente")
+theme_override_styles/hover = SubResource("StyleBox_boton_transparente")
+theme_override_styles/pressed = SubResource("StyleBox_boton_transparente")
+theme_override_styles/focus = SubResource("StyleBox_boton_transparente")
+theme_override_styles/disabled = SubResource("StyleBox_boton_transparente")
+disabled = true
+script = ExtResource("3_boton_pixel")
+texto = "SALIR"
+tamano_pixel = 5
+
+[node name="FlechaDerechaSlot" type="Control" parent="CenterContainer/MenuContent/SalirRow"]
+custom_minimum_size = Vector2(48, 52)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FlechaDerecha" type="Control" parent="CenterContainer/MenuContent/SalirRow/FlechaDerechaSlot"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_flecha_pixel")
+direccion = -1
+tamano_pixel = 5
+
+[connection signal="entrada_finalizada" from="CinematicaColegio" to="." method="_on_cinematica_entrada_finalizada"]
+[connection signal="focus_entered" from="CenterContainer/MenuContent/JugarRow/Jugar" to="." method="_on_jugar_focus_entered"]
+[connection signal="mouse_entered" from="CenterContainer/MenuContent/JugarRow/Jugar" to="." method="_on_jugar_mouse_entered"]
+[connection signal="pressed" from="CenterContainer/MenuContent/JugarRow/Jugar" to="." method="_on_jugar_pressed"]
+[connection signal="focus_entered" from="CenterContainer/MenuContent/SalirRow/Salir" to="." method="_on_salir_focus_entered"]
+[connection signal="mouse_entered" from="CenterContainer/MenuContent/SalirRow/Salir" to="." method="_on_salir_mouse_entered"]
+[connection signal="pressed" from="CenterContainer/MenuContent/SalirRow/Salir" to="." method="_on_salir_pressed"]

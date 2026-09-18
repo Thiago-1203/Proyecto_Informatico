@@ -12,6 +12,7 @@ signal vida_agotada(personaje: Personaje)
 @onready var hitbox: Hitbox = $Hitboxes/Hitbox
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var contenedor_hitboxes: Node2D = $Hitboxes
+@onready var maquina_estados: Maquina_estados = $MaquinaEstados
 
 # Numero de jugador y la direccion en la que ven
 @export_range(1, 2, 1) var numero_jugador: int = 1
@@ -42,9 +43,14 @@ func _ready() -> void:
 func recibir_golpe(cantidad: int, _atacante: Personaje) -> void:
 	if vida_actual <= 0:
 		return
+	if maquina_estados.es_estado_actual(&"Bloqueando"):
+		print(name, " bloqueo el golpe")
+		return
 	
 	vida_actual = clampi(vida_actual - cantidad, 0, vida_maxima)
 	vida_cambiada.emit(vida_actual, vida_maxima)
+	if maquina_estados.tiene_estado(&"RecibirGolpe"):
+		maquina_estados.cambiar_a("RecibirGolpe")
 	
 	print(name, " recibio", cantidad, " de danio. Vida restante: ", vida_actual)
 	

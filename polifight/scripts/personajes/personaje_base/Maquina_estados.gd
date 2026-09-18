@@ -30,6 +30,12 @@ func cambiar_a(nuevo_estado:String) -> void:
 		estado_actual.end()
 	estado_actual = get_node(nuevo_estado)
 	_iniciar_estado()
+
+func tiene_estado(nombre_estado: StringName) -> bool:
+	return has_node(NodePath(String(nombre_estado)))
+
+func es_estado_actual(nombre_estado: StringName) -> bool:
+	return estado_actual != null and estado_actual.name == nombre_estado
 	
 func _process(delta: float) -> void:
 	if estado_actual and estado_actual.has_method("on_process"):

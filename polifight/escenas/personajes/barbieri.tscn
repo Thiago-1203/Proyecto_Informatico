@@ -4,22 +4,32 @@
 [ext_resource type="Script" uid="uid://cbljp8exrfrnv" path="res://scripts/personajes/personaje_base/hurtbox.gd" id="3_3pqia"]
 [ext_resource type="Texture2D" uid="uid://dio6651otge01" path="res://assets/characters/Barbieri/Puño/puño2.png" id="3_aujrn"]
 [ext_resource type="Script" uid="uid://cw2fxpu24ebvf" path="res://scripts/personajes/personaje_base/hitbox.gd" id="4_ilho3"]
+[ext_resource type="Texture2D" uid="uid://cauh8dvdt0lk8" path="res://assets/characters/Barbieri/KO/ko_01.png" id="5_ds2l1"]
 [ext_resource type="Texture2D" uid="uid://dvqaer10m3mvh" path="res://assets/characters/Barbieri/Agachado/agachado1.png" id="5_ilho3"]
 [ext_resource type="Texture2D" uid="uid://pd7m5mwe4qhl" path="res://assets/characters/Barbieri/Saltando/3(sf).png" id="5_mo7sy"]
+[ext_resource type="Texture2D" uid="uid://btkmmr8v1k45q" path="res://assets/characters/Barbieri/KO/ko_02.png" id="6_h10p4"]
 [ext_resource type="Texture2D" uid="uid://ckne78ql7wajd" path="res://assets/characters/Barbieri/Saltando/4(sf).png" id="6_ierh7"]
+[ext_resource type="Texture2D" uid="uid://bjrmjllxggeyn" path="res://assets/characters/Barbieri/Bloqueo/bloqueo1.png" id="6_ogwof"]
 [ext_resource type="Texture2D" uid="uid://du2s61gijrady" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante1.png" id="7_ca64a"]
+[ext_resource type="Texture2D" uid="uid://b5pjkk1w6lsaa" path="res://assets/characters/Barbieri/Bloqueo/bloqueo2.png" id="7_ubqjv"]
+[ext_resource type="Texture2D" uid="uid://d4hqfj6ehnw2" path="res://assets/characters/Barbieri/KO/ko_04.png" id="7_ykllf"]
 [ext_resource type="Texture2D" uid="uid://j5nl0oif3uw4" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante2.png" id="8_ogwof"]
+[ext_resource type="Texture2D" uid="uid://1lwi5qq3d2v4" path="res://assets/characters/Barbieri/KO/ko_06.png" id="8_un1q3"]
 [ext_resource type="Texture2D" uid="uid://blx6l67i22mnr" path="res://assets/characters/Barbieri/idle/idle1.png" id="9_ubqjv"]
 [ext_resource type="Texture2D" uid="uid://c722j8pm20ssl" path="res://assets/characters/Barbieri/idle/idle2.png" id="10_ai3k4"]
 [ext_resource type="Texture2D" uid="uid://co784fxvxxgbv" path="res://assets/characters/Barbieri/Puño/puño3.png" id="11_ot1f5"]
 [ext_resource type="Texture2D" uid="uid://djedard40ypw5" path="res://assets/characters/Barbieri/Saltando/1(sf).png" id="12_4qwpi"]
 [ext_resource type="Texture2D" uid="uid://b2uvjnm8lr42u" path="res://assets/characters/Barbieri/Saltando/2(sf).png" id="13_v67uq"]
 [ext_resource type="Script" uid="uid://er1dfvefh4an" path="res://scripts/personajes/personaje_base/Maquina_estados.gd" id="14_odpsu"]
+[ext_resource type="Texture2D" uid="uid://blns5lg72tjwc" path="res://assets/characters/Barbieri/Recibir_Golpe/reaccionGolpe(1).png" id="14_ubqjv"]
+[ext_resource type="Texture2D" uid="uid://h6ikfkwdt5pu" path="res://assets/characters/Barbieri/Recibir_Golpe/reaccionGolpe(2).png" id="15_ai3k4"]
 [ext_resource type="Script" uid="uid://i6gn3v4m17qy" path="res://scripts/personajes/personaje_base/estados/idle.gd" id="15_ds2l1"]
 [ext_resource type="Script" uid="uid://dr7ce2o8imbdp" path="res://scripts/personajes/personaje_base/estados/caminar.gd" id="16_h10p4"]
 [ext_resource type="Script" uid="uid://80mkw2g8t48m" path="res://scripts/personajes/personaje_base/estados/saltar.gd" id="17_ykllf"]
 [ext_resource type="Script" uid="uid://brlwx18dj83ba" path="res://scripts/personajes/personaje_base/estados/punio.gd" id="18_un1q3"]
 [ext_resource type="Script" uid="uid://c7vymeve5my8p" path="res://scripts/personajes/personaje_base/estados/agacharse.gd" id="20_mo7sy"]
+[ext_resource type="Script" uid="uid://bciuyk1gg57dl" path="res://scripts/personajes/personaje_base/estados/bloqueando.gd" id="21_bloqueo"]
+[ext_resource type="Script" uid="uid://b0woqyxdp7u5x" path="res://scripts/personajes/personaje_base/estados/recibir_golpe.gd" id="22_golpe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1lah"]
 size = Vector2(308, 236)
@@ -30,6 +40,33 @@ size = Vector2(277, 411)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q37wr"]
 size = Vector2(94, 76)
+
+[sub_resource type="Animation" id="Animation_ojgtk"]
+resource_name = "KO"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.17, 0.5, 0.51, 0.8, 0.81, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("5_ds2l1"), ExtResource("5_ds2l1"), ExtResource("6_h10p4"), ExtResource("6_h10p4"), ExtResource("7_ykllf"), ExtResource("7_ykllf"), ExtResource("8_un1q3"), ExtResource("8_un1q3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8, 0.81),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 85)]
+}
 
 [sub_resource type="Animation" id="Animation_u2063"]
 loop_mode = 1
@@ -155,6 +192,22 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 30)]
+}
+
+[sub_resource type="Animation" id="Animation_ot1f5"]
+resource_name = "bloqueo"
+length = 0.26666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("6_ogwof"), ExtResource("7_ubqjv")]
 }
 
 [sub_resource type="Animation" id="Animation_3kq0a"]
@@ -378,6 +431,22 @@ tracks/4/keys = {
 "values": [Vector2(-0.5, -0.5)]
 }
 
+[sub_resource type="Animation" id="Animation_ierh7"]
+resource_name = "recibirGolpe"
+length = 0.46666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.36666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("14_ubqjv"), ExtResource("15_ai3k4"), ExtResource("9_ubqjv")]
+}
+
 [sub_resource type="Animation" id="Animation_ow54q"]
 resource_name = "salto"
 tracks/0/type = "value"
@@ -431,12 +500,15 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3rmif"]
 _data = {
+&"KO": SubResource("Animation_ojgtk"),
 &"RESET": SubResource("Animation_u2063"),
 &"agacharse": SubResource("Animation_mo7sy"),
+&"bloqueo": SubResource("Animation_ot1f5"),
 &"caida": SubResource("Animation_3kq0a"),
 &"caminar_adelante": SubResource("Animation_vrece"),
 &"idle": SubResource("Animation_7s86b"),
 &"puño": SubResource("Animation_u2o3s"),
+&"recibirGolpe": SubResource("Animation_ierh7"),
 &"salto": SubResource("Animation_ow54q")
 }
 
@@ -495,3 +567,9 @@ script = ExtResource("18_un1q3")
 
 [node name="Agacharse" type="Node" parent="MaquinaEstados" unique_id=1049563529]
 script = ExtResource("20_mo7sy")
+
+[node name="Bloqueando" type="Node" parent="MaquinaEstados" unique_id=356105308]
+script = ExtResource("21_bloqueo")
+
+[node name="RecibirGolpe" type="Node" parent="MaquinaEstados" unique_id=1232111648]
+script = ExtResource("22_golpe")

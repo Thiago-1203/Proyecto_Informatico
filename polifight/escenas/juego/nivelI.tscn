@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://jyu0bvlx3jey" path="res://escenas/personajes/barbieri.tscn" id="1_vn2la"]
 [ext_resource type="PackedScene" uid="uid://kgniji247j48" path="res://escenas/objetos/piso.tscn" id="2_6g7x6"]
 [ext_resource type="PackedScene" uid="uid://dbugsdpf7qnw2" path="res://escenas/ui/HUD.tscn" id="4_udh6w"]
+[ext_resource type="PackedScene" uid="uid://bwynchet8u8m1" path="res://escenas/ui/menu_pausa.tscn" id="5_pausa"]
+[ext_resource type="Script" uid="uid://dwg8ct2h34d2a" path="res://scripts/juego/gestor_pausa.gd" id="6_gestor_pausa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ipwu0"]
 size = Vector2(40, 2000)
@@ -43,6 +45,12 @@ direccion_inicial = -1
 layer = 10
 
 [node name="HUD" parent="HUDLayer" unique_id=313447047 instance=ExtResource("4_udh6w")]
+
+[node name="MenuPausa" parent="." instance=ExtResource("5_pausa")]
+
+[node name="GestorPausa" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("6_gestor_pausa")
 
 [node name="LimitesLayer" type="CanvasLayer" parent="." unique_id=812600424]
 follow_viewport_enabled = true

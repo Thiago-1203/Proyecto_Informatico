@@ -2,7 +2,6 @@ extends Estado_base
 
 
 func start() -> void:
-	nodo_controlado.velocity.x = 0.0
 	nodo_controlado.play_animation(&"recibirGolpe")
 
 	if not nodo_controlado.animacion.animation_finished.is_connected(_cuando_termina_animacion):
@@ -10,6 +9,12 @@ func start() -> void:
 
 
 func on_physics_process(delta: float) -> void:
+	nodo_controlado.velocity.x = move_toward(
+		nodo_controlado.velocity.x,
+		0.0,
+		nodo_controlado.frenado_retroceso * delta
+	)
+
 	if not nodo_controlado.is_on_floor():
 		gravity(delta)
 

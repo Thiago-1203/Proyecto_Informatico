@@ -7,5 +7,42 @@ extends Node2D
 @onready var jugador2: Personaje = $barbieri2 as Personaje
 @onready var hud: HUDCombate = $HUDLayer/HUD as HUDCombate
 
+@export_range(0.5, 1.0, 0.05) var escala_tiempo_combate: float = 0.8
+
+var escala_tiempo_anterior: float = 1.0
+var combate_finalizado: bool = false
+var personaje_derrotado_actual: Personaje
+var personaje_ganador_actual: Personaje
+
+
 func _ready() -> void:
+	escala_tiempo_anterior = Engine.time_scale
+	Engine.time_scale = escala_tiempo_combate
 	hud.configurar(jugador1, jugador2)
+
+	jugador1.vida_agotada.connect(_cuando_termina_el_combate)
+	jugador2.vida_agotada.connect(_cuando_termina_el_combate)
+	jugador1.secuencia_ko_finalizada.connect(_cuando_finaliza_secuencia_ko)
+	jugador2.secuencia_ko_finalizada.connect(_cuando_finaliza_secuencia_ko)
+
+
+func _exit_tree() -> void:
+	Engine.time_scale = escala_tiempo_anterior
+
+
+func _cuando_termina_el_combate(personaje_derrotado: Personaje) -> void:
+	if combate_finalizado:
+		return
+
+	combate_finalizado = true
+	personaje_derrotado_actual = personaje_derrotado
+	personaje_ganador_actual = jugador2 if personaje_derrotado == jugador1 else jugador1
+
+
+func _cuando_finaliza_secuencia_ko(personaje_derrotado: Personaje) -> void:
+	if not combate_finalizado or personaje_derrotado != personaje_derrotado_actual:
+		return
+	if not is_instance_valid(personaje_ganador_actual):
+		return
+
+	hud.mostrar_ganador(personaje_ganador_actual.numero_jugador)

@@ -1,0 +1,218 @@
+[gd_scene load_steps=8 format=3 uid="uid://bwynchet8u8m1"]
+
+[ext_resource type="Script" uid="uid://1e0pvfx04lby" path="res://scripts/ui/menu_pausa.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://4c5ay2alhqi6" path="res://scripts/ui/texto_pixel.gd" id="2_texto"]
+[ext_resource type="Script" uid="uid://b386ir1coo3wc" path="res://scripts/menu/boton_pixel.gd" id="3_boton"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+bg_color = Color(0.022, 0.047, 0.086, 0.985)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.95, 0.61, 0.09, 1)
+shadow_color = Color(0.005, 0.012, 0.03, 0.72)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_interior"]
+bg_color = Color(0.035, 0.075, 0.13, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.19, 0.34, 0.47, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_etiqueta"]
+bg_color = Color(0.66, 0.105, 0.075, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.48, 0.11, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_pie"]
+bg_color = Color(0.016, 0.035, 0.07, 0.94)
+border_width_top = 2
+border_color = Color(0.19, 0.34, 0.47, 1)
+
+[node name="MenuPausa" type="CanvasLayer"]
+layer = 30
+process_mode = 3
+script = ExtResource("1_menu")
+
+[node name="Interfaz" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fondo" type="ColorRect" parent="Interfaz"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.008, 0.018, 0.04, 0.42)
+
+[node name="TramaSuperior" type="ColorRect" parent="Interfaz"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.96, 0.54, 0.08, 0.78)
+
+[node name="TramaInferior" type="ColorRect" parent="Interfaz"]
+layout_mode = 1
+anchors_preset = 12
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.66, 0.105, 0.075, 0.78)
+
+[node name="Centro" type="CenterContainer" parent="Interfaz"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Interfaz/Centro"]
+custom_minimum_size = Vector2(600, 512)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_panel")
+
+[node name="MargenExterior" type="MarginContainer" parent="Interfaz/Centro/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Interior" type="PanelContainer" parent="Interfaz/Centro/Panel/MargenExterior"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_interior")
+
+[node name="Margen" type="MarginContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 24
+
+[node name="Contenido" type="VBoxContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Etiqueta" type="PanelContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBox_etiqueta")
+
+[node name="Texto" type="Control" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido/Etiqueta"]
+custom_minimum_size = Vector2(218, 28)
+layout_mode = 2
+script = ExtResource("2_texto")
+texto = "MENU DE COMBATE"
+tamano_pixel = 2
+color = Color(1, 0.89, 0.58, 1)
+color_sombra = Color(0.24, 0.025, 0.025, 1)
+desplazamiento_sombra = Vector2(2, 2)
+
+[node name="Titulo" type="Control" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+custom_minimum_size = Vector2(478, 64)
+layout_mode = 2
+script = ExtResource("2_texto")
+texto = "PAUSA"
+tamano_pixel = 7
+color = Color(1, 0.76, 0.18, 1)
+color_sombra = Color(0.43, 0.055, 0.045, 1)
+desplazamiento_sombra = Vector2(4, 4)
+
+[node name="Separador" type="HBoxContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LineaIzquierda" type="ColorRect" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido/Separador"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.19, 0.34, 0.47, 1)
+
+[node name="Centro" type="ColorRect" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido/Separador"]
+custom_minimum_size = Vector2(38, 7)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.96, 0.49, 0.08, 1)
+
+[node name="LineaDerecha" type="ColorRect" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido/Separador"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.19, 0.34, 0.47, 1)
+
+[node name="Continuar" type="Button" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(478, 60)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Reiniciar")
+script = ExtResource("3_boton")
+texto = "CONTINUAR"
+tamano_pixel = 4
+color_normal = Color(0.78, 0.9, 1, 1)
+dibujar_marco = true
+
+[node name="Reiniciar" type="Button" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(478, 60)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Continuar")
+focus_neighbor_bottom = NodePath("../VolverMenu")
+script = ExtResource("3_boton")
+texto = "REINICIAR PELEA"
+tamano_pixel = 4
+color_normal = Color(0.78, 0.9, 1, 1)
+dibujar_marco = true
+
+[node name="VolverMenu" type="Button" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(478, 60)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Reiniciar")
+script = ExtResource("3_boton")
+texto = "VOLVER AL MENU"
+tamano_pixel = 4
+color_normal = Color(0.78, 0.9, 1, 1)
+dibujar_marco = true
+
+[node name="Pie" type="PanelContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_pie")
+
+[node name="Ayuda" type="Control" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido/Pie"]
+custom_minimum_size = Vector2(478, 28)
+layout_mode = 2
+script = ExtResource("2_texto")
+texto = "ESC  VOLVER AL JUEGO"
+tamano_pixel = 2
+color = Color(0.48, 0.68, 0.8, 1)
+color_sombra = Color(0.01, 0.02, 0.04, 1)
+desplazamiento_sombra = Vector2(2, 2)

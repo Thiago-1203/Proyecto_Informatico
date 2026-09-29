@@ -23,7 +23,7 @@ func on_input(_event):
 	var agacharse := nodo_controlado.accion("agacharse")
 	var bloqueo := nodo_controlado.accion("bloqueo")
 	
-	if Input.is_action_pressed(bloqueo) and nodo_controlado.is_on_floor() and maquina_estados.tiene_estado(&"Bloqueando"):
+	if Input.is_action_pressed(bloqueo) and nodo_controlado.is_on_floor() and nodo_controlado.puede_bloquear() and maquina_estados.tiene_estado(&"Bloqueando"):
 		maquina_estados.cambiar_a("Bloqueando")
 	elif not Input.is_action_pressed(derecha) and not Input.is_action_pressed(izquierda) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Idle")

@@ -1,6 +1,6 @@
 # Contexto de PoliFight
 
-Última inspección: 2026-09-20.
+Última inspección: 2026-09-28.
 
 ## Visión del producto
 
@@ -25,24 +25,27 @@ El alcance confirmado hoy es multijugador local para dos personas. No asumir red
 - `polifight/escenas/personajes/personaje_base.tscn`: otra composición base similar; puede divergir de Barbieri y aún no debe asumirse como fuente canónica.
 - `polifight/escenas/ui/menu_pausa.tscn` y `scripts/ui/menu_pausa.gd`: interfaz de pausa reutilizable que solicita continuar, reiniciar o volver al menú sin asumir las reglas del nivel.
 - `polifight/scripts/juego/gestor_pausa.gd`: único nodo del combate que procesa siempre; escucha Escape y administra la pausa y navegación sin hacer que los luchadores hereden ese modo.
-- `polifight/scripts/personajes/personaje_base/personaje.gd`: clase `Personaje`, vida, daño, dirección, acceso a entrada por jugador y referencias a hitbox/hurtbox.
+- `polifight/scripts/personajes/personaje_base/personaje.gd`: clase `Personaje`, vida, stamina, daño, seguimiento del oponente, acceso a entrada por jugador y referencias a hitbox/hurtbox.
 - `polifight/scripts/personajes/personaje_base/Maquina_estados.gd` y `Estado_base.gd`: despacho del ciclo de Godot al estado activo.
 - `polifight/scripts/personajes/personaje_base/estados/`: estados implementados para reposo, caminar, saltar, agacharse, puño, bloqueo y reacción al golpe.
 - `polifight/scripts/personajes/personaje_base/hitbox.gd` y `hurtbox.gd`: transporte y recepción de golpes.
-- `polifight/escenas/ui/HUD.tscn` y `scripts/ui/hud.gd`: HUD con barras de vida conectadas a ambos personajes; las barras de stamina y ulti son todavía visuales.
+- `polifight/escenas/ui/HUD.tscn` y `scripts/ui/hud.gd`: HUD con barras de vida y stamina conectadas a ambos personajes; las barras de ulti son todavía visuales.
 - `polifight/scripts/ui/fuente_pixel.gd` y `texto_pixel.gd`: alfabeto 5×7 reutilizable para textos y botones pixelados sin depender de fuentes externas ni del orden de registro de clases globales.
 
 ## Estado jugable observado
 
 - Dos Barbieri aparecen enfrentados en el primer nivel.
+- Cada luchador lleva sobre su cabeza un triángulo pixelado pequeño que apunta hacia abajo y lo sigue: naranja para el jugador 1 y azul para el jugador 2.
+- Cada luchador actualiza su orientación horizontal para mirar al oponente cuando intercambian posiciones.
 - Movimiento horizontal, salto, agacharse, puño y bloqueo están conectados a la máquina de estados.
 - El puño activa/desactiva su forma de golpe mediante `AnimationPlayer`.
-- Mantener la acción de bloqueo en el suelo evita el daño; al soltarla se vuelve a un estado de movimiento válido.
+- Mantener la acción de bloqueo en el suelo evita el daño mientras haya stamina suficiente. Cada golpe bloqueado consume stamina y aplica un retroceso menor que un impacto directo; al soltar el bloqueo o agotar la stamina después del retroceso, la stamina se recupera con el tiempo. Si llega a cero, el bloqueo permanece deshabilitado hasta recuperar por defecto el 60 % de la barra.
 - Un golpe no bloqueado reduce `vida_actual`, entra en `RecibirGolpe` durante la animación y luego retorna a un estado válido.
 - Cada golpe no bloqueado aplica un retroceso horizontal breve en dirección opuesta al atacante; sus magnitudes y frenado son configurables desde `Personaje` para reutilizarlos entre luchadores.
 - Al llegar a cero vida, el golpe final lanza al luchador hacia atrás y hacia arriba. El estado terminal `KO` desactiva ataque y recepción, reproduce su animación a velocidad reducida, aplica caída, un rebote contra el piso y conserva la pose final.
-- Cada golpe no bloqueado hace que el sprite del personaje receptor destelle en rojo brevemente; el color y la duración son configurables desde `Personaje` y un nuevo golpe reinicia el tween.
-- Existe un HUD de vida para ambos jugadores y un controlador que lo conecta a las señales de los personajes.
+- Un shader compartido mezcla temporalmente los píxeles visibles del luchador con el color de impacto sin alterar su transparencia. Cada golpe no bloqueado y cada ruptura de defensa usan el mismo destello rojo intenso; el color y la duración son configurables desde `Personaje` y un nuevo impacto reinicia el tween.
+- Cada bloqueo exitoso que no rompe la defensa produce con el mismo shader un destello blanco visible, configurable desde `Personaje`.
+- Existe un HUD de vida y stamina para ambos jugadores y un controlador que lo conecta a las señales de los personajes.
 - Cuando un luchador llega a cero vida, el controlador determina al oponente ganador, pero espera la señal de finalización de la secuencia física de KO antes de mostrar la placa pixelada compacta `JUGADOR 1/2 GANA`; no hay oscurecimiento global y se mantiene el ciclo cromático rojo, dorado y azul.
 - El combate usa una escala de tiempo configurable de `0.8` por defecto y restaura la velocidad anterior al abandonar el nivel; el menú no queda ralentizado.
 - Escape alterna una pausa real del árbol de escenas: los luchadores y la simulación dejan de procesar, mientras solo el gestor y la interfaz siguen activos. El menú permite continuar, recargar la pelea completa o regresar al menú principal; todas las salidas restauran pausa y escala temporal.
@@ -79,7 +82,6 @@ Las escenas actuales usan la capa 2 para el cuerpo, la 3 para golpe y la 4 para 
 - `_unhandled_input` llama a `on_unhadled_input`, con una errata que rompería ese callback si un estado intentara usarlo.
 - `_unhandled_key_input` no reenvía el evento al estado.
 - No existe una política explícita para impedir golpes repetidos del mismo ataque si las áreas vuelven a entrar.
-- La orientación solo respeta la dirección inicial; todavía no se observa giro automático hacia el rival.
 - Hay dos archivos temporales `nivelI.tscn*.tmp`. Tratarlos como posibles recuperaciones del editor: inspeccionarlos y pedir confirmación antes de eliminarlos.
 - El `README.md` y el `InputMap` no están totalmente sincronizados.
 

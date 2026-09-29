@@ -18,6 +18,8 @@ var personaje_ganador_actual: Personaje
 func _ready() -> void:
 	escala_tiempo_anterior = Engine.time_scale
 	Engine.time_scale = escala_tiempo_combate
+	jugador1.configurar_oponente(jugador2)
+	jugador2.configurar_oponente(jugador1)
 	hud.configurar(jugador1, jugador2)
 
 	jugador1.vida_agotada.connect(_cuando_termina_el_combate)

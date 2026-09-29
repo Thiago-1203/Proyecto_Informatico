@@ -4,7 +4,12 @@ extends CharacterBody2D
 #ATTENTION esta clase es la base para todos los proximos personajes lo que se modifique aqui se le agregara a todos los personajes 
 # que extiendan de esta clase
 
+const SHADER_DESTELLO_PERSONAJE: Shader = preload(
+	"res://assets/shaders/destello_personaje.gdshader"
+)
+
 signal vida_cambiada(vida_actual: int, vida_maxima: int)
+signal stamina_cambiada(stamina_actual: float, stamina_maxima: float)
 signal vida_agotada(personaje: Personaje)
 signal secuencia_ko_finalizada(personaje: Personaje)
 
@@ -28,8 +33,15 @@ const JUMP_VELOCITY: float = -650.0
 @export var vida_maxima: int = 100
 @export var danio: int
 
+@export_category("Stamina")
+@export_range(1.0, 500.0, 1.0) var stamina_maxima: float = 100.0
+@export_range(1.0, 100.0, 1.0) var costo_stamina_bloqueo: float = 25.0
+@export_range(0.0, 100.0, 1.0) var recuperacion_stamina_por_segundo: float = 12.0
+@export_range(0.5, 1.0, 0.05) var proporcion_reactivacion_bloqueo: float = 0.6
+
 @export_category("Retroceso de golpes")
 @export_range(0.0, 1000.0, 10.0) var retroceso_golpe_horizontal: float = 180.0
+@export_range(0.0, 1000.0, 10.0) var retroceso_bloqueo_horizontal: float = 110.0
 @export_range(0.0, 2000.0, 10.0) var frenado_retroceso: float = 520.0
 
 @export_category("Lanzamiento de KO")
@@ -40,35 +52,69 @@ const JUMP_VELOCITY: float = -650.0
 @export_range(0.0, 1.0, 0.05) var conservacion_horizontal_rebote_ko: float = 0.45
 @export_range(0.0, 1.0, 0.05) var demora_victoria_ko: float = 0.25
 
-@export_category("Efecto visual de golpe")
-@export var color_destello_golpe: Color = Color(1.0, 0.15, 0.15, 1.0)
-@export_range(0.01, 1.0, 0.01) var duracion_destello_golpe: float = 0.2
+@export_category("Efectos visuales de impacto")
+@export var color_destello_rojo: Color = Color(1.0, 0.0, 0.0, 1.0)
+@export_range(0.01, 1.0, 0.01) var duracion_destello_rojo: float = 0.35
+@export var color_destello_bloqueo: Color = Color.WHITE
+@export_range(0.01, 1.0, 0.01) var duracion_destello_bloqueo: float = 0.12
 
 var vida_actual: int
-var color_sprite_original: Color
-var tween_destello_golpe: Tween
+var stamina_actual: float
+var stamina_agotada: bool = false
+var tween_destello: Tween
+var material_destello: ShaderMaterial
 var ko_final_notificado: bool = false
+var oponente: Personaje
 
 
 func _ready() -> void:
 	vida_actual = vida_maxima
-	color_sprite_original = sprite.self_modulate
+	stamina_actual = stamina_maxima
+	material_destello = ShaderMaterial.new()
+	material_destello.shader = SHADER_DESTELLO_PERSONAJE
+	material_destello.set_shader_parameter(&"intensidad_destello", 0.0)
+	sprite.material = material_destello
 	
 	hitbox.configurar(self, danio)
 	hurtbox.configurar(self)
 	hurtbox.golpe_recibido.connect(recibir_golpe)
 	mirar_hacia(direccion_inicial)
+
+
+func _process(delta: float) -> void:
+	if vida_actual <= 0 or maquina_estados.es_estado_actual(&"Bloqueando"):
+		return
+	if stamina_actual >= stamina_maxima:
+		return
+
+	_cambiar_stamina(stamina_actual + recuperacion_stamina_por_segundo * delta)
+
+
+func _physics_process(_delta: float) -> void:
+	_actualizar_direccion_hacia_oponente()
+
+
+func configurar_oponente(nuevo_oponente: Personaje) -> void:
+	oponente = nuevo_oponente
+	_actualizar_direccion_hacia_oponente()
 	
 func recibir_golpe(cantidad: int, atacante: Personaje) -> void:
 	if vida_actual <= 0:
 		return
-	if maquina_estados.es_estado_actual(&"Bloqueando"):
-		print(name, " bloqueo el golpe")
+	if maquina_estados.es_estado_actual(&"Bloqueando") and puede_bloquear():
+		_cambiar_stamina(stamina_actual - costo_stamina_bloqueo)
+		aplicar_retroceso_bloqueo(atacante)
+		if stamina_agotada:
+			reproducir_destello_rojo()
+			print(name, " sufrio una ruptura de defensa")
+		else:
+			reproducir_destello_bloqueo()
+			print(name, " bloqueo el golpe")
 		return
 	
 	vida_actual = clampi(vida_actual - cantidad, 0, vida_maxima)
 	vida_cambiada.emit(vida_actual, vida_maxima)
-	reproducir_destello_golpe()
+	reproducir_destello_rojo()
 	print(name, " recibio", cantidad, " de danio. Vida restante: ", vida_actual)
 
 	if vida_actual == 0:
@@ -92,6 +138,29 @@ func derrotado()-> void:
 
 func aplicar_retroceso_golpe(atacante: Personaje) -> void:
 	velocity.x = _direccion_alejamiento(atacante) * retroceso_golpe_horizontal
+
+
+func aplicar_retroceso_bloqueo(atacante: Personaje) -> void:
+	velocity.x = _direccion_alejamiento(atacante) * retroceso_bloqueo_horizontal
+
+
+func puede_bloquear() -> bool:
+	if vida_actual <= 0 or stamina_agotada:
+		return false
+
+	return stamina_actual >= costo_stamina_bloqueo
+
+
+func _cambiar_stamina(nueva_stamina: float) -> void:
+	var stamina_anterior := stamina_actual
+	stamina_actual = clampf(nueva_stamina, 0.0, stamina_maxima)
+	if is_zero_approx(stamina_actual):
+		stamina_agotada = true
+	elif stamina_agotada and stamina_actual >= stamina_maxima * proporcion_reactivacion_bloqueo:
+		stamina_agotada = false
+
+	if not is_equal_approx(stamina_actual, stamina_anterior):
+		stamina_cambiada.emit(stamina_actual, stamina_maxima)
 
 
 func aplicar_lanzamiento_ko(atacante: Personaje) -> void:
@@ -118,20 +187,33 @@ func _direccion_alejamiento(atacante: Personaje) -> float:
 	return -float(direccion_mirada)
 
 
-func reproducir_destello_golpe() -> void:
-	if tween_destello_golpe != null and tween_destello_golpe.is_valid():
-		tween_destello_golpe.kill()
+func reproducir_destello_rojo() -> void:
+	_reproducir_destello(color_destello_rojo, duracion_destello_rojo)
 
-	sprite.self_modulate = color_destello_golpe
-	tween_destello_golpe = create_tween()
-	tween_destello_golpe.set_trans(Tween.TRANS_SINE)
-	tween_destello_golpe.set_ease(Tween.EASE_OUT)
-	tween_destello_golpe.tween_property(
-		sprite,
-		"self_modulate",
-		color_sprite_original,
-		duracion_destello_golpe
+
+func reproducir_destello_bloqueo() -> void:
+	_reproducir_destello(color_destello_bloqueo, duracion_destello_bloqueo)
+
+
+func _reproducir_destello(color_destello: Color, duracion: float) -> void:
+	if tween_destello != null and tween_destello.is_valid():
+		tween_destello.kill()
+
+	material_destello.set_shader_parameter(&"color_destello", color_destello)
+	material_destello.set_shader_parameter(&"intensidad_destello", 1.0)
+	tween_destello = create_tween()
+	tween_destello.set_trans(Tween.TRANS_SINE)
+	tween_destello.set_ease(Tween.EASE_OUT)
+	tween_destello.tween_method(
+		_actualizar_intensidad_destello,
+		1.0,
+		0.0,
+		duracion
 	)
+
+
+func _actualizar_intensidad_destello(intensidad: float) -> void:
+	material_destello.set_shader_parameter(&"intensidad_destello", intensidad)
 
 
 func play_animation(nombre: StringName) -> void:
@@ -143,6 +225,19 @@ func play_animation(nombre: StringName) -> void:
 #Funcion que construye la accion dependiendo del jugador que la activo
 func accion(nombre: String) -> StringName:
 	return StringName("j%d_%s" % [numero_jugador, nombre])
+
+
+func _actualizar_direccion_hacia_oponente() -> void:
+	if vida_actual <= 0 or not is_instance_valid(oponente):
+		return
+
+	var diferencia_horizontal := oponente.global_position.x - global_position.x
+	if is_zero_approx(diferencia_horizontal):
+		return
+
+	var nueva_direccion := 1 if diferencia_horizontal > 0.0 else -1
+	if nueva_direccion != direccion_mirada:
+		mirar_hacia(nueva_direccion)
 
 #funcion que determina a donde miran los personajes
 func mirar_hacia(direccion: int) -> void:

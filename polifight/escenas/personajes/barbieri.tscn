@@ -30,6 +30,7 @@
 [ext_resource type="Script" uid="uid://bciuyk1gg57dl" path="res://scripts/personajes/personaje_base/estados/bloqueando.gd" id="21_bloqueo"]
 [ext_resource type="Script" uid="uid://b0woqyxdp7u5x" path="res://scripts/personajes/personaje_base/estados/recibir_golpe.gd" id="22_golpe"]
 [ext_resource type="Script" uid="uid://b0tigoeqwrvdr" path="res://scripts/personajes/personaje_base/estados/ko.gd" id="23_ko"]
+[ext_resource type="Script" path="res://scripts/personajes/personaje_base/indicador_jugador.gd" id="24_indicador"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1lah"]
 size = Vector2(308, 236)
@@ -519,6 +520,11 @@ script = ExtResource("2_agrl3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=261621108]
 texture = ExtResource("9_ubqjv")
+
+[node name="IndicadorJugador" type="Node2D" parent="."]
+position = Vector2(0, -255)
+z_index = 20
+script = ExtResource("24_indicador")
 
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=921690438]
 position = Vector2(6, 82)

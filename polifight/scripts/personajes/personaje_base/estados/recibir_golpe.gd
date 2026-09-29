@@ -35,7 +35,7 @@ func _cuando_termina_animacion(nombre: StringName) -> void:
 	var bloqueo := nodo_controlado.accion("bloqueo")
 	var direccion := Input.get_axis(izquierda, derecha)
 
-	if Input.is_action_pressed(bloqueo) and nodo_controlado.is_on_floor():
+	if Input.is_action_pressed(bloqueo) and nodo_controlado.is_on_floor() and nodo_controlado.puede_bloquear():
 		maquina_estados.cambiar_a("Bloqueando")
 	elif Input.is_action_pressed(agacharse) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Agacharse")

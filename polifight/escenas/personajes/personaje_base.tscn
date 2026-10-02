@@ -19,8 +19,9 @@
 [ext_resource type="Script" uid="uid://80mkw2g8t48m" path="res://scripts/personajes/personaje_base/estados/saltar.gd" id="17_sv52w"]
 [ext_resource type="Script" uid="uid://brlwx18dj83ba" path="res://scripts/personajes/personaje_base/estados/punio.gd" id="18_leo8m"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w1lah"]
-size = Vector2(308, 236)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cuerpo"]
+radius = 150.0
+height = 300.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imr41"]
 size = Vector2(277, 411)
@@ -145,15 +146,15 @@ _data = {
 
 [node name="personaje" type="CharacterBody2D" unique_id=1988390493]
 collision_layer = 2
-collision_mask = 3
+collision_mask = 1
 script = ExtResource("1_kxq8l")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=261621108]
 texture = ExtResource("2_dj3lp")
 
 [node name="BodyCollision" type="CollisionShape2D" parent="." unique_id=921690438]
-position = Vector2(6, 82)
-shape = SubResource("RectangleShape2D_w1lah")
+position = Vector2(6, 50)
+shape = SubResource("CapsuleShape2D_cuerpo")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1746904839]
 collision_layer = 8

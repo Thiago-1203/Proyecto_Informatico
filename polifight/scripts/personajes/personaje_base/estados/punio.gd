@@ -16,7 +16,11 @@ func on_physics_process(delta: float) -> void:
 	nodo_controlado.move_and_slide()
 
 func gravity(delta) -> void:
-	nodo_controlado.velocity.y += nodo_controlado.GRAVITY * delta
+	nodo_controlado.velocity.y += (
+		nodo_controlado.GRAVITY
+		* nodo_controlado.JUMP_GRAVITY_MULTIPLIER
+		* delta
+	)
 
 func _cuando_termina_animacion(nombre:StringName)-> void:
 	if nombre != &"puño":

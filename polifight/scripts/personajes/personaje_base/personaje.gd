@@ -17,6 +17,7 @@ signal secuencia_ko_finalizada(personaje: Personaje)
 @onready var animacion = $AnimationPlayer
 @onready var hitbox: Hitbox = $Hitboxes/Hitbox
 @onready var hurtbox: Hurtbox = $Hurtbox
+@onready var colision_cuerpo: CollisionShape2D = $BodyCollision
 @onready var contenedor_hitboxes: Node2D = $Hitboxes
 @onready var maquina_estados: Maquina_estados = $MaquinaEstados
 
@@ -28,7 +29,8 @@ var direccion_mirada: int = 1
 
 var GRAVITY = ProjectSettings.get_setting("physics/2d/default_gravity")
 const SPEED: float = 300.0
-const JUMP_VELOCITY: float = -650.0
+const JUMP_VELOCITY: float = -1110.0
+const JUMP_GRAVITY_MULTIPLIER: float = 1.5
 
 @export var vida_maxima: int = 100
 @export var danio: int
@@ -97,6 +99,158 @@ func _physics_process(_delta: float) -> void:
 func configurar_oponente(nuevo_oponente: Personaje) -> void:
 	oponente = nuevo_oponente
 	_actualizar_direccion_hacia_oponente()
+
+
+func resolver_empuje_oponente() -> void:
+	if not is_instance_valid(oponente):
+		return
+
+	var solapamiento := _calcular_solapamiento_horizontal(oponente)
+	if solapamiento <= 0.0:
+		return
+
+	var personaje_izquierdo: Personaje
+	var personaje_derecho: Personaje
+	var centros_alineados := is_equal_approx(
+		colision_cuerpo.global_position.x,
+		oponente.colision_cuerpo.global_position.x
+	)
+	if (
+		colision_cuerpo.global_position.x
+		< oponente.colision_cuerpo.global_position.x
+		or (centros_alineados and numero_jugador < oponente.numero_jugador)
+	):
+		personaje_izquierdo = self
+		personaje_derecho = oponente
+	else:
+		personaje_izquierdo = oponente
+		personaje_derecho = self
+
+	_separar_horizontalmente(
+		personaje_izquierdo,
+		personaje_derecho,
+		solapamiento
+	)
+
+
+func _separar_horizontalmente(
+	personaje_izquierdo: Personaje,
+	personaje_derecho: Personaje,
+	solapamiento: float
+) -> void:
+	var mitad_separacion := solapamiento * 0.5 + 0.1
+	personaje_izquierdo._mover_horizontal_respetando_mundo(-mitad_separacion)
+	personaje_derecho._mover_horizontal_respetando_mundo(mitad_separacion)
+
+	# Si una pared impidió mover a uno, el otro absorbe la separación restante.
+	var solapamiento_restante := (
+		personaje_izquierdo._calcular_solapamiento_horizontal(
+			personaje_derecho
+		)
+	)
+	if solapamiento_restante <= 0.0:
+		return
+
+	personaje_derecho._mover_horizontal_respetando_mundo(
+		solapamiento_restante + 0.1
+	)
+	solapamiento_restante = (
+		personaje_izquierdo._calcular_solapamiento_horizontal(
+			personaje_derecho
+		)
+	)
+	if solapamiento_restante > 0.0:
+		personaje_izquierdo._mover_horizontal_respetando_mundo(
+			-solapamiento_restante - 0.1
+		)
+
+
+func _mover_horizontal_respetando_mundo(desplazamiento: float) -> void:
+	move_and_collide(Vector2(desplazamiento, 0.0))
+
+
+func _calcular_solapamiento_horizontal(otro: Personaje) -> float:
+	var forma_propia := colision_cuerpo.shape
+	var forma_otro := otro.colision_cuerpo.shape
+	if forma_propia is CapsuleShape2D and forma_otro is CapsuleShape2D:
+		return _calcular_solapamiento_capsulas(otro)
+
+	# Respaldo para futuros personajes que todavía usen cuerpos rectangulares.
+	var rectangulo_propio := _obtener_rectangulo_cuerpo()
+	var rectangulo_otro := otro._obtener_rectangulo_cuerpo()
+	if not rectangulo_propio.intersects(rectangulo_otro):
+		return 0.0
+
+	return maxf(
+		0.0,
+		minf(rectangulo_propio.end.x, rectangulo_otro.end.x)
+		- maxf(rectangulo_propio.position.x, rectangulo_otro.position.x)
+	)
+
+
+func _calcular_solapamiento_capsulas(otro: Personaje) -> float:
+	var capsula_propia := colision_cuerpo.shape as CapsuleShape2D
+	var capsula_otro := otro.colision_cuerpo.shape as CapsuleShape2D
+	var escala_propia := colision_cuerpo.global_scale.abs()
+	var escala_otro := otro.colision_cuerpo.global_scale.abs()
+
+	var radio_horizontal_total := (
+		capsula_propia.radius * escala_propia.x
+		+ capsula_otro.radius * escala_otro.x
+	)
+	var radio_vertical_total := (
+		capsula_propia.radius * escala_propia.y
+		+ capsula_otro.radius * escala_otro.y
+	)
+	var semitramo_propio := maxf(
+		capsula_propia.height * escala_propia.y * 0.5
+		- capsula_propia.radius * escala_propia.y,
+		0.0
+	)
+	var semitramo_otro := maxf(
+		capsula_otro.height * escala_otro.y * 0.5
+		- capsula_otro.radius * escala_otro.y,
+		0.0
+	)
+	var distancia_vertical := absf(
+		colision_cuerpo.global_position.y
+		- otro.colision_cuerpo.global_position.y
+	)
+	var distancia_vertical_curvas := maxf(
+		distancia_vertical - semitramo_propio - semitramo_otro,
+		0.0
+	)
+	if distancia_vertical_curvas >= radio_vertical_total:
+		return 0.0
+
+	# Ecuación de la elipse que forman los extremos redondeados. Cerca de la
+	# parte superior el empuje es pequeño y aumenta de forma continua al caer.
+	var proporcion_vertical := distancia_vertical_curvas / radio_vertical_total
+	var separacion_horizontal_necesaria := radio_horizontal_total * sqrt(
+		maxf(0.0, 1.0 - proporcion_vertical * proporcion_vertical)
+	)
+	var distancia_horizontal := absf(
+		colision_cuerpo.global_position.x
+		- otro.colision_cuerpo.global_position.x
+	)
+	return maxf(0.0, separacion_horizontal_necesaria - distancia_horizontal)
+
+
+func _obtener_rectangulo_cuerpo() -> Rect2:
+	var forma := colision_cuerpo.shape
+	var tamano: Vector2
+	if forma is CapsuleShape2D:
+		var capsula := forma as CapsuleShape2D
+		tamano = Vector2(capsula.radius * 2.0, capsula.height)
+	elif forma is RectangleShape2D:
+		var rectangulo := forma as RectangleShape2D
+		tamano = rectangulo.size
+	else:
+		push_warning("BodyCollision necesita CapsuleShape2D o RectangleShape2D")
+		return Rect2()
+
+	tamano *= colision_cuerpo.global_scale.abs()
+	return Rect2(colision_cuerpo.global_position - tamano * 0.5, tamano)
 	
 func recibir_golpe(cantidad: int, atacante: Personaje) -> void:
 	if vida_actual <= 0:

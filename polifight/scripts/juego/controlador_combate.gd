@@ -7,7 +7,9 @@ extends Node2D
 @onready var jugador2: Personaje = $barbieri2 as Personaje
 @onready var hud: HUDCombate = $HUDLayer/HUD as HUDCombate
 
-@export_range(0.5, 1.0, 0.05) var escala_tiempo_combate: float = 0.8
+# Ritmo global del combate. 1.0 mantiene la velocidad nativa de las
+# animaciones y la física; valores menores sirven para pruebas en cámara lenta.
+@export_range(0.5, 1.25, 0.05) var escala_tiempo_combate: float = 1.0
 
 var escala_tiempo_anterior: float = 1.0
 var combate_finalizado: bool = false

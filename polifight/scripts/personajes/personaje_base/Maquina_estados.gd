@@ -1,7 +1,7 @@
 class_name Maquina_estados 
 extends Node
 
-@onready var nodo_controlado = self.owner
+@onready var nodo_controlado: Personaje = self.owner as Personaje
 
 @export var default_state:Estado_base
 
@@ -44,6 +44,8 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if estado_actual and estado_actual.has_method("on_physics_process"):
 		estado_actual.on_physics_process(delta)
+	if is_instance_valid(nodo_controlado):
+		nodo_controlado.resolver_empuje_oponente()
 		
 func _input(event: InputEvent) -> void:
 	if estado_actual and estado_actual.has_method("on_input"):

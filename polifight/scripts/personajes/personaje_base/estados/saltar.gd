@@ -34,7 +34,11 @@ func on_physics_process(delta: float) -> void:
 			maquina_estados.cambiar_a("Caminar")
 	
 func gravity(delta) -> void:
-	nodo_controlado.velocity.y += nodo_controlado.GRAVITY * delta
+	nodo_controlado.velocity.y += (
+		nodo_controlado.GRAVITY
+		* nodo_controlado.JUMP_GRAVITY_MULTIPLIER
+		* delta
+	)
 	
 func on_input(_event)->void:
 	var ataque := nodo_controlado.accion("ataque")

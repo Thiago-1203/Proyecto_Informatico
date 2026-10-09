@@ -45,6 +45,7 @@ const JUMP_GRAVITY_MULTIPLIER: float = 1.5
 @export_range(0.0, 1000.0, 10.0) var retroceso_golpe_horizontal: float = 180.0
 @export_range(0.0, 1000.0, 10.0) var retroceso_bloqueo_horizontal: float = 110.0
 @export_range(0.0, 2000.0, 10.0) var frenado_retroceso: float = 520.0
+@export_range(1.1, 4.0, 0.1) var multiplicador_retroceso_patada: float = 2.0
 
 @export_category("Lanzamiento de KO")
 @export_range(0.0, 1000.0, 10.0) var impulso_ko_horizontal: float = 260.0
@@ -252,12 +253,14 @@ func _obtener_rectangulo_cuerpo() -> Rect2:
 	tamano *= colision_cuerpo.global_scale.abs()
 	return Rect2(colision_cuerpo.global_position - tamano * 0.5, tamano)
 	
-func recibir_golpe(cantidad: int, atacante: Personaje) -> void:
+func recibir_golpe(
+	cantidad: int, atacante: Personaje, multiplicador_retroceso: float = 1.0
+) -> void:
 	if vida_actual <= 0:
 		return
 	if maquina_estados.es_estado_actual(&"Bloqueando") and puede_bloquear():
 		_cambiar_stamina(stamina_actual - costo_stamina_bloqueo)
-		aplicar_retroceso_bloqueo(atacante)
+		aplicar_retroceso_bloqueo(atacante, multiplicador_retroceso)
 		if stamina_agotada:
 			reproducir_destello_rojo()
 			print(name, " sufrio una ruptura de defensa")
@@ -272,12 +275,12 @@ func recibir_golpe(cantidad: int, atacante: Personaje) -> void:
 	print(name, " recibio", cantidad, " de danio. Vida restante: ", vida_actual)
 
 	if vida_actual == 0:
-		aplicar_lanzamiento_ko(atacante)
+		aplicar_lanzamiento_ko(atacante, multiplicador_retroceso)
 		vida_agotada.emit(self)
 		derrotado()
 		return
 
-	aplicar_retroceso_golpe(atacante)
+	aplicar_retroceso_golpe(atacante, multiplicador_retroceso)
 	if maquina_estados.tiene_estado(&"RecibirGolpe"):
 		maquina_estados.cambiar_a("RecibirGolpe")
 
@@ -290,12 +293,19 @@ func derrotado()-> void:
 		notificar_secuencia_ko_finalizada()
 
 
-func aplicar_retroceso_golpe(atacante: Personaje) -> void:
-	velocity.x = _direccion_alejamiento(atacante) * retroceso_golpe_horizontal
+func celebrar_victoria() -> void:
+	if vida_actual <= 0 or maquina_estados.es_estado_actual(&"Victoria"):
+		return
+	if maquina_estados.tiene_estado(&"Victoria"):
+		maquina_estados.cambiar_a("Victoria")
 
 
-func aplicar_retroceso_bloqueo(atacante: Personaje) -> void:
-	velocity.x = _direccion_alejamiento(atacante) * retroceso_bloqueo_horizontal
+func aplicar_retroceso_golpe(atacante: Personaje, multiplicador: float = 1.0) -> void:
+	velocity.x = _direccion_alejamiento(atacante) * retroceso_golpe_horizontal * multiplicador
+
+
+func aplicar_retroceso_bloqueo(atacante: Personaje, multiplicador: float = 1.0) -> void:
+	velocity.x = _direccion_alejamiento(atacante) * retroceso_bloqueo_horizontal * multiplicador
 
 
 func puede_bloquear() -> bool:
@@ -317,9 +327,9 @@ func _cambiar_stamina(nueva_stamina: float) -> void:
 		stamina_cambiada.emit(stamina_actual, stamina_maxima)
 
 
-func aplicar_lanzamiento_ko(atacante: Personaje) -> void:
+func aplicar_lanzamiento_ko(atacante: Personaje, multiplicador: float = 1.0) -> void:
 	velocity = Vector2(
-		_direccion_alejamiento(atacante) * impulso_ko_horizontal,
+		_direccion_alejamiento(atacante) * impulso_ko_horizontal * multiplicador,
 		-impulso_ko_vertical
 	)
 

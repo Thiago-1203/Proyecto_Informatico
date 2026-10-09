@@ -25,9 +25,12 @@ func on_input(_event)-> void:
 	var ataque := nodo_controlado.accion("ataque")
 	var agacharse := nodo_controlado.accion("agacharse")
 	var bloqueo := nodo_controlado.accion("bloqueo")
+	var patada := nodo_controlado.accion("patada")
 	
 	if Input.is_action_pressed(bloqueo) and nodo_controlado.is_on_floor() and nodo_controlado.puede_bloquear() and maquina_estados.tiene_estado(&"Bloqueando"):
 		maquina_estados.cambiar_a("Bloqueando")
+	elif _event.is_action_pressed(patada) and nodo_controlado.is_on_floor() and maquina_estados.tiene_estado(&"Patada"):
+		maquina_estados.cambiar_a("Patada")
 	elif not Input.is_action_pressed(derecha) and not Input.is_action_pressed(izquierda) and not Input.is_action_pressed(agacharse) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Idle")
 	elif Input.is_action_pressed(salto) and nodo_controlado.is_on_floor():

@@ -7,9 +7,9 @@ extends Node2D
 @onready var jugador2: Personaje = $barbieri2 as Personaje
 @onready var hud: HUDCombate = $HUDLayer/HUD as HUDCombate
 
-# Ritmo global del combate. 1.0 mantiene la velocidad nativa de las
-# animaciones y la física; valores menores sirven para pruebas en cámara lenta.
-@export_range(0.5, 1.25, 0.05) var escala_tiempo_combate: float = 1.0
+# Ritmo global del combate. 1.0 mantiene la velocidad nativa; el valor actual
+# acelera de forma pareja las animaciones, la física y las reglas temporales.
+@export_range(0.5, 1.25, 0.05) var escala_tiempo_combate: float = 1.5
 
 var escala_tiempo_anterior: float = 1.0
 var combate_finalizado: bool = false
@@ -49,4 +49,5 @@ func _cuando_finaliza_secuencia_ko(personaje_derrotado: Personaje) -> void:
 	if not is_instance_valid(personaje_ganador_actual):
 		return
 
+	personaje_ganador_actual.celebrar_victoria()
 	hud.mostrar_ganador(personaje_ganador_actual.numero_jugador)

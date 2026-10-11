@@ -7,13 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://cauh8dvdt0lk8" path="res://assets/characters/Barbieri/KO/ko_01.png" id="5_ds2l1"]
 [ext_resource type="Texture2D" uid="uid://dvqaer10m3mvh" path="res://assets/characters/Barbieri/Agachado/agachado1.png" id="5_ilho3"]
 [ext_resource type="Texture2D" uid="uid://pd7m5mwe4qhl" path="res://assets/characters/Barbieri/Saltando/3(sf).png" id="5_mo7sy"]
+[ext_resource type="Texture2D" uid="uid://bas4d8bsf6ktr" path="res://assets/characters/Barbieri/Caminar_Agachado/frame-60acc3ef-376e-4766-b5c1-00fd8f0fc6e6-e8b601710d546960646a32575824b9a9-004 .png" id="6_5nbce"]
 [ext_resource type="Texture2D" uid="uid://btkmmr8v1k45q" path="res://assets/characters/Barbieri/KO/ko_02.png" id="6_h10p4"]
 [ext_resource type="Texture2D" uid="uid://ckne78ql7wajd" path="res://assets/characters/Barbieri/Saltando/4(sf).png" id="6_ierh7"]
 [ext_resource type="Texture2D" uid="uid://bjrmjllxggeyn" path="res://assets/characters/Barbieri/Bloqueo/bloqueo1.png" id="6_ogwof"]
 [ext_resource type="Texture2D" uid="uid://du2s61gijrady" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante1.png" id="7_ca64a"]
+[ext_resource type="Texture2D" uid="uid://ddnrn1d0xaylq" path="res://assets/characters/Barbieri/Caminar_Agachado/frame-60acc3ef-376e-4766-b5c1-00fd8f0fc6e6-e8b601710d546960646a32575824b9a9-005.png" id="7_mfo2q"]
 [ext_resource type="Texture2D" uid="uid://b5pjkk1w6lsaa" path="res://assets/characters/Barbieri/Bloqueo/bloqueo2.png" id="7_ubqjv"]
 [ext_resource type="Texture2D" uid="uid://d4hqfj6ehnw2" path="res://assets/characters/Barbieri/KO/ko_04.png" id="7_ykllf"]
 [ext_resource type="Texture2D" uid="uid://j5nl0oif3uw4" path="res://assets/characters/Barbieri/Caminar_Adelante/caminar_adelante2.png" id="8_ogwof"]
+[ext_resource type="Texture2D" uid="uid://cgpfnvo4c5v5c" path="res://assets/characters/Barbieri/Caminar_Agachado/frame-60acc3ef-376e-4766-b5c1-00fd8f0fc6e6-e8b601710d546960646a32575824b9a9-006.png" id="8_or522"]
 [ext_resource type="Texture2D" uid="uid://1lwi5qq3d2v4" path="res://assets/characters/Barbieri/KO/ko_06.png" id="8_un1q3"]
 [ext_resource type="Texture2D" uid="uid://blx6l67i22mnr" path="res://assets/characters/Barbieri/idle/idle1.png" id="9_ubqjv"]
 [ext_resource type="Texture2D" uid="uid://c722j8pm20ssl" path="res://assets/characters/Barbieri/idle/idle2.png" id="10_ai3k4"]
@@ -33,11 +36,10 @@
 [ext_resource type="Script" uid="uid://dlcdrtv46gxk1" path="res://scripts/personajes/personaje_base/indicador_jugador.gd" id="24_indicador"]
 [ext_resource type="Texture2D" uid="uid://cblafams5y3pi" path="res://assets/characters/Barbieri/Celebracion/celebracion.png" id="25_celebracion"]
 [ext_resource type="Script" uid="uid://kdqmfi1c3d0m" path="res://scripts/personajes/personaje_base/estados/victoria.gd" id="26_victoria"]
-
-[ext_resource type="Texture2D" path="res://assets/characters/Barbieri/Patada/patada1.png" id="27_patada1"]
-[ext_resource type="Texture2D" path="res://assets/characters/Barbieri/Patada/patada2.png" id="28_patada2"]
-[ext_resource type="Texture2D" path="res://assets/characters/Barbieri/Patada/patada3.png" id="29_patada3"]
-[ext_resource type="Script" path="res://scripts/personajes/personaje_base/estados/patada.gd" id="30_patada"]
+[ext_resource type="Texture2D" uid="uid://c43c3m5jikbie" path="res://assets/characters/Barbieri/Patada/patada1.png" id="27_patada1"]
+[ext_resource type="Texture2D" uid="uid://ruumqcmg542w" path="res://assets/characters/Barbieri/Patada/patada2.png" id="28_patada2"]
+[ext_resource type="Texture2D" uid="uid://c10p1jjps432h" path="res://assets/characters/Barbieri/Patada/patada3.png" id="29_patada3"]
+[ext_resource type="Script" uid="uid://c6eomfluhjk4u" path="res://scripts/personajes/personaje_base/estados/patada.gd" id="30_patada"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cuerpo"]
 radius = 150.0
@@ -50,6 +52,22 @@ size = Vector2(277, 411)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q37wr"]
 resource_local_to_scene = true
 size = Vector2(94, 76)
+
+[sub_resource type="Animation" id="Animation_yv35c"]
+resource_name = "Caminar_Agachado"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("6_5nbce"), ExtResource("7_mfo2q"), ExtResource("8_or522")]
+}
 
 [sub_resource type="Animation" id="Animation_ojgtk"]
 resource_name = "KO"
@@ -377,6 +395,94 @@ tracks/3/keys = {
 "values": [Vector2(277, 411)]
 }
 
+[sub_resource type="Animation" id="Animation_patada"]
+resource_name = "patada"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.18, 0.36, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("27_patada1"), ExtResource("28_patada2"), ExtResource("27_patada1"), ExtResource("29_patada3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitboxes/Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.18, 0.36),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hitboxes/Hitbox/CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(170, -20)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hitboxes/Hitbox/CollisionShape2D:shape:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(100, 80)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Hurtbox/CollisionShape2D:shape:size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(277, 411)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Hurtbox/CollisionShape2D:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-0.5, -0.5)]
+}
+
 [sub_resource type="Animation" id="Animation_u2o3s"]
 resource_name = "puño"
 length = 0.5
@@ -566,68 +672,9 @@ tracks/1/keys = {
 "values": [Vector2(0.82, 0.82)]
 }
 
-[sub_resource type="Animation" id="Animation_patada"]
-resource_name = "patada"
-length = 0.7
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.18, 0.36, 0.52),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("27_patada1"), ExtResource("28_patada2"), ExtResource("27_patada1"), ExtResource("29_patada3")]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Hitboxes/Hitbox/CollisionShape2D:disabled")
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.18, 0.36),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Hitboxes/Hitbox/CollisionShape2D:position")
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(170, -20)]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Hitboxes/Hitbox/CollisionShape2D:shape:size")
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(100, 80)]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Sprite2D:position")
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(0, 0)]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Hurtbox/CollisionShape2D:shape:size")
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(277, 411)]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("Hurtbox/CollisionShape2D:position")
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(-0.5, -0.5)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3rmif"]
 _data = {
+&"Caminar_Agachado": SubResource("Animation_yv35c"),
 &"KO": SubResource("Animation_ojgtk"),
 &"RESET": SubResource("Animation_u2063"),
 &"agacharse": SubResource("Animation_mo7sy"),
@@ -635,8 +682,8 @@ _data = {
 &"caida": SubResource("Animation_3kq0a"),
 &"caminar_adelante": SubResource("Animation_vrece"),
 &"idle": SubResource("Animation_7s86b"),
-&"puño": SubResource("Animation_u2o3s"),
 &"patada": SubResource("Animation_patada"),
+&"puño": SubResource("Animation_u2o3s"),
 &"recibirGolpe": SubResource("Animation_ierh7"),
 &"salto": SubResource("Animation_ow54q"),
 &"victoria": SubResource("Animation_victoria")
@@ -666,6 +713,7 @@ script = ExtResource("3_3pqia")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1228414874]
 position = Vector2(-0.5, -0.5)
+scale = Vector2(1, 0.9943222)
 shape = SubResource("RectangleShape2D_imr41")
 
 [node name="Hitboxes" type="Node2D" parent="." unique_id=359379546]
@@ -701,7 +749,7 @@ script = ExtResource("17_ykllf")
 [node name="Puño" type="Node" parent="MaquinaEstados" unique_id=1620483157]
 script = ExtResource("18_un1q3")
 
-[node name="Patada" type="Node" parent="MaquinaEstados"]
+[node name="Patada" type="Node" parent="MaquinaEstados" unique_id=1610056776]
 script = ExtResource("30_patada")
 
 [node name="Agacharse" type="Node" parent="MaquinaEstados" unique_id=1049563529]

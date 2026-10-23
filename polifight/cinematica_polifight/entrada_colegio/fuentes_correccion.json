@@ -1,0 +1,23 @@
+{
+  "canonical_reference": {
+    "path": "/home/agus/Desktop/Colegio/Proyecto_Informatico/polifight/cinematica_polifight/frames/frame_00.png",
+    "role": "Reference for the school's original entrance structure and pixel-art style"
+  },
+  "corrections": [
+    {
+      "target": "acercamiento_01.png",
+      "generated_original": "/home/agus/.codex/generated_images/01a16628-09f9-7691-acbb-4fecc7fad726/exec-2444e572-b810-4ac8-8352-db39d2f49f60.png",
+      "target_reference": "/home/agus/Desktop/Colegio/Proyecto_Informatico/polifight/cinematica_polifight/entrada_colegio/acercamiento_01.png",
+      "dimensions": "1672x941",
+      "prompt": "Use case: precise-object-edit. Asset type: existing pixel-art game cinematic frame. Input image 1 is the canonical school entrance reference; input image 2 is the edit target. Edit only the central entrance assembly in image 2 to restore its correct structure from image 1. Preserve the full camera framing, composition, proportions, perspective, surrounding school, trees, sidewalk, lighting, and pixel-art style of image 2. Correct entrance structure, from top to bottom: keep the rectangular blue-gray lintel/frame; immediately below it add the fixed dark horizontal transom panel spanning above both leaves, a single stationary architectural panel that does not open; beneath that, two equal-height blue-gray metal door leaves, opened inward about 70 degrees, with diagonal reinforcement lines. Remove any small window panes invented on the door leaves: the leaves are solid metal panels with diagonal braces, not windows. Preserve the black darkness beyond the doorway with no lit interior, corridor, or room. Do not change anything else in the frame. No new elements, text, or UI."
+    },
+    {
+      "target": "acercamiento_02.png",
+      "generated_original": "/home/agus/.codex/generated_images/01a16628-09f9-7691-acbb-4fecc7fad726/exec-f77ba94e-ffea-4638-b04c-8e9cb085d8b7.png",
+      "target_reference": "/home/agus/Desktop/Colegio/Proyecto_Informatico/polifight/cinematica_polifight/entrada_colegio/acercamiento_02.png",
+      "dimensions": "1672x941",
+      "prompt": "Use case: precise-object-edit. Asset type: existing pixel-art game cinematic frame. Input image 1 is the canonical school entrance reference; input image 2 is the edit target. Edit only the central entrance assembly in image 2 to restore its correct structure from image 1. Preserve the full camera framing, composition, proportions, perspective, surrounding school, trees, sidewalk, lighting, and pixel-art style of image 2. Correct entrance structure, from top to bottom: keep the rectangular blue-gray lintel/frame; immediately below it add the fixed dark horizontal transom panel spanning above both leaves, a single stationary architectural panel that does not open; beneath that, two equal-height blue-gray metal door leaves, opened inward about 70 degrees, with diagonal reinforcement lines. Remove any small window panes invented on the door leaves: the leaves are solid metal panels with diagonal braces, not windows. Preserve the black darkness beyond the doorway with no lit interior, corridor, or room. Do not change anything else in the frame. No new elements, text, or UI."
+    }
+  ],
+  "review": "Both generated frames were reviewed before replacement: each shows the fixed horizontal dark transom above two equal-height inward-open metal leaves with diagonal braces, and the doorway remains black. Generated originals are preserved at their source paths."
+}

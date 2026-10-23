@@ -1,0 +1,37 @@
+{
+  "reference": {
+    "path": "/home/agus/Desktop/Colegio/Proyecto_Informatico/polifight/cinematica_polifight/frames/frame_00.png",
+    "role": "Canonical school exterior and entrance design reference"
+  },
+  "assets": [
+    {
+      "file": "umbral.png",
+      "generated_original": "/home/agus/.codex/generated_images/01a16628-09f9-7691-acbb-4fecc7fad726/exec-a8712a7f-5317-4710-93c0-e7cc055f33f1.png",
+      "generated_dimensions": "1672x941",
+      "project_dimensions": "1280x720",
+      "prompt": "Use case: illustration-story. Asset type: 16:9 landscape pixel-art video game cinematic frame, 1280x720. Image 1 is the canonical reference for the school's entrance design, colors and exact pixel art style. Show the instant just before crossing the threshold of that same school. Strict symmetrical straight-on close-up centered exactly on doorway x=50%, no perspective vanishing point to either side. The existing school's blue-gray rectangular metal frame, thin red side columns, and blue-gray metal door leaves swung inward about 70 degrees appear only at the far left and right edges. A completely featureless absolute-black opening occupies 60% of image width and all image height, centered. No visible interior, no light. Match the reference pixel-art palette and crisp chunky pixel clusters exactly. No windows, stairs, arches, wood, people, text, logos, or UI; invent no architecture inside the darkness."
+    },
+    {
+      "file": "interior.png",
+      "generated_original": "/home/agus/.codex/generated_images/01a16628-09f9-7691-acbb-4fecc7fad726/exec-4c584781-73cb-4f84-a76d-9715b01ce1ec.png",
+      "generated_dimensions": "1672x941",
+      "project_dimensions": "1280x720",
+      "references": [
+        "/home/agus/Desktop/Colegio/Proyecto_Informatico/polifight/cinematica_polifight/frames/frame_00.png",
+        "/home/agus/.codex/generated_images/01a16628-09f9-7691-acbb-4fecc7fad726/exec-a8712a7f-5317-4710-93c0-e7cc055f33f1.png"
+      ],
+      "prompt": "Use case: illustration-story. Asset type: 16:9 landscape pixel-art video game cinematic frame, 1280x720. Input image 1 is the canonical school exterior reference for exact pixel art style, colors and entrance; input image 2 is the immediately preceding threshold frame and establishes exact continuity. Create the next consecutive cinematic frame, just crossing the threshold. Camera remains straight-on and centered exactly on x=50%. A completely featureless absolute-black opening now occupies 90% of image width and 100% of image height, centered. Only very narrow vertical strips of the same blue-gray doorframe remain visible at the far left and far right edges, with coherent tiny slivers of the existing inward-open metal doors and red columns consistent with image 2. Preserve crisp pixel-art clusters, same palette and materials. No visible interior, no light, no new architecture within the darkness, no windows, stairs, arches, wood, people, text, logos, or UI."
+    },
+    {
+      "file": "oscuro.png",
+      "generated_original": "/home/agus/.codex/generated_images/01a16628-09f9-7691-acbb-4fecc7fad726/exec-7e0ee600-5758-46d7-a996-3de447a4450e.png",
+      "generated_dimensions": "1672x941",
+      "project_dimensions": "1672x941",
+      "references": [
+        "/home/agus/Desktop/Colegio/Proyecto_Informatico/polifight/cinematica_polifight/entrada_colegio/interior.png"
+      ],
+      "prompt": "Use case: illustration-story. Asset type: 16:9 landscape pixel-art video game cinematic frame, 1280x720. Input image 1 is the immediately preceding frame at the school threshold. This is the next frame after the camera has completely crossed the threshold and arrived inside total darkness. The entire canvas is uniformly pure black (#000000), edge to edge, every pixel black. No frame, doorway, doors, architecture, room, corridor, gradients, lighting, figures, shapes, text, UI, or other visible elements. A completely blank black frame only."
+    }
+  ],
+  "notes": "Imagegen originals are preserved at their generated paths. umbral.png and interior.png were resized to 1280x720 using ImageMagick point filtering. oscuro.png is the untouched generated original."
+}

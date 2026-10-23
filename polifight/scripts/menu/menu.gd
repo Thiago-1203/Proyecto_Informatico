@@ -1,5 +1,7 @@
 extends Control
 
+const SELECTOR_MODOS: PackedScene = preload("res://escenas/menu/selector_modos.tscn")
+
 @onready var logo: TextureRect = $CenterContainer/MenuContent/LogoSlot/Logo
 @onready var boton_jugar: Button = $CenterContainer/MenuContent/JugarRow/Jugar
 @onready var boton_salir: Button = $CenterContainer/MenuContent/SalirRow/Salir
@@ -9,6 +11,8 @@ extends Control
 @onready var salir_flecha_derecha: Control = $CenterContainer/MenuContent/SalirRow/FlechaDerechaSlot/FlechaDerecha
 
 var animacion_flechas: Tween
+var selector_modos: Control
+var _abriendo_selector: bool = false
 
 
 func _on_cinematica_entrada_finalizada() -> void:
@@ -88,7 +92,37 @@ func _on_salir_mouse_entered() -> void:
 
 
 func _on_jugar_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenas/juego/nivelI.tscn")
+	if _abriendo_selector or is_instance_valid(selector_modos):
+		return
+	_abriendo_selector = true
+	boton_jugar.disabled = true
+	boton_salir.disabled = true
+	boton_jugar.release_focus()
+	if animacion_flechas and animacion_flechas.is_valid():
+		animacion_flechas.kill()
+
+	var salida := create_tween()
+	salida.tween_property($CenterContainer, "modulate:a", 0.0, 0.18).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(Tween.EASE_IN)
+	await salida.finished
+
+	selector_modos = SELECTOR_MODOS.instantiate()
+	selector_modos.set("usar_fondo_del_menu", true)
+	selector_modos.connect("volver_solicitado", _cerrar_selector)
+	$CenterContainer.hide()
+	add_child(selector_modos)
+	selector_modos.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_abriendo_selector = false
+
+
+func _cerrar_selector() -> void:
+	selector_modos.queue_free()
+	$CenterContainer.modulate.a = 1.0
+	$CenterContainer.show()
+	boton_jugar.disabled = false
+	boton_salir.disabled = false
+	boton_jugar.grab_focus()
 
 
 func _on_salir_pressed() -> void:

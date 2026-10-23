@@ -82,6 +82,14 @@ func _process(delta: float) -> void:
 	_material_nubes.set_shader_parameter("desplazamiento_px", recorrido_nubes)
 
 
+func obtener_fotograma_actual() -> Texture2D:
+	return _fondo.texture
+
+
+func obtener_material_actual() -> Material:
+	return _fondo.material
+
+
 func _mostrar_fotograma(indice: int) -> void:
 	if _fondo == null or indice == _fotograma_actual:
 		return

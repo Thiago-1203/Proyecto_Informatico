@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/selector_modos.gd" id="1_selector"]
+[ext_resource type="Texture2D" path="res://assets/ui/PoliFight_LOGO.png" id="3_logo"]
+[ext_resource type="Script" path="res://scripts/ui/texto_pixel.gd" id="4_texto"]
+[ext_resource type="Script" path="res://scripts/menu/flecha_pixel.gd" id="5_flecha"]
+[ext_resource type="Texture2D" path="res://assets/ui/selector_modos/titulo_selector.png" id="6_titulo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_titulo"]
+atlas = ExtResource("6_titulo")
+region = Rect2(0, 240, 2172, 240)
+
+[node name="SelectorModos" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+script = ExtResource("1_selector")
+
+[node name="Oscurecimiento" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.04, 0.12, 0.48)
+
+[node name="Lienzo" type="Control" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Logo" type="TextureRect" parent="Lienzo"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 8.0
+offset_right = 1200.0
+offset_bottom = 270.0
+mouse_filter = 2
+texture = ExtResource("3_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titulo" type="TextureRect" parent="Lienzo"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 235.0
+offset_right = 1590.0
+offset_bottom = 375.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_titulo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Carrusel" type="Control" parent="Lienzo"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="FlechaIzquierda" type="Control" parent="Lienzo"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 565.0
+offset_right = 94.0
+offset_bottom = 655.0
+mouse_filter = 2
+script = ExtResource("5_flecha")
+direccion = -1
+tamano_pixel = 10
+
+[node name="FlechaDerecha" type="Control" parent="Lienzo"]
+layout_mode = 0
+offset_left = 1826.0
+offset_top = 565.0
+offset_right = 1898.0
+offset_bottom = 655.0
+mouse_filter = 2
+script = ExtResource("5_flecha")
+tamano_pixel = 10
+
+[node name="Indicadores" type="Control" parent="Lienzo"]
+layout_mode = 0
+offset_left = 902.0
+offset_top = 934.0
+offset_right = 1018.0
+offset_bottom = 954.0
+mouse_filter = 2
+
+[node name="Aviso" type="Control" parent="Lienzo"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 988.0
+offset_right = 1560.0
+offset_bottom = 1026.0
+mouse_filter = 2
+script = ExtResource("4_texto")
+texto = "MODO EN DESARROLLO"
+tamano_pixel = 4

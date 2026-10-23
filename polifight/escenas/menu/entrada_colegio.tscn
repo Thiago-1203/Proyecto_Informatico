@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/entrada_colegio.gd" id="1_entrada"]
+
+[node name="EntradaColegio" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_entrada")
+
+[node name="Pantalla" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Contenedor" type="SubViewportContainer" parent="Pantalla"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="Mundo" type="SubViewport" parent="Pantalla/Contenedor"]
+size = Vector2i(640, 360)
+handle_input_locally = false
+render_target_update_mode = 4
+canvas_item_default_texture_filter = 0
+
+[node name="Fachada" type="Sprite2D" parent="Pantalla/Contenedor/Mundo"]
+texture_filter = 1
+centered = false
+
+[node name="Hueco" type="Sprite2D" parent="Pantalla/Contenedor/Mundo"]
+texture_filter = 1
+position = Vector2(306, 225)
+centered = false
+
+[node name="HojaIzquierda" type="Polygon2D" parent="Pantalla/Contenedor/Mundo"]
+texture_filter = 1
+
+[node name="HojaDerecha" type="Polygon2D" parent="Pantalla/Contenedor/Mundo"]
+texture_filter = 1
+
+[node name="Camara" type="Camera2D" parent="Pantalla/Contenedor/Mundo"]
+position = Vector2(320, 180)

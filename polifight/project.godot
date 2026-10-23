@@ -14,6 +14,11 @@ config/name="polifight"
 run/main_scene="uid://d0k4okrrhr7f5"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
+[autoload]
+
+SeleccionPartida="*res://scripts/juego/seleccion_partida.gd"
+TransicionCombate="*res://scripts/juego/transicion_combate.gd"
+
 [display]
 
 window/size/viewport_width=1920

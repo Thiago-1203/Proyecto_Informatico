@@ -2,6 +2,8 @@ extends Control
 
 signal volver_solicitado
 
+const SELECTOR_COMBATE = preload("res://escenas/menu/selector_combate.tscn")
+
 const TARJETA = preload("res://scripts/menu/tarjeta_modo.gd")
 const FONDO_ANIMADO: PackedScene = preload("res://cinematica_polifight/cinematica_colegio.tscn")
 const ENTRADA_COLEGIO: PackedScene = preload("res://escenas/menu/entrada_colegio.tscn")
@@ -17,7 +19,7 @@ const MODOS := [
 		"titulo": "1 VS 1", "subtitulo": "DUELO LOCAL",
 		"descripcion": "DOS JUGADORES. UN SOLO GANADOR.",
 		"arte": preload("res://assets/ui/selector_modos/duelo_local.png"),
-		"escena": "res://escenas/juego/nivelI.tscn",
+		"escena": "seleccion",
 	},
 	{
 		"titulo": "2 VS 2", "subtitulo": "PROXIMAMENTE",
@@ -43,6 +45,9 @@ var _tiempo_repeticion: float = 0.0
 var _direccion_mantenida: int = 0
 var _confirmacion_habilitada: bool = false
 var _saliendo: bool = false
+var selector_combate: Control
+var entrada_puerta: CanvasLayer
+var puerta_finalizada: bool = false
 
 
 func _ready() -> void:
@@ -94,7 +99,7 @@ func _reproducir_entrada() -> void:
 
 
 func _process(delta: float) -> void:
-	if _saliendo or _entrando:
+	if _saliendo or _entrando or is_instance_valid(selector_combate):
 		return
 	# No confirmar con la misma pulsación que abrió JUGAR.
 	if not Input.is_action_pressed(&"modo_confirmar"):
@@ -116,7 +121,7 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if _saliendo or _entrando or event.is_echo():
+	if _saliendo or _entrando or is_instance_valid(selector_combate) or event.is_echo():
 		return
 	if event.is_action_pressed(&"modo_volver"):
 		get_viewport().set_input_as_handled()
@@ -180,29 +185,52 @@ func _confirmar() -> void:
 	if escena.is_empty():
 		aviso.show()
 		return
+	if _saliendo or is_instance_valid(selector_combate):
+		return
 	_saliendo = true
+	puerta_finalizada = false
 	if _transicion != null and _transicion.is_valid():
 		_transicion.kill()
 	var salida := create_tween().set_parallel(true)
 	salida.tween_property(lienzo, "modulate:a", 0.0, 0.16)
 	salida.tween_property($Oscurecimiento, "modulate:a", 0.0, 0.16)
 	await salida.finished
-
-	var entrada = ENTRADA_COLEGIO.instantiate()
+	lienzo.hide()
+	entrada_puerta = ENTRADA_COLEGIO.instantiate()
 	var fondo := get_parent().get_node_or_null("CinematicaColegio") if usar_fondo_del_menu else get_node_or_null("Fondo")
 	if fondo != null:
-		entrada.fotograma_inicial = fondo.obtener_fotograma_actual()
-		entrada.fondo_animado = fondo
-	add_child(entrada)
-	entrada.reproducir()
-	await entrada.finalizada
+		entrada_puerta.fotograma_inicial = fondo.obtener_fotograma_actual()
+		entrada_puerta.fondo_animado = fondo
+	add_child(entrada_puerta)
+	entrada_puerta.reproducir()
+	await entrada_puerta.finalizada
+	puerta_finalizada = true
+	entrada_puerta.set_process_input(false)
+	entrada_puerta.pantalla.hide()
+	entrada_puerta.queue_free()
+	selector_combate = SELECTOR_COMBATE.instantiate()
+	add_child(selector_combate)
+	selector_combate.volver_solicitado.connect(_cerrar_seleccion)
+	selector_combate.combate_solicitado.connect(_iniciar_combate)
+	_saliendo = false
 
-	var error := get_tree().change_scene_to_file(escena)
+
+func _cerrar_seleccion() -> void:
+	selector_combate.queue_free()
+	lienzo.modulate.a = 1.0
+	$Oscurecimiento.modulate.a = 1.0
+	lienzo.show()
+	_confirmacion_habilitada = false
+
+
+func _iniciar_combate(escena: String) -> void:
+	_saliendo = true
+	var transicion := get_node("/root/TransicionCombate")
+	var error: Error = await transicion.iniciar(escena)
 	if error != OK:
-		entrada.queue_free()
-		lienzo.modulate.a = 1.0
-		$Oscurecimiento.modulate.a = 1.0
+		selector_combate.modulate.a = 1.0
 		_saliendo = false
+		selector_combate.mostrar_error()
 		_confirmacion_habilitada = false
 		push_error("No se pudo iniciar el modo: " + error_string(error))
 

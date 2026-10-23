@@ -1,10 +1,13 @@
 extends Node2D
 
-#ATTENTION para cuando se comience a hacer la seleccion de escenarios
-# hacer una escena de combate base que sera la base de todos los escenarios
+@onready var seleccion: EstadoSeleccionPartida = get_node("/root/SeleccionPartida")
 
-@onready var jugador1: Personaje = $barbieri as Personaje
-@onready var jugador2: Personaje = $barbieri2 as Personaje
+# Cada escenario aporta sus puntos de aparición; el catálogo aporta los luchadores.
+@export var punto_jugador1: NodePath = ^"AparicionJ1"
+@export var punto_jugador2: NodePath = ^"AparicionJ2"
+
+var jugador1: Personaje
+var jugador2: Personaje
 @onready var hud: HUDCombate = $HUDLayer/HUD as HUDCombate
 
 # Ritmo global del combate. 1.0 mantiene la velocidad nativa; el valor actual
@@ -18,6 +21,10 @@ var personaje_ganador_actual: Personaje
 
 
 func _ready() -> void:
+	jugador1 = _crear_jugador(1, punto_jugador1)
+	jugador2 = _crear_jugador(2, punto_jugador2)
+	if jugador1 == null or jugador2 == null:
+		return
 	escala_tiempo_anterior = Engine.time_scale
 	Engine.time_scale = escala_tiempo_combate
 	jugador1.configurar_oponente(jugador2)
@@ -28,6 +35,16 @@ func _ready() -> void:
 	jugador2.vida_agotada.connect(_cuando_termina_el_combate)
 	jugador1.secuencia_ko_finalizada.connect(_cuando_finaliza_secuencia_ko)
 	jugador2.secuencia_ko_finalizada.connect(_cuando_finaliza_secuencia_ko)
+
+
+func _crear_jugador(numero: int, punto: NodePath) -> Personaje:
+	var jugador := seleccion.crear_jugador(numero)
+	if jugador == null:
+		return null
+	jugador.name = "Jugador%d" % numero
+	jugador.position = (get_node(punto) as Node2D).position
+	add_child(jugador)
+	return jugador
 
 
 func _exit_tree() -> void:

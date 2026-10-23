@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CatalogoSeleccion" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/catalogo_seleccion.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/menu/ficha_seleccion.gd" id="2"]
+[ext_resource type="Resource" path="res://datos/seleccion/personajes/barbieri.tres" id="3"]
+[ext_resource type="Resource" path="res://datos/seleccion/escenarios/terraza.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+personajes = Array[ExtResource("2")]([ExtResource("3")])
+escenarios = Array[ExtResource("2")]([ExtResource("4")])

@@ -18,6 +18,12 @@ const FUENTE_PIXEL = preload("res://scripts/ui/fuente_pixel.gd")
 @export_range(1, 8, 1) var grosor_borde: int = 3
 @export_range(2, 16, 1) var ancho_acento: int = 6
 
+# El menú de dos jugadores necesita dos focos independientes del foco único de Godot.
+var foco_jugadores: int = 0:
+	set(valor):
+		foco_jugadores = valor
+		queue_redraw()
+
 var _presionado: bool = false
 
 
@@ -33,7 +39,7 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	var esta_seleccionado := has_focus() or is_hovered()
+	var esta_seleccionado := has_focus() or is_hovered() or foco_jugadores != 0
 	if dibujar_marco:
 		_dibujar_marco(esta_seleccionado)
 
@@ -48,7 +54,7 @@ func _draw() -> void:
 	if _presionado:
 		color = color_presionado
 	elif esta_seleccionado:
-		color = color_seleccionado
+		color = Color("52b8ff") if foco_jugadores == 1 else color_seleccionado
 
 	FUENTE_PIXEL.dibujar_texto(
 		self,
@@ -68,10 +74,14 @@ func _dibujar_marco(esta_seleccionado: bool) -> void:
 		borde = color_presionado
 	elif esta_seleccionado:
 		fondo = color_fondo_seleccionado
-		borde = color_borde_seleccionado
+		borde = Color("52b8ff") if foco_jugadores == 1 else color_borde_seleccionado
 
 	draw_rect(Rect2(Vector2.ZERO, size), fondo, true)
 	draw_rect(Rect2(Vector2.ZERO, size), borde, false, grosor_borde)
+	if foco_jugadores & 1:
+		draw_rect(Rect2(0, 0, size.x * 0.5, 6), Color("52b8ff"))
+	if foco_jugadores & 2:
+		draw_rect(Rect2(size.x * 0.5, 0, size.x * 0.5, 6), Color("ffb80d"))
 
 	# Dos marcas laterales dan lectura de selector arcade sin agrandar el texto.
 	if esta_seleccionado or _presionado:

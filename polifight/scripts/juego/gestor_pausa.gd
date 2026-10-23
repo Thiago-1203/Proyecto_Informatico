@@ -19,6 +19,9 @@ func _exit_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	var transicion := get_node_or_null("/root/TransicionCombate")
+	if transicion != null and transicion.activo:
+		return
 	if not event.is_action_pressed(&"pausa"):
 		return
 

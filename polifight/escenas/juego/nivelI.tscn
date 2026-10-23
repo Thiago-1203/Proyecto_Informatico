@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://lhxpt1qdkbox" path="res://assets/ui/fondos/Fondo1.png" id="1_c1w2x"]
 [ext_resource type="Script" uid="uid://do3wv0s76lgtq" path="res://scripts/juego/controlador_combate.gd" id="1_pu5gc"]
-[ext_resource type="PackedScene" uid="uid://jyu0bvlx3jey" path="res://escenas/personajes/barbieri.tscn" id="1_vn2la"]
 [ext_resource type="PackedScene" uid="uid://kgniji247j48" path="res://escenas/objetos/piso.tscn" id="2_6g7x6"]
 [ext_resource type="PackedScene" uid="uid://dbugsdpf7qnw2" path="res://escenas/ui/HUD.tscn" id="4_udh6w"]
 [ext_resource type="PackedScene" uid="uid://bwynchet8u8m1" path="res://escenas/ui/menu_pausa.tscn" id="5_pausa"]
@@ -33,13 +32,11 @@ stretch_mode = 6
 position = Vector2(1000, 1000)
 scale = Vector2(19, 1)
 
-[node name="barbieri" parent="." unique_id=1988390493 instance=ExtResource("1_vn2la")]
+[node name="AparicionJ1" type="Marker2D" parent="."]
 position = Vector2(393, 795)
 
-[node name="barbieri2" parent="." unique_id=712395876 instance=ExtResource("1_vn2la")]
+[node name="AparicionJ2" type="Marker2D" parent="."]
 position = Vector2(1731, 785)
-numero_jugador = 2
-direccion_inicial = -1
 
 [node name="HUDLayer" type="CanvasLayer" parent="." unique_id=1388264356]
 layer = 10

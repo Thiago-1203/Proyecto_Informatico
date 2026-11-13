@@ -7,7 +7,11 @@ const FUENTE_PIXEL = preload("res://scripts/ui/fuente_pixel.gd")
 		texto = valor
 		update_minimum_size()
 		queue_redraw()
-@export_range(2, 24, 1) var tamano_pixel: int = 8
+@export_range(2, 24, 1) var tamano_pixel: int = 8:
+	set(valor):
+		tamano_pixel = valor
+		update_minimum_size()
+		queue_redraw()
 @export_enum("Izquierda", "Centro", "Derecha") var alineacion_horizontal: int = 1
 @export var color: Color = Color(1.0, 0.82, 0.12)
 @export var color_sombra: Color = Color(0.08, 0.02, 0.01, 0.95)
@@ -42,7 +46,7 @@ func _draw() -> void:
 	FUENTE_PIXEL.dibujar_texto(
 		self,
 		contenido,
-		origen + desplazamiento_sombra,
+		origen + desplazamiento_sombra.clamp(Vector2(-2, -2), Vector2(2, 2)),
 		tamano_pixel,
 		color_sombra
 	)

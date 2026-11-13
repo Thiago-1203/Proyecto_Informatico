@@ -21,13 +21,13 @@ func on_physics_process(delta: float) -> void:
 	var bloqueo := nodo_controlado.accion("bloqueo")
 	var retroceso_finalizado := is_zero_approx(nodo_controlado.velocity.x)
 	var bloqueo_agotado := not nodo_controlado.puede_bloquear()
-	if retroceso_finalizado and (not Input.is_action_pressed(bloqueo) or bloqueo_agotado):
+	if retroceso_finalizado and (not nodo_controlado.entrada_presionada(bloqueo) or bloqueo_agotado):
 		_volver_a_movimiento()
 
 
 func on_input(_event: InputEvent) -> void:
 	var bloqueo := nodo_controlado.accion("bloqueo")
-	if not Input.is_action_pressed(bloqueo) and is_zero_approx(nodo_controlado.velocity.x):
+	if not nodo_controlado.entrada_presionada(bloqueo) and is_zero_approx(nodo_controlado.velocity.x):
 		_volver_a_movimiento()
 
 
@@ -39,9 +39,9 @@ func _volver_a_movimiento() -> void:
 	var izquierda := nodo_controlado.accion("izquierda")
 	var derecha := nodo_controlado.accion("derecha")
 	var agacharse := nodo_controlado.accion("agacharse")
-	var direccion := Input.get_axis(izquierda, derecha)
+	var direccion := nodo_controlado.eje_entrada(izquierda, derecha)
 
-	if Input.is_action_pressed(agacharse) and nodo_controlado.is_on_floor():
+	if nodo_controlado.entrada_presionada(agacharse) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Agacharse")
 	elif direccion == 0.0:
 		maquina_estados.cambiar_a("Idle")

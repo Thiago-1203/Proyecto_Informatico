@@ -44,8 +44,11 @@ func _draw() -> void:
 		_dibujar_marco(esta_seleccionado)
 
 	var texto_mayuscula := texto.to_upper()
-	var ancho := FUENTE_PIXEL.calcular_ancho(texto_mayuscula, tamano_pixel)
-	var alto := FUENTE_PIXEL.ALTO_GLIFO * tamano_pixel
+	var escala := tamano_pixel
+	while escala > 2 and FUENTE_PIXEL.calcular_ancho(texto_mayuscula, escala) > size.x - 36.0:
+		escala -= 1
+	var ancho := FUENTE_PIXEL.calcular_ancho(texto_mayuscula, escala)
+	var alto := FUENTE_PIXEL.ALTO_GLIFO * escala
 	var origen := Vector2(
 		floor((size.x - ancho) * 0.5),
 		floor((size.y - alto) * 0.5)
@@ -59,11 +62,11 @@ func _draw() -> void:
 	FUENTE_PIXEL.dibujar_texto(
 		self,
 		texto_mayuscula,
-		origen + Vector2(tamano_pixel, tamano_pixel),
-		tamano_pixel,
+		origen + Vector2(2, 2),
+		escala,
 		color_sombra
 	)
-	FUENTE_PIXEL.dibujar_texto(self, texto_mayuscula, origen, tamano_pixel, color)
+	FUENTE_PIXEL.dibujar_texto(self, texto_mayuscula, origen, escala, color)
 
 
 func _dibujar_marco(esta_seleccionado: bool) -> void:

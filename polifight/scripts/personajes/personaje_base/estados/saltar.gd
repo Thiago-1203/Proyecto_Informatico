@@ -10,7 +10,7 @@ func on_physics_process(delta: float) -> void:
 	var izquierda := nodo_controlado.accion("izquierda")
 	var derecha := nodo_controlado.accion("derecha")
 	var agacharse := nodo_controlado.accion("agacharse")
-	var direccion := Input.get_axis(izquierda, derecha)
+	var direccion := nodo_controlado.eje_entrada(izquierda, derecha)
 	nodo_controlado.velocity.x = direccion * nodo_controlado.SPEED
 	
 	if not nodo_controlado.is_on_floor():
@@ -26,7 +26,7 @@ func on_physics_process(delta: float) -> void:
 	nodo_controlado.move_and_slide()
 	
 	if nodo_controlado.is_on_floor():
-		if Input.is_action_pressed(agacharse):
+		if nodo_controlado.entrada_presionada(agacharse):
 			maquina_estados.cambiar_a("Agacharse")
 		elif direccion == 0.0:
 			maquina_estados.cambiar_a("Idle")
@@ -44,5 +44,5 @@ func on_input(_event)->void:
 	var ataque := nodo_controlado.accion("ataque")
 	
 	
-	if Input.is_action_just_pressed(ataque):
+	if nodo_controlado.entrada_recien_presionada(ataque):
 		maquina_estados.cambiar_a("Puño")

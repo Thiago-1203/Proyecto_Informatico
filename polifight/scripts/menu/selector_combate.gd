@@ -17,10 +17,12 @@ const BLANCO := Color("fff2d5")
 const RESOLUCION := Vector2(1920, 1080)
 const COLUMNAS_PERSONAJES := 4
 const POSICIONES_VISTAS := [Vector2(100, 244), Vector2(1390, 244)]
-enum Paso { PERSONAJES, ESCENARIO }
+enum Paso { PERSONAJES, ESCENARIO, RIVAL, DIFICULTAD }
 enum Foco { TARJETAS, LISTO, CONTINUAR, VOLVER }
 
-var paso: Paso = Paso.PERSONAJES
+var paso: Paso = Paso.RIVAL
+var opcion_configuracion: int = 0
+var _ayuda: Control
 var listos: Array[bool] = [false, false]
 var focos: Array[int] = [Foco.TARJETAS, Foco.TARJETAS]
 var vistas: Array[Control] = []
@@ -169,6 +171,11 @@ func _input(event: InputEvent) -> void:
 
 
 func _navegar(jugador: int, direccion: Vector2i) -> void:
+	if paso in [Paso.RIVAL, Paso.DIFICULTAD]:
+		opcion_configuracion = posmod(opcion_configuracion + direccion.x + direccion.y, 2 if paso == Paso.RIVAL else 3)
+		_renderizar()
+		return
+	jugador = _cursor_humano(jugador)
 	if _iniciando or _entrando:
 		return
 	var cantidad := seleccion.escenarios.size() if paso == Paso.ESCENARIO else seleccion.personajes.size()
@@ -212,7 +219,7 @@ func _elegir(indice: int, jugador: int = 0) -> void:
 
 
 func _elegir_mouse(indice: int) -> void:
-	_elegir(indice, 0)
+	_elegir(indice, _cursor_humano(0))
 
 
 func _tarjeta_mouse(event: InputEvent, indice: int) -> void:
@@ -222,6 +229,10 @@ func _tarjeta_mouse(event: InputEvent, indice: int) -> void:
 
 
 func _activar(jugador: int) -> void:
+	if paso in [Paso.RIVAL, Paso.DIFICULTAD]:
+		_confirmar_configuracion(opcion_configuracion)
+		return
+	jugador = _cursor_humano(jugador)
 	match focos[jugador]:
 		Foco.VOLVER: _volver()
 		Foco.CONTINUAR:
@@ -276,6 +287,16 @@ func _volver() -> void:
 		focos.assign([Foco.TARJETAS, Foco.TARJETAS])
 		_renderizar()
 		_animar_aparicion()
+	elif paso == Paso.PERSONAJES:
+		paso = Paso.DIFICULTAD if seleccion.contra_ia else Paso.RIVAL
+		opcion_configuracion = seleccion.dificultad_ia if seleccion.contra_ia else 0
+		listos.assign([false, false])
+		focos.assign([Foco.TARJETAS, Foco.TARJETAS])
+		_renderizar()
+	elif paso == Paso.DIFICULTAD:
+		paso = Paso.RIVAL
+		opcion_configuracion = 1
+		_renderizar()
 	else:
 		volver_solicitado.emit()
 
@@ -297,7 +318,7 @@ func _mascara_foco(tipo: Foco) -> int:
 func _crear_marco() -> void:
 	contenido = lienzo
 	_boton_volver = _boton("VOLVER", Rect2(65, 970, 420, 62), _volver, 3)
-	_texto("J1: WASD + F    J2: FLECHAS + ENTER    ESC: VOLVER", Rect2(500, 1045, 920, 22), 2, BLANCO)
+	_ayuda = _texto("J1: WASD + F    J2: FLECHAS + ENTER    ESC: VOLVER", Rect2(500, 1045, 920, 22), 2, BLANCO)
 	_mensaje = _texto("", Rect2(565, 1010, 790, 28), 2, DORADO)
 	contenido = null
 
@@ -319,7 +340,7 @@ func _renderizar() -> void:
 	_boton_volver.foco_jugadores = _mascara_foco(Foco.VOLVER)
 	_boton_volver.texto = "CAMBIAR LUCHADORES" if paso == Paso.ESCENARIO else "VOLVER"
 	_boton_volver.queue_redraw()
-	fondo_escenario.texture = OSCURIDAD_PUERTA if paso == Paso.PERSONAJES else seleccion.escenario.imagen
+	fondo_escenario.texture = seleccion.escenario.imagen if paso == Paso.ESCENARIO else OSCURIDAD_PUERTA
 	fondo_escenario.modulate = Color.WHITE
 	sombra_fondo.visible = paso == Paso.ESCENARIO
 	if seleccion.personajes.is_empty() or seleccion.escenarios.is_empty():
@@ -329,7 +350,10 @@ func _renderizar() -> void:
 		vistas[j].visible = paso == Paso.PERSONAJES and indices[j] < seleccion.personajes.size()
 		if vistas[j].visible:
 			vistas[j].configurar(seleccion.jugadores[j], j == 1)
-	if paso == Paso.ESCENARIO:
+	_ayuda.texto = "WASD / FLECHAS: ELEGIR    F / ENTER: CONFIRMAR    ESC: VOLVER" if paso in [Paso.RIVAL, Paso.DIFICULTAD] else ("ELIGE J1 Y LUEGO LA IA CON WASD + F O FLECHAS + ENTER" if seleccion.contra_ia else "J1: WASD + F    J2: FLECHAS + ENTER    ESC: VOLVER")
+	if paso in [Paso.RIVAL, Paso.DIFICULTAD]:
+		_renderizar_configuracion()
+	elif paso == Paso.ESCENARIO:
 		_renderizar_escenarios()
 	else:
 		_renderizar_personajes()
@@ -338,7 +362,7 @@ func _renderizar() -> void:
 func _renderizar_personajes() -> void:
 	# El panel central alberga el título y una cuadrícula compacta que puede crecer.
 	_panel(Rect2(610, 100, 700, 820), Color("041020"), Color("235285"))
-	_texto("ELIGE TU LUCHADOR", Rect2(640, 145, 640, 58), 5, BLANCO)
+	_texto("ELIGE LUCHADOR IA" if seleccion.contra_ia and listos[0] and not listos[1] else "ELIGE TU LUCHADOR", Rect2(640, 145, 640, 58), 5, BLANCO)
 	_panel(Rect2(640, 220, 640, 2), Color("235285"), Color.TRANSPARENT)
 	var maximos := {"danio": 1.0, "stamina": 1.0}
 	for personaje in seleccion.personajes:
@@ -354,14 +378,14 @@ func _renderizar_personajes() -> void:
 		# Una sola card agrupa estado, personaje animado, nombre y atributos.
 		_panel(Rect2(x, 145, 490, 775), Color("061020"), color.darkened(0.55))
 		_panel(Rect2(x, 145, 490, 5), color, Color.TRANSPARENT)
-		_texto("J%d / %s" % [i + 1, "LISTO" if listo else "ELIGIENDO"], Rect2(x + 30, 177, 430, 30), 3, color).alineacion_horizontal = 0
+		_texto("%s / %s" % ["IA" if seleccion.contra_ia and i == 1 else "J%d" % (i + 1), "LISTO" if listo else "ELIGIENDO"], Rect2(x + 30, 177, 430, 30), 3, color).alineacion_horizontal = 0
 		_panel(Rect2(x + 20, 232, 450, 360), Color("020711"), Color("142439"))
 		_texto("PROXIMAMENTE" if vacio else ficha.nombre, Rect2(x + 30, 614, 430, 42), 5, BLANCO).alineacion_horizontal = 0
 		_texto("CASILLA VACIA" if vacio else ficha.subtitulo, Rect2(x + 30, 673, 430, 20), 2, color).alineacion_horizontal = 0
 		estadisticas_visibles[i] = {} if vacio else ficha.obtener_estadisticas()
 		_barra_stat("DANIO DE ATAQUE", "danio", estadisticas_visibles[i], maximos["danio"], Vector2(x + 30, 718), i, color)
 		_barra_stat("STAMINA", "stamina", estadisticas_visibles[i], maximos["stamina"], Vector2(x + 30, 784), i, color)
-		var listo_boton := _boton("CAMBIAR J%d" % (i + 1) if listo else "LISTO J%d" % (i + 1), Rect2(x + 30, 852, 430, 46), _alternar_listo.bind(i), 3)
+		var listo_boton := _boton(("CAMBIAR IA" if listo else "LISTO IA") if seleccion.contra_ia and i == 1 else ("CAMBIAR J%d" % (i + 1) if listo else "LISTO J%d" % (i + 1)), Rect2(x + 30, 852, 430, 46), _alternar_listo.bind(i), 3)
 		listo_boton.foco_jugadores = (1 << i) if focos[i] == Foco.LISTO else 0
 		botones_listo.append(listo_boton)
 	_crear_grilla(Rect2(640, 250, 640, 630), COLUMNAS_PERSONAJES, seleccion.personajes)
@@ -398,6 +422,8 @@ func _barra_stat(etiqueta: String, clave: String, stats: Dictionary, maximo: flo
 
 func _renderizar_escenarios() -> void:
 	var ficha := seleccion.escenario
+	if seleccion.contra_ia:
+		_texto("CONTRA IA / " + seleccion.NOMBRES_DIFICULTAD[seleccion.dificultad_ia], Rect2(80, 140, 1080, 32), 3, DORADO)
 	_texto("ELIGE DONDE PELEAR", Rect2(80, 205, 1080, 58), 5, AZUL).alineacion_horizontal = 0
 	_texto("PROXIMAMENTE" if indice_escenario >= seleccion.escenarios.size() else ficha.nombre, Rect2(80, 300, 1440, 100), 11, BLANCO).alineacion_horizontal = 0
 	_panel(Rect2(80, 430, 110, 6), DORADO, Color.TRANSPARENT)
@@ -519,3 +545,37 @@ func _boton(valor: String, rect: Rect2, accion: Callable, pixel: int) -> Button:
 	boton.pressed.connect(accion)
 	contenido.add_child(boton)
 	return boton
+
+
+func _cursor_humano(jugador: int) -> int:
+	if seleccion.contra_ia:
+		if paso == Paso.PERSONAJES and listos[0] and not listos[1]:
+			return 1
+		return 0
+	return jugador
+
+
+func _confirmar_configuracion(indice: int) -> void:
+	if _entrando or _iniciando:
+		return
+	if paso == Paso.RIVAL:
+		seleccion.contra_ia = indice == 1
+		paso = Paso.DIFICULTAD if seleccion.contra_ia else Paso.PERSONAJES
+		opcion_configuracion = seleccion.dificultad_ia if seleccion.contra_ia else 0
+	else:
+		seleccion.dificultad_ia = indice as EstadoSeleccionPartida.Dificultad
+		paso = Paso.PERSONAJES
+	_renderizar()
+	_habilitado = false
+
+
+func _renderizar_configuracion() -> void:
+	var rival := paso == Paso.RIVAL
+	_panel(Rect2(460, 220, 1000, 660), Color("041020"), Color("235285"))
+	_texto("ELIGE TU RIVAL" if rival else "DIFICULTAD DE LA IA", Rect2(500, 270, 920, 65), 6, BLANCO)
+	var opciones: Array = ["PERSONA", "INTELIGENCIA ARTIFICIAL"] if rival else ["FACIL", "NORMAL", "DIFICIL"]
+	var descripciones: Array = ["DOS JUGADORES EN ESTE EQUIPO", "JUEGA EN SOLITARIO CONTRA LA CPU"] if rival else ["REACCIONES LENTAS Y DEFENSA OCASIONAL", "ATAQUE Y DEFENSA EQUILIBRADOS", "REACCIONES RAPIDAS Y MAYOR PRESION"]
+	for i in opciones.size():
+		var boton := _boton(opciones[i], Rect2(560, 385 + i * 140, 800, 70), _confirmar_configuracion.bind(i), 4)
+		boton.foco_jugadores = 1 if opcion_configuracion == i else 0
+		_texto(descripciones[i], Rect2(510, 465 + i * 140, 900, 28), 2, DORADO)

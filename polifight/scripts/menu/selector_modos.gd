@@ -16,8 +16,8 @@ const MODOS := [
 		"escena": "",
 	},
 	{
-		"titulo": "1 VS 1", "subtitulo": "DUELO LOCAL",
-		"descripcion": "DOS JUGADORES. UN SOLO GANADOR.",
+		"titulo": "1 VS 1", "subtitulo": "PERSONA O IA",
+		"descripcion": "ELIGE TU RIVAL Y DOMINA EL DUELO.",
 		"arte": preload("res://assets/ui/selector_modos/duelo_local.png"),
 		"escena": "seleccion",
 	},

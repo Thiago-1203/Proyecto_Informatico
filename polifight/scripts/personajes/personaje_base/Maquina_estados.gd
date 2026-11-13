@@ -26,6 +26,9 @@ func _iniciar_estado()->void:
 	estado_actual.start()
 
 func cambiar_a(nuevo_estado:String) -> void:
+	# Puños y patadas comparten recuperación, incluso al alternarlos o usar IA.
+	if nuevo_estado in ["Puño", "Patada"] and not nodo_controlado.puede_atacar():
+		return
 	if estado_actual and estado_actual.has_method("end"): 
 		estado_actual.end()
 	estado_actual = get_node(nuevo_estado)
@@ -42,12 +45,21 @@ func _process(delta: float) -> void:
 		estado_actual.on_process(delta)
 		
 func _physics_process(delta: float) -> void:
+	if nodo_controlado.controlado_por_ia and nodo_controlado.controlador_ia != null:
+		nodo_controlado.controlador_ia.actualizar(nodo_controlado, delta)
+		if estado_actual and estado_actual.has_method("on_input"):
+			var evento := InputEventAction.new()
+			evento.action = nodo_controlado.accion("patada")
+			evento.pressed = nodo_controlado.entrada_recien_presionada(evento.action)
+			estado_actual.on_input(evento)
 	if estado_actual and estado_actual.has_method("on_physics_process"):
 		estado_actual.on_physics_process(delta)
 	if is_instance_valid(nodo_controlado):
 		nodo_controlado.resolver_empuje_oponente()
 		
 func _input(event: InputEvent) -> void:
+	if nodo_controlado.controlado_por_ia:
+		return
 	if estado_actual and estado_actual.has_method("on_input"):
 		estado_actual.on_input(event)
 		

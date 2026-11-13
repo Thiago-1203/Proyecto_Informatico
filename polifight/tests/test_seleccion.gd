@@ -67,6 +67,10 @@ func _probar() -> void:
 		return
 	_exigir(selector._entrando and selector.lienzo.modulate.a < 1.0, "La interfaz debe aparecer gradualmente")
 	await _esperar_aparicion(selector)
+	_exigir(selector.paso == selector.Paso.RIVAL, "El duelo debe permitir elegir el rival")
+	selector._confirmar_configuracion(0)
+	await process_frame
+	await process_frame
 	_exigir(selector.fondo_escenario.texture == selector.OSCURIDAD_PUERTA and not selector.sombra_fondo.visible, "Personajes debe usar la oscuridad original de la puerta")
 	_exigir(selector.estadisticas_visibles[0] == {"danio": 10, "stamina": 100.0}, "Las estadísticas deben venir de la escena real de Barbieri")
 	_exigir(selector.contenido.get_node("DanioJ1").texto == "10" and selector.contenido.get_node("StaminaJ1").texto == "100", "Deben verse los números de daño y stamina")
@@ -220,6 +224,9 @@ func _probar() -> void:
 	var segundo := load("res://escenas/menu/selector_combate.tscn").instantiate() as Control
 	root.add_child(segundo)
 	await _esperar_aparicion(segundo)
+	segundo._confirmar_configuracion(0)
+	await process_frame
+	await process_frame
 	_exigir(segundo.listos == [false, false] and segundo.indices == [0, 0], "Un nuevo duelo debe reiniciar ambos jugadores")
 	for i in 20:
 		var extra := seleccion.personajes[0].duplicate() as FichaSeleccion

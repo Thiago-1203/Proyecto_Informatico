@@ -37,10 +37,6 @@ func _draw() -> void:
 	draw_rect(Rect2(24, 335, 592, 3), borde.darkened(0.45))
 	var pixel_titulo := 11 if titulo.length() < 8 else 8
 	_texto(titulo, 350, pixel_titulo, Color("fff2d5"))
-	if "VS" in titulo:
-		var ancho := FUENTE_PIXEL.calcular_ancho(titulo, pixel_titulo)
-		var inicio_vs := Vector2(floorf((640.0 - ancho) * 0.5) + titulo.find("VS") * 6 * pixel_titulo, 350)
-		_glifos_gruesos("VS", inicio_vs, pixel_titulo, DORADO if seleccionado else AZUL)
 	draw_rect(Rect2(62, 433, 516, 36), AZUL)
 	_texto(subtitulo, 440, 3, Color("031020"))
 	if seleccionado:
@@ -70,11 +66,3 @@ func _texto(contenido: String, y: float, pixel: int, color: Color) -> void:
 	if color.get_luminance() > 0.2:
 		FUENTE_PIXEL.dibujar_texto(self, contenido, origen + Vector2(2, 3), pixel, Color("020711"))
 	FUENTE_PIXEL.dibujar_texto(self, contenido, origen, pixel, color)
-	if pixel >= 8:
-		# Refuerza el peso del alfabeto del juego en los títulos grandes.
-		_glifos_gruesos(contenido, origen, pixel, color)
-
-
-func _glifos_gruesos(contenido: String, origen: Vector2, pixel: int, color: Color) -> void:
-	for desplazamiento in [Vector2.ZERO, Vector2(pixel * 0.45, 0), Vector2(0, pixel * 0.2), Vector2(pixel * 0.45, pixel * 0.2)]:
-		FUENTE_PIXEL.dibujar_texto(self, contenido, origen + desplazamiento.floor(), pixel, color)

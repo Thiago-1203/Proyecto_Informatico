@@ -35,6 +35,11 @@ const JUMP_GRAVITY_MULTIPLIER: float = 1.5
 @export var vida_maxima: int = 100
 @export var danio: int
 
+@export_category("Ataques")
+## Pausa adicional después de terminar o interrumpir un puño o una patada.
+@export_range(0.0, 3.0, 0.05) var cooldown_ataque: float = 0.6
+var cooldown_ataque_restante: float = 0.0
+
 @export_category("Stamina")
 @export_range(1.0, 500.0, 1.0) var stamina_maxima: float = 100.0
 @export_range(1.0, 100.0, 1.0) var costo_stamina_bloqueo: float = 25.0
@@ -68,9 +73,15 @@ var tween_destello: Tween
 var material_destello: ShaderMaterial
 var ko_final_notificado: bool = false
 var oponente: Personaje
+var controlado_por_ia: bool = false
+var dificultad_ia: int = 1
+var controlador_ia: RefCounted
+
 
 
 func _ready() -> void:
+	if controlado_por_ia:
+		controlador_ia = preload("res://scripts/juego/ia_combate.gd").new(dificultad_ia)
 	vida_actual = vida_maxima
 	stamina_actual = stamina_maxima
 	material_destello = ShaderMaterial.new()
@@ -93,7 +104,8 @@ func _process(delta: float) -> void:
 	_cambiar_stamina(stamina_actual + recuperacion_stamina_por_segundo * delta)
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	cooldown_ataque_restante = maxf(0.0, cooldown_ataque_restante - delta)
 	_actualizar_direccion_hacia_oponente()
 
 
@@ -414,3 +426,30 @@ func mirar_hacia(direccion: int) -> void:
 	contenedor_hitboxes.scale.x = direccion_mirada
 	
 	
+
+
+# Entrada propia por luchador: la IA nunca modifica las teclas globales de J2.
+func entrada_presionada(nombre: StringName) -> bool:
+	if controlado_por_ia:
+		return controlador_ia != null and controlador_ia.acciones.has(nombre)
+	return Input.is_action_pressed(nombre)
+
+
+func entrada_recien_presionada(nombre: StringName) -> bool:
+	if controlado_por_ia:
+		return controlador_ia != null and controlador_ia.recien_presionadas.has(nombre)
+	return Input.is_action_just_pressed(nombre)
+
+
+func eje_entrada(izquierda: StringName, derecha: StringName) -> float:
+	if controlado_por_ia:
+		return float(entrada_presionada(derecha)) - float(entrada_presionada(izquierda))
+	return Input.get_axis(izquierda, derecha)
+
+
+func puede_atacar() -> bool:
+	return vida_actual > 0 and cooldown_ataque_restante <= 0.0 and not hitbox.ataque_en_curso
+
+
+func iniciar_cooldown_ataque() -> void:
+	cooldown_ataque_restante = cooldown_ataque

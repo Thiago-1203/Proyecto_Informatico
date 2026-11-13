@@ -40,9 +40,9 @@ func _cuando_termina_animacion(nombre:StringName)-> void:
 	var izquierda := nodo_controlado.accion("izquierda")
 	var derecha := nodo_controlado.accion("derecha")
 	var agacharse := nodo_controlado.accion("agacharse")
-	var direccion := Input.get_axis(izquierda,derecha)
+	var direccion := nodo_controlado.eje_entrada(izquierda,derecha)
 	
-	if Input.is_action_pressed(agacharse) and nodo_controlado.is_on_floor():
+	if nodo_controlado.entrada_presionada(agacharse) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Agacharse")
 	elif direccion == 0.0:
 		maquina_estados.cambiar_a("Idle")
@@ -52,6 +52,7 @@ func _cuando_termina_animacion(nombre:StringName)-> void:
 
 
 func end()-> void:
+	nodo_controlado.iniciar_cooldown_ataque()
 	nodo_controlado.hitbox.finalizar_ataque()
 	if nodo_controlado.animacion.animation_finished.is_connected(_cuando_termina_animacion):
 		nodo_controlado.animacion.animation_finished.disconnect(_cuando_termina_animacion)

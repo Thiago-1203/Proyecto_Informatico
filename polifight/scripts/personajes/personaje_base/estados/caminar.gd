@@ -7,7 +7,7 @@ func on_physics_process(delta: float) -> void:
 	
 	var izquierda := nodo_controlado.accion("izquierda")
 	var derecha := nodo_controlado.accion("derecha")
-	nodo_controlado.velocity.x = Input.get_axis(izquierda,derecha) * nodo_controlado.SPEED 
+	nodo_controlado.velocity.x = nodo_controlado.eje_entrada(izquierda,derecha) * nodo_controlado.SPEED 
 	
 	gravity(delta)
 	nodo_controlado.move_and_slide()
@@ -24,17 +24,17 @@ func on_input(_event):
 	var bloqueo := nodo_controlado.accion("bloqueo")
 	var patada := nodo_controlado.accion("patada")
 	
-	if Input.is_action_pressed(bloqueo) and nodo_controlado.is_on_floor() and nodo_controlado.puede_bloquear() and maquina_estados.tiene_estado(&"Bloqueando"):
+	if nodo_controlado.entrada_presionada(bloqueo) and nodo_controlado.is_on_floor() and nodo_controlado.puede_bloquear() and maquina_estados.tiene_estado(&"Bloqueando"):
 		maquina_estados.cambiar_a("Bloqueando")
 	elif _event.is_action_pressed(patada) and nodo_controlado.is_on_floor() and maquina_estados.tiene_estado(&"Patada"):
 		maquina_estados.cambiar_a("Patada")
-	elif not Input.is_action_pressed(derecha) and not Input.is_action_pressed(izquierda) and nodo_controlado.is_on_floor():
+	elif not nodo_controlado.entrada_presionada(derecha) and not nodo_controlado.entrada_presionada(izquierda) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Idle")
-	elif Input.is_action_pressed(salto) and nodo_controlado.is_on_floor():
+	elif nodo_controlado.entrada_presionada(salto) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Saltar")
-	elif Input.is_action_just_pressed(ataque):
+	elif nodo_controlado.entrada_recien_presionada(ataque):
 		maquina_estados.cambiar_a("Puño")
-	elif Input.is_action_pressed(agacharse) and nodo_controlado.is_on_floor():
+	elif nodo_controlado.entrada_presionada(agacharse) and nodo_controlado.is_on_floor():
 		maquina_estados.cambiar_a("Agacharse")
 	
 		

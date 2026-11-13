@@ -82,6 +82,7 @@ func _probar_jugador(numero: int) -> void:
 	_exigir(forma.position == Vector2(163, -39))
 	_exigir((forma.shape as RectangleShape2D).size == Vector2(94, 76))
 	_exigir(is_equal_approx(atacante.hitbox.multiplicador_retroceso, 1.0))
+	await _esperar_cooldown(atacante)
 	# El puño posterior conserva su impulso original y vuelve a golpear.
 	_colocar(nivel)
 	atacante.maquina_estados.cambiar_a("Puño")
@@ -89,6 +90,7 @@ func _probar_jugador(numero: int) -> void:
 	_exigir(defensor.vida_actual == 80)
 	_exigir(impactos.size() == 2)
 	_exigir(is_equal_approx(impactos[1], 180.0))
+	await _esperar_cooldown(atacante)
 	# Un bloqueo recibe más empuje pero sigue evitando daño.
 	_colocar(nivel)
 	Input.action_press(defensor.accion("bloqueo"))
@@ -102,6 +104,7 @@ func _probar_jugador(numero: int) -> void:
 	Input.action_release(defensor.accion("bloqueo"))
 	_tecla_patada(numero, false)
 	await create_timer(0.6, true, true).timeout
+	await _esperar_cooldown(atacante)
 	# La patada interrumpida limpia la forma y no deja un golpe pendiente.
 	_colocar(nivel)
 	_tecla_patada(numero)
@@ -114,6 +117,7 @@ func _probar_jugador(numero: int) -> void:
 	_tecla_patada(numero, false)
 	await create_timer(0.6, true, true).timeout
 	_exigir(defensor.vida_actual == 80)
+	await _esperar_cooldown(atacante)
 	# Un golpe final de patada conserva KO y celebración.
 	_colocar(nivel)
 	defensor.vida_actual = 10
@@ -148,6 +152,7 @@ func _probar_transiciones() -> void:
 		Input.action_release(jugador.accion("derecha"))
 		Input.action_release(jugador.accion("agacharse"))
 		jugador.maquina_estados.cambiar_a("Idle")
+		await _esperar_cooldown(jugador)
 	# La pausa congela una patada en curso.
 	_tecla_patada(1)
 	await create_timer(0.1, true, true).timeout
@@ -177,3 +182,8 @@ func _exigir(condicion: bool, mensaje: String = "Comprobación fallida") -> void
 		push_error(mensaje)
 		print_stack()
 		quit(1)
+
+
+func _esperar_cooldown(jugador: Personaje) -> void:
+	if jugador.cooldown_ataque_restante > 0.0:
+		await create_timer(jugador.cooldown_ataque_restante + 0.05, false, true).timeout

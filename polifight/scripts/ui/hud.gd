@@ -14,11 +14,13 @@ extends Control
 @onready var acento_izquierdo: ColorRect = $AnuncioGanador/Centro/ImpactoVictoria/AcentoIzquierdo
 @onready var acento_derecho: ColorRect = $AnuncioGanador/Centro/ImpactoVictoria/AcentoDerecho
 
+var rival_es_ia: bool = false
 var tween_anuncio_ganador: Tween
 var tween_colores_victoria: Tween
 
 
 func configurar(jugador1: Personaje, jugador2: Personaje) -> void:
+	rival_es_ia = jugador2.controlado_por_ia
 	anuncio_ganador.hide()
 	barra_jugador1.max_value = jugador1.vida_maxima
 	barra_jugador2.max_value = jugador2.vida_maxima
@@ -58,7 +60,7 @@ func _actualizar_stamina_jugador_2(stamina_actual: float, _stamina_maxima: float
 
 
 func mostrar_ganador(numero_jugador: int) -> void:
-	texto_ganador.texto = "JUGADOR %d GANA!" % numero_jugador
+	texto_ganador.texto = "LA IA GANA!" if rival_es_ia and numero_jugador == 2 else "JUGADOR %d GANA!" % numero_jugador
 	anuncio_ganador.show()
 	call_deferred("_animar_anuncio_ganador")
 

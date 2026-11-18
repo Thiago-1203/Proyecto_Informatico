@@ -1,38 +1,38 @@
 [gd_scene load_steps=8 format=3 uid="uid://bwynchet8u8m1"]
 
 [ext_resource type="Script" uid="uid://1e0pvfx04lby" path="res://scripts/ui/menu_pausa.gd" id="1_menu"]
-[ext_resource type="Script" uid="uid://4c5ay2alhqi6" path="res://scripts/ui/texto_pixel.gd" id="2_texto"]
-[ext_resource type="Script" uid="uid://b386ir1coo3wc" path="res://scripts/menu/boton_pixel.gd" id="3_boton"]
+[ext_resource type="Script" path="res://scripts/ui/texto_arcade.gd" id="2_texto"]
+[ext_resource type="Script" path="res://scripts/menu/boton_arcade.gd" id="3_boton"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
 bg_color = Color(0.022, 0.047, 0.086, 0.985)
-border_width_left = 6
-border_width_top = 6
-border_width_right = 6
-border_width_bottom = 6
-border_color = Color(0.95, 0.61, 0.09, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.65, 0.42, 0.12, 1)
 shadow_color = Color(0.005, 0.012, 0.03, 0.72)
 shadow_size = 18
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_interior"]
 bg_color = Color(0.035, 0.075, 0.13, 0.96)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
 border_color = Color(0.19, 0.34, 0.47, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_etiqueta"]
 bg_color = Color(0.66, 0.105, 0.075, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
 border_color = Color(1, 0.48, 0.11, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_pie"]
 bg_color = Color(0.016, 0.035, 0.07, 0.94)
-border_width_top = 2
+border_width_top = 0
 border_color = Color(0.19, 0.34, 0.47, 1)
 
 [node name="MenuPausa" type="CanvasLayer"]
@@ -59,6 +59,7 @@ mouse_filter = 2
 color = Color(0.008, 0.018, 0.04, 0.42)
 
 [node name="TramaSuperior" type="ColorRect" parent="Interfaz"]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -68,6 +69,7 @@ mouse_filter = 2
 color = Color(0.96, 0.54, 0.08, 0.78)
 
 [node name="TramaInferior" type="ColorRect" parent="Interfaz"]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_right = 1.0
@@ -88,7 +90,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="Interfaz/Centro"]
-custom_minimum_size = Vector2(600, 512)
+custom_minimum_size = Vector2(600, 440)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_panel")
 
@@ -116,6 +118,7 @@ theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Etiqueta" type="PanelContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+visible = false
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -137,11 +140,12 @@ layout_mode = 2
 script = ExtResource("2_texto")
 texto = "PAUSA"
 tamano_pixel = 7
-color = Color(1, 0.76, 0.18, 1)
-color_sombra = Color(0.43, 0.055, 0.045, 1)
+color = Color(0.95, 0.96, 1, 1)
+color_sombra = Color(0.02, 0.03, 0.05, 1)
 desplazamiento_sombra = Vector2(4, 4)
 
 [node name="Separador" type="HBoxContainer" parent="Interfaz/Centro/Panel/MargenExterior/Interior/Margen/Contenido"]
+visible = false
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 theme_override_constants/separation = 8
@@ -172,9 +176,10 @@ color = Color(0.19, 0.34, 0.47, 1)
 unique_name_in_owner = true
 custom_minimum_size = Vector2(478, 60)
 layout_mode = 2
+focus_neighbor_top = NodePath("../VolverMenu")
 focus_neighbor_bottom = NodePath("../Reiniciar")
 script = ExtResource("3_boton")
-texto = "CONTINUAR"
+texto = "SEGUIR JUGANDO"
 tamano_pixel = 4
 color_normal = Color(0.78, 0.9, 1, 1)
 dibujar_marco = true
@@ -186,7 +191,7 @@ layout_mode = 2
 focus_neighbor_top = NodePath("../Continuar")
 focus_neighbor_bottom = NodePath("../VolverMenu")
 script = ExtResource("3_boton")
-texto = "REINICIAR PELEA"
+texto = "REINICIAR"
 tamano_pixel = 4
 color_normal = Color(0.78, 0.9, 1, 1)
 dibujar_marco = true
@@ -196,8 +201,9 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(478, 60)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Reiniciar")
+focus_neighbor_bottom = NodePath("../Continuar")
 script = ExtResource("3_boton")
-texto = "VOLVER AL MENU"
+texto = "MENU PRINCIPAL"
 tamano_pixel = 4
 color_normal = Color(0.78, 0.9, 1, 1)
 dibujar_marco = true

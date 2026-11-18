@@ -52,16 +52,10 @@ func _probar() -> void:
 	current_scene = modos
 	await create_timer(0.7).timeout
 	modos._confirmar()
-	_exigir(not is_instance_valid(modos.selector_combate), "No debe haber selección antes de abrir la puerta")
+	_exigir(not is_instance_valid(modos.selector_combate), "La salida del selector de modos debe ser gradual")
 	await create_timer(0.25).timeout
-	_exigir(is_instance_valid(modos.entrada_puerta), "Debe reproducirse la entrada a la puerta")
-	_exigir(not is_instance_valid(modos.selector_combate), "Durante la apertura no debe aparecer el selector")
-	for i in 40:
-		if is_instance_valid(modos.selector_combate):
-			break
-		await create_timer(0.1).timeout
 	var selector: Control = modos.selector_combate
-	_exigir(is_instance_valid(selector) and modos.puerta_finalizada, "La selección debe aparecer después de la cinemática")
+	_exigir(is_instance_valid(selector), "1 VS 1 abre la selección sin repetir la puerta")
 	if not is_instance_valid(selector):
 		quit(1)
 		return
@@ -73,7 +67,7 @@ func _probar() -> void:
 	await process_frame
 	_exigir(selector.fondo_escenario.texture == selector.OSCURIDAD_PUERTA and not selector.sombra_fondo.visible, "Personajes debe usar la oscuridad original de la puerta")
 	_exigir(selector.estadisticas_visibles[0] == {"danio": 10, "stamina": 100.0}, "Las estadísticas deben venir de la escena real de Barbieri")
-	_exigir(selector.contenido.get_node("DanioJ1").texto == "10" and selector.contenido.get_node("StaminaJ1").texto == "100", "Deben verse los números de daño y stamina")
+	_exigir(not selector.contenido.has_node("DanioJ1") and not selector.contenido.has_node("StaminaJ1"), "El selector arcade omite los números de daño y stamina")
 	_exigir(selector.tarjetas[0].find_children("*", "AnimationPlayer", true, false).is_empty(), "La tarjeta central no debe reproducir idle")
 	var retrato: TextureRect = selector.tarjetas[0].find_children("*", "TextureRect", true, false)[0]
 	var textura_retrato := retrato.texture
@@ -151,7 +145,7 @@ func _probar() -> void:
 	_tecla(selector, KEY_D)
 	_exigir(selector.indices == [1, 0], "Debe poder elegir un nuevo personaje sin mover a J2")
 	_exigir(selector.estadisticas_visibles[0] == {"danio": 23, "stamina": 145.0}, "Las stats deben actualizarse con el personaje seleccionado")
-	_exigir(selector.contenido.get_node("DanioJ1").texto == "23" and selector.contenido.get_node("StaminaJ1").texto == "145", "Los números visibles deben actualizarse sin duplicar datos de combate")
+	_exigir(not selector.contenido.has_node("DanioJ1"), "La selección arcade conserva los datos del catálogo sin mostrar estadísticas")
 	_exigir(selector.estadisticas_visibles[1]["danio"] == 10, "Las stats de J2 deben conservar su elección")
 	_tecla(selector, KEY_F)
 	_tecla(selector, KEY_ENTER)
@@ -166,7 +160,7 @@ func _probar() -> void:
 	_tecla(selector, KEY_F)
 	var transicion := root.get_node("TransicionCombate")
 	_exigir(transicion.activo and paused, "Confirmar el mapa debe iniciar una transición que bloquee el combate")
-	_exigir(not is_instance_valid(modos.entrada_puerta), "La puerta no debe repetirse al iniciar el combate")
+	_exigir(modos.find_children("EntradaColegio", "CanvasLayer", true, false).is_empty(), "La puerta no debe repetirse al iniciar el combate")
 	_exigir(current_scene == modos and not transicion.cartel.visible, "El fundido debe comenzar sobre la selección, antes de cargar la arena")
 	await create_timer(0.08, true, false, true).timeout
 	_exigir(transicion.velo.modulate.a > 0.0 and transicion.velo.modulate.a < 1.0, "El cambio de escena debe tener un fundido gradual")

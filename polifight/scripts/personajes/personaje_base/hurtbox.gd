@@ -19,11 +19,14 @@ func _cuando_entra_un_area(area: Area2D) -> void:
 	if not hitbox_recibida.registrar_impacto(personaje):
 		return
 
+	var vida_anterior := personaje.vida_actual
 	golpe_recibido.emit(
 		hitbox_recibida.danio,
 		hitbox_recibida.atacante,
 		hitbox_recibida.multiplicador_retroceso
 	)
+	if personaje.vida_actual < vida_anterior:
+		hitbox_recibida.impacto_con_danio.emit(personaje)
 
 func configurar(nuevo_personaje: Personaje) -> void:
 	personaje = nuevo_personaje

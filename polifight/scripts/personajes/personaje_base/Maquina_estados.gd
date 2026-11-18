@@ -26,6 +26,8 @@ func _iniciar_estado()->void:
 	estado_actual.start()
 
 func cambiar_a(nuevo_estado:String) -> void:
+	if nuevo_estado == "Ulti" and (not nodo_controlado.has_method("puede_usar_ulti") or not nodo_controlado.call("puede_usar_ulti")):
+		return
 	# Puños y patadas comparten recuperación, incluso al alternarlos o usar IA.
 	if nuevo_estado in ["Puño", "Patada"] and not nodo_controlado.puede_atacar():
 		return

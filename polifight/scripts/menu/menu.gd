@@ -1,5 +1,7 @@
 extends Control
 
+const ENTRADA_COLEGIO = preload("res://escenas/menu/entrada_colegio.tscn")
+
 const SELECTOR_MODOS: PackedScene = preload("res://escenas/menu/selector_modos.tscn")
 
 @onready var logo: TextureRect = $CenterContainer/MenuContent/LogoSlot/Logo
@@ -11,8 +13,20 @@ const SELECTOR_MODOS: PackedScene = preload("res://escenas/menu/selector_modos.t
 @onready var salir_flecha_derecha: Control = $CenterContainer/MenuContent/SalirRow/FlechaDerechaSlot/FlechaDerecha
 
 var animacion_flechas: Tween
+var entrada_puerta: CanvasLayer
+var puerta_finalizada := false
 var selector_modos: Control
 var _abriendo_selector: bool = false
+var _mando_que_confirma := -1
+
+func _input(event: InputEvent) -> void:
+	if _abriendo_selector or is_instance_valid(selector_modos):
+		return
+	if event is InputEventJoypadButton and event.is_action_pressed("ui_accept"):
+		_mando_que_confirma = event.device
+	elif event is InputEventKey or event is InputEventMouseButton:
+		_mando_que_confirma = -1
+
 
 
 func _on_cinematica_entrada_finalizada() -> void:
@@ -94,7 +108,10 @@ func _on_salir_mouse_entered() -> void:
 func _on_jugar_pressed() -> void:
 	if _abriendo_selector or is_instance_valid(selector_modos):
 		return
+	if _mando_que_confirma >= 0:
+		get_node("/root/EntradaMandos").asignar_principal(_mando_que_confirma)
 	_abriendo_selector = true
+	puerta_finalizada = false
 	boton_jugar.disabled = true
 	boton_salir.disabled = true
 	boton_jugar.release_focus()
@@ -107,10 +124,21 @@ func _on_jugar_pressed() -> void:
 	).set_ease(Tween.EASE_IN)
 	await salida.finished
 
+	$CenterContainer.hide()
+	entrada_puerta = ENTRADA_COLEGIO.instantiate()
+	entrada_puerta.fotograma_inicial = $CinematicaColegio.obtener_fotograma_actual()
+	entrada_puerta.fondo_animado = $CinematicaColegio
+	add_child(entrada_puerta)
+	entrada_puerta.reproducir()
+	await entrada_puerta.finalizada
+	puerta_finalizada = true
+	entrada_puerta.set_process_input(false)
+	entrada_puerta.pantalla.hide()
+	entrada_puerta.queue_free()
+
 	selector_modos = SELECTOR_MODOS.instantiate()
 	selector_modos.set("usar_fondo_del_menu", true)
 	selector_modos.connect("volver_solicitado", _cerrar_selector)
-	$CenterContainer.hide()
 	add_child(selector_modos)
 	selector_modos.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_abriendo_selector = false

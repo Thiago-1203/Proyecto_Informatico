@@ -5,10 +5,14 @@ const ESCENA_MENU_PRINCIPAL: String = "res://escenas/menu/menu.tscn"
 @export var ruta_menu_pausa: NodePath = ^"../MenuPausa"
 
 @onready var menu_pausa = get_node(ruta_menu_pausa)
+@onready var hud = get_node_or_null("../HUDLayer/HUD")
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if hud != null:
+		hud.reiniciar_solicitado.connect(_reiniciar_combate)
+		hud.volver_al_menu_solicitado.connect(_volver_al_menu)
 	menu_pausa.continuar_solicitado.connect(_reanudar_combate)
 	menu_pausa.reiniciar_solicitado.connect(_reiniciar_combate)
 	menu_pausa.volver_al_menu_solicitado.connect(_volver_al_menu)
@@ -19,6 +23,8 @@ func _exit_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if hud != null and hud.anuncio_ganador.visible:
+		return
 	var transicion := get_node_or_null("/root/TransicionCombate")
 	if transicion != null and transicion.activo:
 		return

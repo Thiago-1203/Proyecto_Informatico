@@ -1,5 +1,5 @@
 extends CanvasLayer
-## Persiste durante el cambio de escena; el combate queda bloqueado hasta retirar FIGTH.
+## Persiste durante el cambio de escena; el combate queda bloqueado hasta retirar FIGHT.
 
 signal finalizada
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 	pantalla.add_child(velo)
 	velo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	cartel = TextureRect.new()
-	cartel.name = "CartelFIGTH"
+	cartel.name = "CartelFIGHT"
 	cartel.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	cartel.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	cartel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

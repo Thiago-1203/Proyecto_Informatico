@@ -60,6 +60,8 @@ func actualizar(personaje: Personaje, delta: float) -> void:
 	if distancia < 460.0 and rival_ataca and personaje.puede_bloquear() and azar.randf() < float(perfil.defensa):
 		_presionar(personaje, "bloqueo")
 	# A distancia de golpe, aprovechar la apertura antes de decidir moverse.
+	elif distancia >= 380.0 and distancia <= 1000.0 and personaje.has_method("puede_usar_ulti") and personaje.call("puede_usar_ulti"):
+		_presionar(personaje, "ulti")
 	elif distancia <= 355.0 and personaje.is_on_floor() and personaje.puede_atacar() and descanso_ataque <= 0.0 and azar.randf() < float(perfil.ataque):
 		_presionar(personaje, "patada" if distancia > 325.0 or azar.randf() < 0.4 else "ataque")
 		descanso_ataque = float(perfil.descanso)

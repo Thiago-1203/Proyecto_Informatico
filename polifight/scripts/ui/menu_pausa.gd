@@ -43,3 +43,15 @@ func ocultar() -> void:
 	if tween_entrada != null and tween_entrada.is_valid():
 		tween_entrada.kill()
 	interfaz.hide()
+
+
+func _input(event: InputEvent) -> void:
+	if not interfaz.visible:
+		return
+	if event is InputEventJoypadButton and event.pressed and event.button_index == JOY_BUTTON_B:
+		get_viewport().set_input_as_handled()
+		# B cierra el menú: esa pulsación no debe convertirse en una patada.
+		var jugador: int = get_node("/root/EntradaMandos").jugador_para_dispositivo(event.device)
+		if jugador >= 0:
+			Input.action_release(StringName("j%d_patada" % (jugador + 1)))
+		continuar_solicitado.emit()

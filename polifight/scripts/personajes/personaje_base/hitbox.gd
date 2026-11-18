@@ -1,6 +1,8 @@
 class_name Hitbox
 extends Area2D
 
+signal impacto_con_danio(objetivo: Personaje)
+
 #hitbox es donde el personaje le hace daño a otros
 
 var atacante: Personaje

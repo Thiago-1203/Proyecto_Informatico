@@ -1,68 +1,52 @@
 extends Control
-## Ilustración independiente y texto editable; el marco responde al foco del carrusel.
-
-const FUENTE_PIXEL = preload("res://scripts/ui/fuente_pixel.gd")
-const AZUL := Color("52b8ff")
-const DORADO := Color("ffb80d")
-
+signal elegida
+const FUENTE = preload("res://scripts/ui/fuente_arcade.gd")
+const ESTILO = preload("res://scripts/menu/estilo_arcade.gd")
 @export var ilustracion: Texture2D
 @export var titulo: String = "1 VS 1"
-@export var subtitulo: String = "DUELO LOCAL"
-@export var descripcion: String = "DOS JUGADORES. UN SOLO GANADOR."
-var seleccionado: bool = false:
+@export var subtitulo: String
+@export var descripcion: String
+var disponible := false
+var tiempo := 0.0
+var seleccionado := false:
 	set(valor):
 		seleccionado = valor
 		queue_redraw()
-
-
 func _ready() -> void:
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	focus_mode = Control.FOCUS_ALL
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	resized.connect(queue_redraw)
-
-
+	mouse_entered.connect(queue_redraw)
+	mouse_exited.connect(queue_redraw)
+func _process(delta: float) -> void:
+	if is_visible_in_tree():
+		tiempo += delta
+		queue_redraw()
+func _gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right") or event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down"):
+		accept_event()
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		elegida.emit()
+		accept_event()
 func _draw() -> void:
-	var borde := DORADO if seleccionado else AZUL
-	_marco(Rect2(8, 12, 640, 520), 16, Color(0.01, 0.02, 0.05, 0.8))
-	_marco(Rect2(0, 0, 640, 520), 16, Color("020711"))
-	_marco(Rect2(5, 5, 630, 510), 14, borde.darkened(0.45))
-	_marco(Rect2(9, 9, 622, 502), 12, borde)
-	_marco(Rect2(15, 15, 610, 490), 9, Color("061225"))
+	var acento := Color("ffc34a") if seleccionado else Color("68758f")
+	ESTILO.marco(self, Rect2(Vector2.ZERO, size), Color("152347") if seleccionado else Color("10172c"), acento, seleccionado)
 	if ilustracion != null:
-		var espacio := Rect2(21, 21, 598, 310)
+		var espacio := Rect2(30, 76, size.x - 60, 300)
 		var factor := minf(espacio.size.x / ilustracion.get_width(), espacio.size.y / ilustracion.get_height())
-		var tamano := ilustracion.get_size() * factor
-		var origen := (espacio.position + (espacio.size - tamano) * 0.5).floor()
-		draw_texture_rect(ilustracion, Rect2(origen, tamano.floor()), false)
-	draw_rect(Rect2(24, 335, 592, 3), borde.darkened(0.45))
-	var pixel_titulo := 11 if titulo.length() < 8 else 8
-	_texto(titulo, 350, pixel_titulo, Color("fff2d5"))
-	draw_rect(Rect2(62, 433, 516, 36), AZUL)
-	_texto(subtitulo, 440, 3, Color("031020"))
+		var tamano := (ilustracion.get_size() * factor).floor()
+		var flotacion := roundf(sin(tiempo * 2.2) * 5.0) if seleccionado else 0.0
+		draw_texture_rect(ilustracion, Rect2((espacio.position + (espacio.size - tamano) * 0.5).floor() + Vector2(0, flotacion), tamano), false, Color.WHITE if disponible else Color("76829d"))
+	_centrar(titulo, 425, 8, Color("fff0b5") if seleccionado else Color("9ca9bf"))
+	_centrar("AMIGO O IA" if disponible else "PROXIMAMENTE", 515, 3, acento)
 	if seleccionado:
-		_texto(descripcion, 482, 3 if titulo == "1 VS 1" else 2, Color("dceaff"))
-	if seleccionado:
-		for esquina in [Vector2(4, 4), Vector2(608, 4), Vector2(4, 492), Vector2(608, 492)]:
-			draw_rect(Rect2(esquina, Vector2(28, 8)), Color("ff5a05"))
-			draw_rect(Rect2(esquina + Vector2(8, 0), Vector2(12, 12)), Color("ffe173"))
-
-
-func _marco(rectangulo: Rect2, corte: float, color: Color) -> void:
-	var a := rectangulo.position
-	var b := rectangulo.end
-	draw_colored_polygon(PackedVector2Array([
-		Vector2(a.x + corte, a.y), Vector2(b.x - corte, a.y),
-		Vector2(b.x - corte, a.y + corte), Vector2(b.x, a.y + corte),
-		Vector2(b.x, b.y - corte), Vector2(b.x - corte, b.y - corte),
-		Vector2(b.x - corte, b.y), Vector2(a.x + corte, b.y),
-		Vector2(a.x + corte, b.y - corte), Vector2(a.x, b.y - corte),
-		Vector2(a.x, a.y + corte), Vector2(a.x + corte, a.y + corte),
-	]), color)
-
-
-func _texto(contenido: String, y: float, pixel: int, color: Color) -> void:
-	var ancho := FUENTE_PIXEL.calcular_ancho(contenido, pixel)
-	var origen := Vector2(floorf((640.0 - ancho) * 0.5), y)
-	if color.get_luminance() > 0.2:
-		FUENTE_PIXEL.dibujar_texto(self, contenido, origen + Vector2(2, 3), pixel, Color("020711"))
-	FUENTE_PIXEL.dibujar_texto(self, contenido, origen, pixel, color)
+		var salto := roundf(sin(tiempo * 5.0) * 4.0)
+		FUENTE.dibujar_texto(self, ">", Vector2(22 + salto, 435), 3, acento)
+		FUENTE.dibujar_texto(self, "<", Vector2(size.x - 40 - salto, 435), 3, acento)
+func _centrar(valor: String, y: float, pixel: int, color: Color) -> void:
+	while pixel > 2 and FUENTE.calcular_ancho(valor, pixel) > size.x - 100:
+		pixel -= 1
+	var origen := Vector2(floorf((size.x - FUENTE.calcular_ancho(valor, pixel)) * 0.5), y)
+	FUENTE.dibujar_texto(self, valor, origen + Vector2(3, 3), pixel, Color("030611"))
+	FUENTE.dibujar_texto(self, valor, origen, pixel, color)

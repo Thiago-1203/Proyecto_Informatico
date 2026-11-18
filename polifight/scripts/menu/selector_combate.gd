@@ -8,18 +8,26 @@ signal volver_solicitado
 signal combate_solicitado(escena: String)
 
 const OSCURIDAD_PUERTA: Texture2D = preload("res://cinematica_polifight/entrada_colegio/oscuro.png")
-const TEXTO = preload("res://scripts/ui/texto_pixel.gd")
+const FONDO_UI = preload("res://scripts/menu/menu_fondo.gd")
+const CABECERA = preload("res://scripts/menu/menu_cabecera.gd")
+const OPCION = preload("res://scripts/menu/tarjeta_opcion.gd")
+const TEXTO = preload("res://scripts/ui/texto_arcade.gd")
 const VISTA = preload("res://scripts/menu/vista_previa_personaje.gd")
-const BOTON = preload("res://scripts/menu/boton_pixel.gd")
+const BOTON = preload("res://scripts/menu/boton_arcade.gd")
 const AZUL := Color("52b8ff")
 const DORADO := Color("ffb80d")
-const BLANCO := Color("fff2d5")
+const BLANCO := Color("fff0b5")
 const RESOLUCION := Vector2(1920, 1080)
-const COLUMNAS_PERSONAJES := 4
-const POSICIONES_VISTAS := [Vector2(100, 244), Vector2(1390, 244)]
+const COLUMNAS_PERSONAJES := 2
+const POSICIONES_VISTAS := [Vector2(125, 350), Vector2(1305, 350)]
 enum Paso { PERSONAJES, ESCENARIO, RIVAL, DIFICULTAD }
 enum Foco { TARJETAS, LISTO, CONTINUAR, VOLVER }
 
+var _usando_mando := false
+var fondo_ui: Control
+var cabecera: Control
+var jugador_mouse: int = 0
+var opciones_configuracion: Array[Button] = []
 var paso: Paso = Paso.RIVAL
 var opcion_configuracion: int = 0
 var _ayuda: Control
@@ -71,14 +79,19 @@ func _ready() -> void:
 	sombra_fondo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	lienzo = Control.new()
 	lienzo.size = RESOLUCION
+	lienzo.clip_contents = true
 	add_child(lienzo)
 	resized.connect(_ajustar_escala)
 	_ajustar_escala()
+	fondo_ui = FONDO_UI.new()
+	lienzo.add_child(fondo_ui)
+	cabecera = CABECERA.new()
+	lienzo.add_child(cabecera)
 	_crear_marco()
 	for i in 2:
 		var vista := VISTA.new()
 		vista.position = POSICIONES_VISTAS[i]
-		vista.size = Vector2(430, 335)
+		vista.size = Vector2(490, 400)
 		vista.z_index = 2
 		lienzo.add_child(vista)
 		vistas.append(vista)
@@ -125,13 +138,7 @@ func _process(delta: float) -> void:
 		return
 	# Cada mando tiene su propio cursor, igual que cada grupo de teclas.
 	for j in 2:
-		var direccion := Vector2i.ZERO
-		if j in Input.get_connected_joypads():
-			direccion.x = int(Input.is_joy_button_pressed(j, JOY_BUTTON_DPAD_RIGHT)) - int(Input.is_joy_button_pressed(j, JOY_BUTTON_DPAD_LEFT))
-			direccion.y = int(Input.is_joy_button_pressed(j, JOY_BUTTON_DPAD_DOWN)) - int(Input.is_joy_button_pressed(j, JOY_BUTTON_DPAD_UP))
-			var eje := Vector2(Input.get_joy_axis(j, JOY_AXIS_LEFT_X), Input.get_joy_axis(j, JOY_AXIS_LEFT_Y))
-			if eje.length() > 0.6:
-				direccion = Vector2i(signf(eje.x), 0) if absf(eje.x) > absf(eje.y) else Vector2i(0, signf(eje.y))
+		var direccion: Vector2i = get_node("/root/EntradaMandos").direccion_menu(j)
 		if direccion == Vector2i.ZERO:
 			_direccion_mando[j] = direccion
 		elif direccion != _direccion_mando[j]:
@@ -146,6 +153,15 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# El selector tiene dos cursores propios: no dejar que la GUI procese
+	# de nuevo los mismos sticks o botones y cambie el foco por su cuenta.
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		get_viewport().set_input_as_handled()
+		_usando_mando = true
+		_actualizar_ayuda()
+	elif event is InputEventKey or event is InputEventMouseButton:
+		_usando_mando = false
+		_actualizar_ayuda()
 	if not _habilitado or _iniciando or _entrando:
 		return
 	if event is InputEventKey and event.pressed:
@@ -162,10 +178,13 @@ func _input(event: InputEvent) -> void:
 		elif not event.echo and tecla == KEY_ESCAPE:
 			get_viewport().set_input_as_handled()
 			_volver()
-	elif event is InputEventJoypadButton and event.pressed and event.device in [0, 1]:
+	elif event is InputEventJoypadButton and event.pressed:
+		var jugador: int = get_node("/root/EntradaMandos").registrar_dispositivo(event.device)
+		if jugador < 0:
+			return
 		get_viewport().set_input_as_handled()
 		if event.button_index == JOY_BUTTON_A:
-			_activar(event.device)
+			_activar(jugador)
 		elif event.button_index == JOY_BUTTON_B:
 			_volver()
 
@@ -176,6 +195,7 @@ func _navegar(jugador: int, direccion: Vector2i) -> void:
 		_renderizar()
 		return
 	jugador = _cursor_humano(jugador)
+	jugador_mouse = jugador
 	if _iniciando or _entrando:
 		return
 	var cantidad := seleccion.escenarios.size() if paso == Paso.ESCENARIO else seleccion.personajes.size()
@@ -219,12 +239,12 @@ func _elegir(indice: int, jugador: int = 0) -> void:
 
 
 func _elegir_mouse(indice: int) -> void:
-	_elegir(indice, _cursor_humano(0))
+	_elegir(indice, _cursor_humano(jugador_mouse))
 
 
 func _tarjeta_mouse(event: InputEvent, indice: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		_elegir(indice, 1)
+		_elegir(indice, _cursor_humano(1))
 		get_viewport().set_input_as_handled()
 
 
@@ -260,6 +280,14 @@ func _alternar_listo(jugador: int) -> void:
 	if listos[0] and listos[1]:
 		focos.assign([Foco.CONTINUAR, Foco.CONTINUAR])
 	_renderizar()
+	if listos[jugador] and vistas[jugador].visible:
+		var vista := vistas[jugador]
+		vista.modulate = Color("ffe9a0")
+		var golpe := vista.create_tween()
+		golpe.tween_property(vista, "modulate", Color.WHITE, 0.22)
+		var boton := botones_listo[jugador]
+		boton.modulate = Color("ffe9a0")
+		golpe.parallel().tween_property(boton, "modulate", Color.WHITE, 0.22)
 
 
 func _ir_escenarios() -> void:
@@ -317,9 +345,9 @@ func _mascara_foco(tipo: Foco) -> int:
 
 func _crear_marco() -> void:
 	contenido = lienzo
-	_boton_volver = _boton("VOLVER", Rect2(65, 970, 420, 62), _volver, 3)
-	_ayuda = _texto("J1: WASD + F    J2: FLECHAS + ENTER    ESC: VOLVER", Rect2(500, 1045, 920, 22), 2, BLANCO)
-	_mensaje = _texto("", Rect2(565, 1010, 790, 28), 2, DORADO)
+	_boton_volver = _boton("<  VOLVER", Rect2(80, 942, 270, 56), _volver, 3)
+	_ayuda = _texto("", Rect2(80, 1032, 1760, 28), 3, Color("91a5ba"))
+	_mensaje = _texto("", Rect2(390, 966, 890, 28), 2, DORADO)
 	contenido = null
 
 
@@ -334,15 +362,22 @@ func _renderizar() -> void:
 	contenido.position = Vector2.ZERO
 	lienzo.add_child(contenido)
 	tarjetas.clear()
+	opciones_configuracion.clear()
+	cabecera.paso = 3 if paso == Paso.ESCENARIO else (2 if paso == Paso.PERSONAJES else 1)
 	botones_listo.clear()
 	boton_continuar = null
 	_mensaje.texto = ""
+	_boton_volver.show()
+	_boton_volver.position = Vector2(80, 942)
+	_boton_volver.size = Vector2(270, 56)
 	_boton_volver.foco_jugadores = _mascara_foco(Foco.VOLVER)
-	_boton_volver.texto = "CAMBIAR LUCHADORES" if paso == Paso.ESCENARIO else "VOLVER"
+	_boton_volver.texto = "<  LUCHADORES" if paso == Paso.ESCENARIO else "<  VOLVER"
+	_boton_volver.tamano_pixel = 2 if paso == Paso.ESCENARIO else 3
 	_boton_volver.queue_redraw()
 	fondo_escenario.texture = seleccion.escenario.imagen if paso == Paso.ESCENARIO else OSCURIDAD_PUERTA
 	fondo_escenario.modulate = Color.WHITE
 	sombra_fondo.visible = paso == Paso.ESCENARIO
+	fondo_ui.visible = paso != Paso.ESCENARIO
 	if seleccion.personajes.is_empty() or seleccion.escenarios.is_empty():
 		_texto("NO HAY CONTENIDO DISPONIBLE", Rect2(490, 450, 940, 80), 5, DORADO)
 		return
@@ -350,100 +385,69 @@ func _renderizar() -> void:
 		vistas[j].visible = paso == Paso.PERSONAJES and indices[j] < seleccion.personajes.size()
 		if vistas[j].visible:
 			vistas[j].configurar(seleccion.jugadores[j], j == 1)
-	_ayuda.texto = "WASD / FLECHAS: ELEGIR    F / ENTER: CONFIRMAR    ESC: VOLVER" if paso in [Paso.RIVAL, Paso.DIFICULTAD] else ("ELIGE J1 Y LUEGO LA IA CON WASD + F O FLECHAS + ENTER" if seleccion.contra_ia else "J1: WASD + F    J2: FLECHAS + ENTER    ESC: VOLVER")
+	_actualizar_ayuda()
 	if paso in [Paso.RIVAL, Paso.DIFICULTAD]:
 		_renderizar_configuracion()
 	elif paso == Paso.ESCENARIO:
 		_renderizar_escenarios()
 	else:
 		_renderizar_personajes()
+	_sincronizar_foco()
 
 
 func _renderizar_personajes() -> void:
-	# El panel central alberga el título y una cuadrícula compacta que puede crecer.
-	_panel(Rect2(610, 100, 700, 820), Color("041020"), Color("235285"))
-	_texto("ELIGE LUCHADOR IA" if seleccion.contra_ia and listos[0] and not listos[1] else "ELIGE TU LUCHADOR", Rect2(640, 145, 640, 58), 5, BLANCO)
-	_panel(Rect2(640, 220, 640, 2), Color("235285"), Color.TRANSPARENT)
-	var maximos := {"danio": 1.0, "stamina": 1.0}
-	for personaje in seleccion.personajes:
-		var stats := personaje.obtener_estadisticas()
-		for clave in maximos:
-			maximos[clave] = maxf(maximos[clave], stats.get(clave, 0.0))
+	var eligiendo_ia := seleccion.contra_ia and listos[0] and not listos[1]
+	_texto("ELIGE A LA IA" if eligiendo_ia else "ELIGE TU LUCHADOR", Rect2(100, 185, 1720, 64), 8, BLANCO)
 	for i in 2:
 		var ficha := seleccion.jugadores[i]
-		var x := 70.0 if i == 0 else 1360.0
+		var x := 100.0 if i == 0 else 1300.0
 		var color := AZUL if i == 0 else DORADO
-		var listo := listos[i]
 		var vacio := indices[i] >= seleccion.personajes.size()
-		# Una sola card agrupa estado, personaje animado, nombre y atributos.
-		_panel(Rect2(x, 145, 490, 775), Color("061020"), color.darkened(0.55))
-		_panel(Rect2(x, 145, 490, 5), color, Color.TRANSPARENT)
-		_texto("%s / %s" % ["IA" if seleccion.contra_ia and i == 1 else "J%d" % (i + 1), "LISTO" if listo else "ELIGIENDO"], Rect2(x + 30, 177, 430, 30), 3, color).alineacion_horizontal = 0
-		_panel(Rect2(x + 20, 232, 450, 360), Color("020711"), Color("142439"))
-		_texto("PROXIMAMENTE" if vacio else ficha.nombre, Rect2(x + 30, 614, 430, 42), 5, BLANCO).alineacion_horizontal = 0
-		_texto("CASILLA VACIA" if vacio else ficha.subtitulo, Rect2(x + 30, 673, 430, 20), 2, color).alineacion_horizontal = 0
 		estadisticas_visibles[i] = {} if vacio else ficha.obtener_estadisticas()
-		_barra_stat("DANIO DE ATAQUE", "danio", estadisticas_visibles[i], maximos["danio"], Vector2(x + 30, 718), i, color)
-		_barra_stat("STAMINA", "stamina", estadisticas_visibles[i], maximos["stamina"], Vector2(x + 30, 784), i, color)
-		var listo_boton := _boton(("CAMBIAR IA" if listo else "LISTO IA") if seleccion.contra_ia and i == 1 else ("CAMBIAR J%d" % (i + 1) if listo else "LISTO J%d" % (i + 1)), Rect2(x + 30, 852, 430, 46), _alternar_listo.bind(i), 3)
-		listo_boton.foco_jugadores = (1 << i) if focos[i] == Foco.LISTO else 0
-		botones_listo.append(listo_boton)
-	_crear_grilla(Rect2(640, 250, 640, 630), COLUMNAS_PERSONAJES, seleccion.personajes)
-	boton_continuar = _boton("ELEGIR ESCENARIO", Rect2(610, 945, 700, 62), _ir_escenarios, 4)
+		_texto("IA" if seleccion.contra_ia and i == 1 else "JUGADOR %d" % (i + 1), Rect2(x, 290, 520, 35), 4, color)
+		_texto("PROXIMAMENTE" if vacio else ficha.nombre, Rect2(x, 774, 520, 58), 6, BLANCO)
+		var boton := _boton("LISTO!" if listos[i] else "CONFIRMAR", Rect2(x + 25, 855, 470, 64), _alternar_listo.bind(i), 4)
+		boton.foco_jugadores = (1 << i) if focos[i] == Foco.LISTO else 0
+		boton.color_normal = color
+		boton.color_borde = color
+		botones_listo.append(boton)
+	for i in 2:
+		var tab := _boton("IA" if seleccion.contra_ia and i == 1 else "J%d" % (i + 1), Rect2(725 + i * 245, 340, 225, 48), _seleccionar_cursor_mouse.bind(i), 3)
+		tab.color_normal = AZUL if i == 0 else DORADO
+		tab.color_borde = tab.color_normal if _cursor_humano(jugador_mouse) == i else Color("344465")
+	_crear_grilla(Rect2(725, 420, 470, 285), COLUMNAS_PERSONAJES, seleccion.personajes)
+	_texto("VS", Rect2(780, 750, 360, 70), 9, DORADO)
+	boton_continuar = _boton("ELEGIR ARENA", Rect2(700, 946, 520, 64), _ir_escenarios, 4)
 	boton_continuar.foco_jugadores = _mascara_foco(Foco.CONTINUAR)
 	boton_continuar.disabled = not (listos[0] and listos[1])
-	boton_continuar.modulate.a = 1.0 if not boton_continuar.disabled else 0.4
-
-
-func _barra_stat(etiqueta: String, clave: String, stats: Dictionary, maximo: float, origen: Vector2, jugador: int, color: Color) -> void:
-	_texto(etiqueta, Rect2(origen, Vector2(310, 20)), 2, color).alineacion_horizontal = 0
-	var numero := _texto("-" if stats.is_empty() else _formatear_stat(stats[clave]), Rect2(origen + Vector2(330, 0), Vector2(100, 20)), 2, BLANCO)
-	numero.alineacion_horizontal = 2
-	numero.name = ("DanioJ" if clave == "danio" else "StaminaJ") + str(jugador + 1)
-	var barra := ProgressBar.new()
-	barra.name = ("BarraDanioJ" if clave == "danio" else "BarraStaminaJ") + str(jugador + 1)
-	barra.position = origen + Vector2(0, 30)
-	barra.size = Vector2(430, 14)
-	barra.max_value = maximo
-	barra.value = stats.get(clave, 0.0)
-	barra.show_percentage = false
-	barra.mouse_filter = Control.MOUSE_FILTER_PASS
-	barra.tooltip_text = "Escala respecto del mayor valor del catálogo de personajes."
-	var fondo := StyleBoxFlat.new()
-	fondo.bg_color = Color("020711")
-	fondo.border_color = Color("235285")
-	fondo.set_border_width_all(1)
-	var relleno := StyleBoxFlat.new()
-	relleno.bg_color = color
-	barra.add_theme_stylebox_override("background", fondo)
-	barra.add_theme_stylebox_override("fill", relleno)
-	contenido.add_child(barra)
+	boton_continuar.color_borde = DORADO
+	boton_continuar.modulate.a = 1.0 if not boton_continuar.disabled else 0.35
+	_boton_volver.position = Vector2(100, 954)
+	_boton_volver.size = Vector2(270, 48)
+	_boton_volver.tamano_pixel = 3
 
 
 func _renderizar_escenarios() -> void:
 	var ficha := seleccion.escenario
-	if seleccion.contra_ia:
-		_texto("CONTRA IA / " + seleccion.NOMBRES_DIFICULTAD[seleccion.dificultad_ia], Rect2(80, 140, 1080, 32), 3, DORADO)
-	_texto("ELIGE DONDE PELEAR", Rect2(80, 205, 1080, 58), 5, AZUL).alineacion_horizontal = 0
-	_texto("PROXIMAMENTE" if indice_escenario >= seleccion.escenarios.size() else ficha.nombre, Rect2(80, 300, 1440, 100), 11, BLANCO).alineacion_horizontal = 0
-	_panel(Rect2(80, 430, 110, 6), DORADO, Color.TRANSPARENT)
-	_texto(ficha.subtitulo + " / " + ficha.descripcion, Rect2(80, 466, 1200, 32), 3, BLANCO).alineacion_horizontal = 0
-	# El escenario seleccionado se muestra a pantalla completa, detrás de la interfaz.
-	_panel(Rect2(80, 615, 700, 64), Color("041020dc"), Color.TRANSPARENT)
-	_texto(seleccion.jugadores[0].nombre + "  VS  " + seleccion.jugadores[1].nombre, Rect2(100, 634, 660, 28), 3, BLANCO)
-	_texto("ESCENARIOS", Rect2(80, 725, 700, 28), 3, DORADO).alineacion_horizontal = 0
-	_crear_grilla(Rect2(80, 775, 1760, 160), 6, seleccion.escenarios)
-	var confirmar := _boton("INICIAR COMBATE", Rect2(1370, 970, 470, 62), _iniciar, 3)
+	_texto("ELIGE LA ARENA", Rect2(100, 185, 1720, 64), 8, BLANCO)
+	_texto("", Rect2(80, 231, 1400, 24), 2, Color("a6b8ca")).alineacion_horizontal = 0
+	_texto("PROXIMAMENTE" if indice_escenario >= seleccion.escenarios.size() else ficha.nombre, Rect2(80, 316, 1540, 110), 10, BLANCO).alineacion_horizontal = 0
+	_panel(Rect2(80, 449, 100, 4), DORADO, Color.TRANSPARENT)
+	_texto(ficha.subtitulo, Rect2(80, 480, 1200, 32), 3, DORADO).alineacion_horizontal = 0
+	_texto("", Rect2(80, 527, 1200, 28), 2, BLANCO).alineacion_horizontal = 0
+	_panel(Rect2(80, 635, 1760, 64), Color("0b1727ee"), Color("304053"))
+	_texto(seleccion.jugadores[0].nombre + "  VS  " + seleccion.jugadores[1].nombre, Rect2(110, 655, 1000, 26), 3, BLANCO).alineacion_horizontal = 0
+	_texto("IA / " + seleccion.NOMBRES_DIFICULTAD[seleccion.dificultad_ia] if seleccion.contra_ia else "MULTIJUGADOR LOCAL", Rect2(1250, 655, 560, 26), 2, DORADO).alineacion_horizontal = 2
+	_texto("ARENAS DISPONIBLES", Rect2(80, 737, 700, 28), 2, Color("a6b8ca")).alineacion_horizontal = 0
+	_crear_grilla(Rect2(80, 785, 1760, 150), 6, seleccion.escenarios)
+	var confirmar := _boton("A PELEAR  >", Rect2(1370, 950, 470, 48), _iniciar, 3)
 	boton_continuar = confirmar
 	confirmar.foco_jugadores = _mascara_foco(Foco.CONTINUAR)
 	confirmar.disabled = indice_escenario >= seleccion.escenarios.size()
 	confirmar.modulate.a = 0.4 if confirmar.disabled else 1.0
-	confirmar.color_normal = DORADO
+	confirmar.color_normal = BLANCO
 	confirmar.color_borde = DORADO
-
-
-func _formatear_stat(valor: float) -> String:
-	return str(int(valor)) if is_equal_approx(valor, roundf(valor)) else "%.1f" % valor
+	confirmar.color_fondo = Color("55401a")
 
 
 func _crear_grilla(rect: Rect2, columnas: int, fichas: Array[FichaSeleccion]) -> void:
@@ -460,7 +464,7 @@ func _crear_grilla(rect: Rect2, columnas: int, fichas: Array[FichaSeleccion]) ->
 	for i in fichas.size() + 1:
 		var vacia := i == fichas.size()
 		var tarjeta := Button.new()
-		tarjeta.custom_minimum_size = Vector2((rect.size.x - 24 - 16 * (columnas - 1)) / columnas, 150 if paso == Paso.ESCENARIO else 154)
+		tarjeta.custom_minimum_size = Vector2((rect.size.x - 24 - 16 * (columnas - 1)) / columnas, 150 if paso == Paso.ESCENARIO else 260)
 		tarjeta.focus_mode = Control.FOCUS_NONE
 		tarjeta.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		tarjeta.tooltip_text = "CASILLA VACIA / PROXIMAMENTE" if vacia else fichas[i].nombre
@@ -469,29 +473,34 @@ func _crear_grilla(rect: Rect2, columnas: int, fichas: Array[FichaSeleccion]) ->
 			if focos[j] == Foco.TARJETAS and i == (indice_escenario if paso == Paso.ESCENARIO else indices[j]):
 				mascara |= 1 << j
 		var estilo := StyleBoxFlat.new()
-		estilo.bg_color = Color("173a56ee") if mascara else Color("041020dc")
+		estilo.bg_color = Color("283b64") if mascara else Color("10172c")
 		estilo.border_color = (AZUL if mascara == 1 else DORADO) if mascara else Color("235285")
-		estilo.set_border_width_all(3 if mascara else 1)
+		estilo.set_border_width_all(5 if mascara else 3)
 		tarjeta.add_theme_stylebox_override("normal", estilo)
 		var hover := estilo.duplicate() as StyleBoxFlat
 		hover.border_color = BLANCO
 		tarjeta.add_theme_stylebox_override("hover", hover)
 		tarjeta.add_theme_stylebox_override("pressed", hover)
+		tarjeta.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 		grilla.add_child(tarjeta)
+		if mascara:
+			var pulso := tarjeta.create_tween().set_loops()
+			pulso.tween_property(estilo, "border_color", estilo.border_color.lightened(0.2), 0.65).set_trans(Tween.TRANS_SINE)
+			pulso.tween_property(estilo, "border_color", estilo.border_color, 0.65).set_trans(Tween.TRANS_SINE)
 		tarjetas.append(tarjeta)
 		tarjeta.pressed.connect(_elegir_mouse.bind(i))
 		tarjeta.gui_input.connect(_tarjeta_mouse.bind(i))
 		var ancho := tarjeta.custom_minimum_size.x
 		if vacia:
-			_texto("-", Rect2(6, 40, ancho - 12, 60), 6, AZUL, tarjeta)
-			_texto("PRONTO" if paso == Paso.PERSONAJES else "PROXIMAMENTE", Rect2(6, tarjeta.custom_minimum_size.y - 40, ancho - 12, 28), 2, AZUL, tarjeta)
+			_texto("?", Rect2(6, 30 if paso == Paso.ESCENARIO else 65, ancho - 12, 60), 4 if paso == Paso.ESCENARIO else 6, Color("53677f"), tarjeta)
+			_texto("PRONTO", Rect2(6, tarjeta.custom_minimum_size.y - 40, ancho - 12, 28), 3, Color("8193a8"), tarjeta)
 		else:
 			# El retrato de la cuadrícula es estático; el idle queda en las vistas laterales.
-			_imagen(fichas[i].imagen, Rect2(12, 30, ancho - 24, tarjeta.custom_minimum_size.y - 88), false, tarjeta)
-			_texto(fichas[i].nombre, Rect2(6, tarjeta.custom_minimum_size.y - 40, ancho - 12, 28), 2, BLANCO, tarjeta)
+			_imagen(fichas[i].imagen, Rect2(18, 38, ancho - 36, tarjeta.custom_minimum_size.y - 90), false, tarjeta)
+			_texto(fichas[i].nombre, Rect2(6, tarjeta.custom_minimum_size.y - 40, ancho - 12, 28), 3, BLANCO, tarjeta)
 		for j in 2:
 			if i == (indice_escenario if paso == Paso.ESCENARIO else indices[j]):
-				_texto("J%d" % (j + 1), Rect2(8 + j * (ancho * 0.5), 8, ancho * 0.5 - 16, 18), 2, AZUL if j == 0 else DORADO, tarjeta)
+				_texto(("IA" if seleccion.contra_ia and j == 1 else "J%d" % (j + 1)), Rect2(8 + j * (ancho * 0.5), 8, ancho * 0.5 - 16, 18), 2, AZUL if j == 0 else DORADO, tarjeta)
 
 
 func _panel(rect: Rect2, fondo: Color, borde: Color) -> void:
@@ -502,7 +511,7 @@ func _panel(rect: Rect2, fondo: Color, borde: Color) -> void:
 	var estilo := StyleBoxFlat.new()
 	estilo.bg_color = fondo
 	estilo.border_color = borde
-	estilo.set_border_width_all(3)
+	estilo.set_border_width_all(1)
 	panel.add_theme_stylebox_override("panel", estilo)
 	contenido.add_child(panel)
 
@@ -539,6 +548,10 @@ func _boton(valor: String, rect: Rect2, accion: Callable, pixel: int) -> Button:
 	boton.texto = valor
 	boton.tamano_pixel = pixel
 	boton.dibujar_marco = true
+	boton.grosor_borde = 3
+	boton.color_borde = Color("596780")
+	boton.color_normal = BLANCO
+	boton.color_fondo = Color("111b36")
 	boton.position = rect.position
 	boton.size = rect.size
 	boton.focus_mode = Control.FOCUS_NONE
@@ -566,16 +579,80 @@ func _confirmar_configuracion(indice: int) -> void:
 		seleccion.dificultad_ia = indice as EstadoSeleccionPartida.Dificultad
 		paso = Paso.PERSONAJES
 	_renderizar()
+	_animar_contenido()
 	_habilitado = false
 
 
 func _renderizar_configuracion() -> void:
 	var rival := paso == Paso.RIVAL
-	_panel(Rect2(460, 220, 1000, 660), Color("041020"), Color("235285"))
-	_texto("ELIGE TU RIVAL" if rival else "DIFICULTAD DE LA IA", Rect2(500, 270, 920, 65), 6, BLANCO)
-	var opciones: Array = ["PERSONA", "INTELIGENCIA ARTIFICIAL"] if rival else ["FACIL", "NORMAL", "DIFICIL"]
-	var descripciones: Array = ["DOS JUGADORES EN ESTE EQUIPO", "JUEGA EN SOLITARIO CONTRA LA CPU"] if rival else ["REACCIONES LENTAS Y DEFENSA OCASIONAL", "ATAQUE Y DEFENSA EQUILIBRADOS", "REACCIONES RAPIDAS Y MAYOR PRESION"]
-	for i in opciones.size():
-		var boton := _boton(opciones[i], Rect2(560, 385 + i * 140, 800, 70), _confirmar_configuracion.bind(i), 4)
-		boton.foco_jugadores = 1 if opcion_configuracion == i else 0
-		_texto(descripciones[i], Rect2(510, 465 + i * 140, 900, 28), 2, DORADO)
+	_texto("ELIGE TU RIVAL" if rival else "ELIGE LA DIFICULTAD", Rect2(100, 185, 1720, 64), 8, BLANCO)
+	var titulos := ["CON UN AMIGO", "CONTRA LA IA"] if rival else ["FACIL", "NORMAL", "DIFICIL"]
+	var detalles := ["DOS JUGADORES EN ESTE EQUIPO", "UN JUGADOR CONTRA LA COMPUTADORA"] if rival else ["PARA PRACTICAR", "UNA PELEA EQUILIBRADA", "MAS PRESION"]
+	for i in titulos.size():
+		var tarjeta := OPCION.new()
+		tarjeta.titulo = titulos[i]
+		tarjeta.icono = i if rival else i + 2
+		tarjeta.acento = DORADO
+		tarjeta.elegido = opcion_configuracion == i
+		tarjeta.position = Vector2(360, (400 if rival else 335) + i * 155)
+		tarjeta.size = Vector2(1200, 116)
+		tarjeta.pressed.connect(_elegir_configuracion.bind(i))
+		contenido.add_child(tarjeta)
+		opciones_configuracion.append(tarjeta)
+	_texto(detalles[opcion_configuracion], Rect2(360, 835, 1200, 32), 3, Color("a6b8ca"))
+	boton_continuar = _boton("CONTINUAR", Rect2(1370, 946, 470, 56), _confirmar_opcion_actual, 4)
+	boton_continuar.color_borde = DORADO
+
+
+func _elegir_configuracion(indice: int) -> void:
+	if _entrando or _iniciando:
+		return
+	opcion_configuracion = indice
+	_renderizar()
+
+
+func _confirmar_opcion_actual() -> void:
+	_confirmar_configuracion(opcion_configuracion)
+
+
+func _seleccionar_cursor_mouse(jugador: int) -> void:
+	jugador_mouse = _cursor_humano(jugador)
+	_renderizar()
+
+
+func _actualizar_ayuda() -> void:
+	if _ayuda == null:
+		return
+	if _usando_mando:
+		_ayuda.texto = "CRUCETA  ELEGIR     A  CONFIRMAR     B  VOLVER"
+	elif paso == Paso.PERSONAJES and not seleccion.contra_ia:
+		_ayuda.texto = "J1  WASD + F     J2  FLECHAS + ENTER     ESC  VOLVER"
+	else:
+		_ayuda.texto = "FLECHAS  ELEGIR     ENTER  CONFIRMAR     ESC  VOLVER"
+
+
+func _sincronizar_foco() -> void:
+	var objetivo: Control
+	if paso in [Paso.RIVAL, Paso.DIFICULTAD]:
+		objetivo = opciones_configuracion[opcion_configuracion]
+	else:
+		var jugador := _cursor_humano(jugador_mouse)
+		match focos[jugador]:
+			Foco.VOLVER: objetivo = _boton_volver
+			Foco.CONTINUAR: objetivo = boton_continuar
+			Foco.LISTO: objetivo = botones_listo[jugador] if not botones_listo.is_empty() else boton_continuar
+			_: objetivo = tarjetas[mini(indice_escenario if paso == Paso.ESCENARIO else indices[jugador], tarjetas.size() - 1)] if not tarjetas.is_empty() else _boton_volver
+	if objetivo != null:
+		objetivo.focus_mode = Control.FOCUS_ALL
+		objetivo.grab_focus()
+
+
+func _animar_contenido() -> void:
+	contenido.modulate.a = 0.0
+	var entrada := contenido.create_tween().set_parallel(true)
+	entrada.tween_property(contenido, "modulate:a", 1.0, 0.18)
+	for i in opciones_configuracion.size():
+		var fila := opciones_configuracion[i]
+		var destino := fila.position
+		fila.position.x -= 18.0
+		entrada.tween_property(fila, "position", destino, 0.18 + i * 0.03).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

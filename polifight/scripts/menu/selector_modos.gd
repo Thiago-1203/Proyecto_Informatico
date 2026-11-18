@@ -4,9 +4,12 @@ signal volver_solicitado
 
 const SELECTOR_COMBATE = preload("res://escenas/menu/selector_combate.tscn")
 
+const TEXTO = preload("res://scripts/ui/texto_arcade.gd")
+const BOTON = preload("res://scripts/menu/boton_arcade.gd")
+const FONDO_UI = preload("res://scripts/menu/menu_fondo.gd")
+const CABECERA = preload("res://scripts/menu/menu_cabecera.gd")
 const TARJETA = preload("res://scripts/menu/tarjeta_modo.gd")
 const FONDO_ANIMADO: PackedScene = preload("res://cinematica_polifight/cinematica_colegio.tscn")
-const ENTRADA_COLEGIO: PackedScene = preload("res://escenas/menu/entrada_colegio.tscn")
 const RESOLUCION := Vector2(1920, 1080)
 const MODOS := [
 	{
@@ -36,6 +39,9 @@ const MODOS := [
 @onready var indicadores: Control = $Lienzo/Indicadores
 @onready var aviso: Control = $Lienzo/Aviso
 
+var _ayuda: Control
+var _usando_mando := false
+var boton_jugar: Button
 var indice_seleccionado: int = 1
 var _tarjetas: Array[Control] = []
 var _transicion: Tween
@@ -46,8 +52,6 @@ var _direccion_mantenida: int = 0
 var _confirmacion_habilitada: bool = false
 var _saliendo: bool = false
 var selector_combate: Control
-var entrada_puerta: CanvasLayer
-var puerta_finalizada: bool = false
 
 
 func _ready() -> void:
@@ -61,7 +65,9 @@ func _ready() -> void:
 		move_child(fondo, 0)
 		fondo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	resized.connect(_ajustar_escala)
-	indicadores.draw.connect(_dibujar_indicadores)
+	lienzo.clip_contents = true
+	_crear_interfaz()
+	indicadores.hide()
 	for modo in MODOS:
 		var tarjeta = TARJETA.new()
 		tarjeta.name = "Tarjeta" + str(_tarjetas.size())
@@ -69,7 +75,9 @@ func _ready() -> void:
 		tarjeta.titulo = modo["titulo"]
 		tarjeta.subtitulo = modo["subtitulo"]
 		tarjeta.descripcion = modo["descripcion"]
-		tarjeta.size = Vector2(640, 520)
+		tarjeta.size = Vector2(540, 600)
+		tarjeta.disponible = not modo["escena"].is_empty()
+		tarjeta.elegida.connect(_elegir_modo.bind(_tarjetas.size()))
 		carrusel.add_child(tarjeta)
 		_tarjetas.append(tarjeta)
 	_ajustar_escala()
@@ -85,17 +93,17 @@ func _reproducir_entrada() -> void:
 	for i in _tarjetas.size():
 		var tarjeta := _tarjetas[i]
 		var destino := tarjeta.position
-		var central := i == indice_seleccionado
-		var desplazamiento := Vector2(0, 72) if central else Vector2(-150 if destino.x < 640 else 150, 32)
+		var desplazamiento := Vector2(0, 24)
 		tarjeta.position += desplazamiento
 		tarjeta.modulate.a = 0.0
-		var demora := 0.04 if central else 0.1
+		var demora := 0.04 + i * 0.05
 		_entrada.tween_property(tarjeta, "position", destino, 0.38).set_delay(demora).set_trans(
 			Tween.TRANS_CUBIC
 		).set_ease(Tween.EASE_OUT)
 		_entrada.tween_property(tarjeta, "modulate:a", 1.0, 0.25).set_delay(demora)
 	await _entrada.finished
 	_entrando = false
+	_tarjetas[indice_seleccionado].grab_focus()
 
 
 func _process(delta: float) -> void:
@@ -121,6 +129,12 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		_usando_mando = true
+	elif event is InputEventKey or event is InputEventMouseButton:
+		_usando_mando = false
+	if _ayuda != null:
+		_ayuda.texto = "CRUCETA  ELEGIR     A  CONTINUAR     B  VOLVER" if _usando_mando else "FLECHAS  ELEGIR     ENTER  CONTINUAR     ESC  VOLVER"
 	if _saliendo or _entrando or is_instance_valid(selector_combate) or event.is_echo():
 		return
 	if event.is_action_pressed(&"modo_volver"):
@@ -154,22 +168,25 @@ func _actualizar_tarjetas(animar: bool) -> void:
 		_transicion.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	for i in _tarjetas.size():
 		var tarjeta := _tarjetas[i]
-		var distancia := posmod(i - indice_seleccionado + 1, MODOS.size()) - 1
-		var central := distancia == 0
-		var escala := Vector2.ONE if central else Vector2.ONE * 0.67
-		var destino := Vector2(640, 370) if central else Vector2(110 if distancia < 0 else 1380, 450)
-		var color := Color.WHITE if central else Color(0.58, 0.7, 0.86)
+		var central := i == indice_seleccionado
+		var escala := Vector2.ONE
+		var destino := Vector2(100 + i * 580, 295 if central else 315)
+		var color := Color.WHITE
 		tarjeta.set("seleccionado", central)
 		tarjeta.z_index = 2 if central else 1
 		if animar:
-			_transicion.tween_property(tarjeta, "position", destino, 0.24)
-			_transicion.tween_property(tarjeta, "scale", escala, 0.24)
-			_transicion.tween_property(tarjeta, "modulate", color, 0.24)
+			_transicion.tween_property(tarjeta, "position", destino, 0.18)
 		else:
 			tarjeta.position = destino
-			tarjeta.scale = escala
-			tarjeta.modulate = color
+		tarjeta.scale = escala
+		tarjeta.modulate = color
+	boton_jugar.texto = "CONTINUAR" if not MODOS[indice_seleccionado]["escena"].is_empty() else "PROXIMAMENTE"
+	boton_jugar.disabled = MODOS[indice_seleccionado]["escena"].is_empty()
+	boton_jugar.modulate.a = 0.45 if boton_jugar.disabled else 1.0
+	boton_jugar.queue_redraw()
 	indicadores.queue_redraw()
+	if not _entrando:
+		_tarjetas[indice_seleccionado].grab_focus()
 
 
 func _dibujar_indicadores() -> void:
@@ -188,7 +205,6 @@ func _confirmar() -> void:
 	if _saliendo or is_instance_valid(selector_combate):
 		return
 	_saliendo = true
-	puerta_finalizada = false
 	if _transicion != null and _transicion.is_valid():
 		_transicion.kill()
 	var salida := create_tween().set_parallel(true)
@@ -196,18 +212,6 @@ func _confirmar() -> void:
 	salida.tween_property($Oscurecimiento, "modulate:a", 0.0, 0.16)
 	await salida.finished
 	lienzo.hide()
-	entrada_puerta = ENTRADA_COLEGIO.instantiate()
-	var fondo := get_parent().get_node_or_null("CinematicaColegio") if usar_fondo_del_menu else get_node_or_null("Fondo")
-	if fondo != null:
-		entrada_puerta.fotograma_inicial = fondo.obtener_fotograma_actual()
-		entrada_puerta.fondo_animado = fondo
-	add_child(entrada_puerta)
-	entrada_puerta.reproducir()
-	await entrada_puerta.finalizada
-	puerta_finalizada = true
-	entrada_puerta.set_process_input(false)
-	entrada_puerta.pantalla.hide()
-	entrada_puerta.queue_free()
 	selector_combate = SELECTOR_COMBATE.instantiate()
 	add_child(selector_combate)
 	selector_combate.volver_solicitado.connect(_cerrar_seleccion)
@@ -220,6 +224,7 @@ func _cerrar_seleccion() -> void:
 	lienzo.modulate.a = 1.0
 	$Oscurecimiento.modulate.a = 1.0
 	lienzo.show()
+	_tarjetas[indice_seleccionado].grab_focus()
 	_confirmacion_habilitada = false
 
 
@@ -240,3 +245,67 @@ func _exit_tree() -> void:
 		_entrada.kill()
 	if _transicion != null and _transicion.is_valid():
 		_transicion.kill()
+
+
+func _elegir_modo(indice: int) -> void:
+	if _entrando or _saliendo or is_instance_valid(selector_combate):
+		return
+	indice_seleccionado = indice
+	aviso.hide()
+	_actualizar_tarjetas(true)
+
+
+func _crear_interfaz() -> void:
+	var fondo := FONDO_UI.new()
+	lienzo.add_child(fondo)
+	lienzo.move_child(fondo, 0)
+	var cabecera := CABECERA.new()
+	lienzo.add_child(cabecera)
+	var titulo := TEXTO.new()
+	titulo.texto = "ELIGE UN MODO"
+	titulo.tamano_pixel = 8
+	titulo.color = Color("fff2d5")
+	titulo.alineacion_horizontal = 1
+	titulo.position = Vector2(100, 178)
+	titulo.size = Vector2(1720, 64)
+	lienzo.add_child(titulo)
+	var detalle := TEXTO.new()
+	detalle.texto = ""
+	detalle.tamano_pixel = 2
+	detalle.color = Color("91a5ba")
+	detalle.alineacion_horizontal = 0
+	detalle.position = Vector2(80, 231)
+	detalle.size = Vector2(1300, 24)
+	lienzo.add_child(detalle)
+	var volver := BOTON.new()
+	volver.texto = "<  VOLVER"
+	volver.tamano_pixel = 3
+	volver.dibujar_marco = true
+	volver.focus_mode = Control.FOCUS_NONE
+	volver.position = Vector2(100, 946)
+	volver.size = Vector2(270, 56)
+	volver.pressed.connect(func():
+		if not _saliendo and not _entrando:
+			_saliendo = true
+			volver_solicitado.emit())
+	lienzo.add_child(volver)
+	boton_jugar = BOTON.new()
+	boton_jugar.texto = "CONTINUAR"
+	boton_jugar.tamano_pixel = 3
+	boton_jugar.dibujar_marco = true
+	boton_jugar.focus_mode = Control.FOCUS_NONE
+	boton_jugar.color_normal = Color("fff2d5")
+	boton_jugar.color_borde = Color("ffb80d")
+	boton_jugar.color_fondo = Color("30233a")
+	boton_jugar.position = Vector2(1350, 946)
+	boton_jugar.size = Vector2(470, 56)
+	boton_jugar.pressed.connect(_confirmar)
+	lienzo.add_child(boton_jugar)
+	var ayuda := TEXTO.new()
+	_ayuda = ayuda
+	ayuda.texto = "FLECHAS  ELEGIR     ENTER  CONTINUAR     ESC  VOLVER"
+	ayuda.tamano_pixel = 3
+	ayuda.color = Color("91a5ba")
+	ayuda.position = Vector2(80, 1032)
+	ayuda.size = Vector2(1760, 28)
+	lienzo.add_child(ayuda)

@@ -41,6 +41,7 @@ func puede_usar_ulti() -> bool:
 		maquina_estados.es_estado_actual(&"Idle")
 		or maquina_estados.es_estado_actual(&"Caminar")
 		or maquina_estados.es_estado_actual(&"Agacharse")
+		or maquina_estados.es_estado_actual(&"CaminarAgachado")
 	) and (not is_instance_valid(oponente) or oponente.vida_actual > 0)
 
 

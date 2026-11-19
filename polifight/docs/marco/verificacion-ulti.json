@@ -1,0 +1,88 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "raster_frames_passed": 6,
+  "checks": {
+    "ulti_marco": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "ulti_marco_visual_1920x1080": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "marco_regresion": {
+      "passed": true,
+      "result": "MARCO: 0 fallos"
+    },
+    "ulti_barbieri_regresion": {
+      "passed": true,
+      "result": "ULTI: 0 fallos"
+    },
+    "nombres_tipografias": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "nombres_tipografias_visual_1920x1080": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "nombres_verticales": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "nombres_verticales_visual_1920x1080": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "nombres_grandes": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "nombres_grandes_visual_1920x1080": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "arial_times_sans_negro": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    },
+    "arial_times_sans_negro_visual_1920x1080": {
+      "passed": true,
+      "result": "ULTI MARCO: 0 fallos"
+    }
+  },
+  "fonts": [
+    "Arial Bold (Proton OFL build)",
+    "Times New Roman Regular (Proton OFL build)",
+    "DejaVu Sans Bold (Sans Serif)"
+  ],
+  "captures": [
+    "docs/marco/ulti-j1.png",
+    "docs/marco/ulti-j2.png"
+  ],
+  "projectile_labels": [
+    "Arial",
+    "Times New Roman",
+    "Sans Serif"
+  ],
+  "projectile_orientation_degrees": 90,
+  "projectile_fall_speed": 400,
+  "wave_column_offset": 88,
+  "font_size_max": 64,
+  "text_length_max": 600,
+  "wave_times": [
+    0.65,
+    1.2,
+    1.75,
+    2.3
+  ],
+  "projectile_fill_color": "#000000",
+  "projectile_outline_color": "#f5f5f5",
+  "projectile_lifetime_max": 5,
+  "central_column_offsets": [
+    -88,
+    0,
+    88,
+    -88
+  ]
+}

@@ -86,14 +86,19 @@ func _probar() -> void:
 	await create_timer(1.2).timeout
 	exigir(menu.puerta_finalizada and is_instance_valid(menu.selector_modos), "Después de entrar aparecen los modos")
 	var modos = menu.selector_modos
+	exigir(not menu.get_node("CinematicaColegio").visible and not menu.get_node("CinematicaColegio").is_processing(), "La portada debe quedar oculta y detenida después de entrar")
+	exigir(modos.get_node("Fondo") is ColorRect and modos.get_node("Fondo").color.is_equal_approx(Color("080b20")), "Los modos deben mostrar un fondo azul oscuro")
+	exigir(is_equal_approx(modos.modulate.a, 1.0) and is_equal_approx(modos.get_node("Fondo").modulate.a, 1.0), "El fondo de modos debe ser opaco durante su entrada")
 	await toque(JOY_BUTTON_A)
 	await create_timer(0.3).timeout
 	exigir(is_instance_valid(modos.selector_combate), "1 VS 1 abre el selector sin otra cinemática")
 	exigir(menu.find_children("EntradaColegio", "CanvasLayer", true, false).is_empty(), "La puerta no se repite al elegir modo")
 	modos.selector_combate.volver_solicitado.emit()
 	await process_frame
+	exigir(modos.lienzo.visible and not menu.get_node("CinematicaColegio").visible, "Volver a modos debe conservar el fondo azul oscuro")
 	modos.volver_solicitado.emit()
 	await process_frame
+	exigir(menu.get_node("CinematicaColegio").visible and menu.get_node("CinematicaColegio").is_processing(), "Volver al inicio recupera la portada animada")
 	exigir(root.gui_get_focus_owner() == menu.boton_jugar, "Volver al inicio restaura el foco")
 	print("VICTORIA / ENTRADA: %d comprobaciones, %d fallos" % [comprobaciones, fallos])
 	quit(1 if fallos else 0)

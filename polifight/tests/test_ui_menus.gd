@@ -62,7 +62,8 @@ func _probar() -> void:
 		var origen: Vector2 = selector.lienzo.position
 		var fin: Vector2 = origen + selector.RESOLUCION * selector.lienzo.scale
 		exigir(origen.x >= -0.01 and origen.y >= -0.01 and fin.x <= resolucion.x + 0.01 and fin.y <= resolucion.y + 0.01, "El lienzo debe caber en " + str(resolucion))
-	exigir(not selector.contenido.has_node("BarraDanioJ1"), "La selección arcade no muestra estadísticas")
+	for jugador in [1, 2]:
+		exigir(selector.contenido.get_node("DanioJ%d" % jugador).is_visible_in_tree() and selector.contenido.get_node("StaminaJ%d" % jugador).is_visible_in_tree(), "Ambos jugadores deben tener las stats visibles")
 	selector.queue_free()
 	await process_frame
 	print("UI MENUS: %d fallos" % fallos)

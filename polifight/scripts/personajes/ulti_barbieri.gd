@@ -60,8 +60,10 @@ func on_physics_process(delta: float) -> void:
 		var proyectil := PROYECTIL.new()
 		proyectil.configurar(nodo_controlado, 8)
 		proyectil.direccion = nodo_controlado.direccion_mirada
-		proyectil.position = nodo_controlado.global_position + Vector2(155 * proyectil.direccion, -45)
-		nodo_controlado.get_tree().current_scene.add_child(proyectil)
+		var escena := nodo_controlado.get_tree().current_scene
+		proyectil.position = escena.to_local(nodo_controlado.to_global(Vector2(155 * proyectil.direccion, -45)))
+		proyectil.scale = nodo_controlado.global_scale / escena.global_scale
+		escena.add_child(proyectil)
 		siguiente += 1
 
 

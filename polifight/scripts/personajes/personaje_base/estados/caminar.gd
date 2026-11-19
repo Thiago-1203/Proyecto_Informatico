@@ -1,6 +1,10 @@
 extends Estado_base
 
 
+func start() -> void:
+	nodo_controlado.play_animation(&"caminar_adelante")
+	nodo_controlado.animacion.advance(0.0)
+
 
 func on_physics_process(delta: float) -> void:
 	nodo_controlado.play_animation("caminar_adelante")

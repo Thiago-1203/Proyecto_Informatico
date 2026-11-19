@@ -7,6 +7,22 @@ La interfaz entra con un fundido y las vistas laterales se deslizan suavemente a
 El primer escenario es **LA TERRAZA** y ocupa todo el fondo al pasar a escenarios;
 cambiar su ficha actualiza el fondo. Al cambiar de paso también se aplica la aparición.
 
+El catálogo incluye **LA TERRAZA**, **EL KIOSKO**, **EL ESCENARIO** y **EL POLI**.
+EL KIOSKO y EL ESCENARIO usan las imágenes WebP aportadas por el usuario, copiadas sin cambios a
+`assets/ui/fondos/kiosko.webp` y `assets/ui/fondos/escenario.webp`.
+Sus escenas heredan el combate de `nivelI.tscn`; cada una configura su fondo y puntos
+de aparición. En EL ESCENARIO el suelo se eleva a 960 para pelear delante de la tarima.
+Ambos mapas usan `escala_personajes = 1.1`: luchadores, colisiones y ataques son un
+10 % más grandes. Los puntos de aparición compensan esa escala para apoyar los pies
+en el piso; la IA adapta sus distancias y los proyectiles conservan la escala del personaje.
+EL POLI también usa esa escala y una textura fija de la portada
+(`cinematica_polifight/frames/frame_00.png`), sin animaciones de árboles ni shader de nubes.
+
+Tras JUGAR, la puerta se abre antes de mostrar los modos. El exterior queda oculto y
+detenido mientras se está adentro; los modos y su marco usan un fondo azul oscuro.
+Al volver al inicio se recupera la portada animada. El fondo de modos se
+revela desde negro sin transparentar la portada durante la transición.
+
 Al confirmar el mapa, `TransicionCombate` funde la selección a negro en 0.22 segundos,
 carga la arena bajo esa cobertura y la revela con un fundido de 0.18 segundos.
 Los luchadores permanecen inmóviles. Tras 0.1 segundos aparece brevemente **FIGTH**;
@@ -33,6 +49,10 @@ Cada cuadrícula agrega una casilla **PROXIMAMENTE** al final del catálogo. Pue
 el cursor, pero no se puede confirmar como personaje ni escenario.
 
 ## Agregar un personaje
+
+El catálogo actual incluye **BARBIERI** y **MARCO**. Marco tiene sus propios sprites,
+animaciones y colisiones; su ulti invoca una lluvia de nombres de tipografías. Ambos pueden elegirse para
+cualquiera de los dos jugadores y para el rival IA.
 
 1. Crear una escena que herede de `Personaje` con el mismo contrato de nodos y estados
    que `escenas/personajes/barbieri.tscn`. Configurar sus ataques, animaciones y estadísticas.
@@ -71,9 +91,9 @@ Las cards laterales muestran **daño de ataque** y **stamina máxima** de la esc
 seleccionada, mediante `FichaSeleccion.obtener_estadisticas()`. Se instancian fuera
 del árbol y se leen `danio` y `stamina_maxima`, sin ejecutar lógica de combate.
 Los datos se guardan en caché por ruta de escena; no se duplican valores en el catálogo.
-Los atributos aparecen como dos barras apiladas con su número real. Cada barra usa
-como escala el mayor valor de ese atributo dentro del catálogo disponible, para
-comparar personajes; no representa vida o stamina gastada durante una partida.
+Los atributos aparecen como dos recuadros debajo del nombre, con su número real,
+para comparar ambos luchadores. Se muestran el daño base y la stamina máxima;
+no representan vida o stamina gastada durante una partida.
 Una casilla vacía muestra guiones en lugar de conservar las estadísticas anteriores.
 
 `SeleccionPartida` conserva las fichas elegidas entre escenas y al reiniciar desde pausa.

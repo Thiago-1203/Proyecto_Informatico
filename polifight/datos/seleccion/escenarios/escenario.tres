@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FichaSeleccion" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/ficha_seleccion.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/fondos/escenario.webp" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"escenario"
+nombre = "EL ESCENARIO"
+subtitulo = "NIVEL III"
+descripcion = "LA PELEA SE ROBA EL SHOW."
+imagen = ExtResource("2")
+escena = "res://escenas/juego/escenario.tscn"

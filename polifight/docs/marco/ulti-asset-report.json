@@ -1,0 +1,125 @@
+{
+  "ok": true,
+  "assets": [
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11469,
+      "color_count": 77,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 218144,
+      "content_bounds": [
+        124,
+        64,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11704,
+      "color_count": 76,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 216720,
+      "content_bounds": [
+        124,
+        60,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12057,
+      "color_count": 79,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 214752,
+      "content_bounds": [
+        124,
+        20,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12192,
+      "color_count": 74,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 214160,
+      "content_bounds": [
+        124,
+        20,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_05.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11880,
+      "color_count": 73,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 215168,
+      "content_bounds": [
+        124,
+        60,
+        396,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_06.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11388,
+      "color_count": 77,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217216,
+      "content_bounds": [
+        124,
+        60,
+        392,
+        456
+      ],
+      "problems": []
+    }
+  ]
+}

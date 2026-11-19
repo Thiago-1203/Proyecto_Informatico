@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FichaSeleccion" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/ficha_seleccion.gd" id="1"]
+[ext_resource type="Texture2D" path="res://cinematica_polifight/frames/frame_00.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"frente_colegio"
+nombre = "EL POLI"
+subtitulo = "NIVEL IV"
+descripcion = "EL COMBATE EMPIEZA EN LA PUERTA."
+imagen = ExtResource("2")
+escena = "res://escenas/juego/frente_colegio.tscn"

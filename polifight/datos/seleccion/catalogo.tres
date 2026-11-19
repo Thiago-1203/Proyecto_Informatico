@@ -1,11 +1,16 @@
-[gd_resource type="Resource" script_class="CatalogoSeleccion" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="CatalogoSeleccion" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/menu/catalogo_seleccion.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/menu/ficha_seleccion.gd" id="2"]
 [ext_resource type="Resource" path="res://datos/seleccion/personajes/barbieri.tres" id="3"]
 [ext_resource type="Resource" path="res://datos/seleccion/escenarios/terraza.tres" id="4"]
+[ext_resource type="Resource" path="res://datos/seleccion/escenarios/kiosko.tres" id="5"]
+[ext_resource type="Resource" path="res://datos/seleccion/escenarios/escenario.tres" id="6"]
+[ext_resource type="Resource" path="res://datos/seleccion/escenarios/frente_colegio.tres" id="7"]
+
+[ext_resource type="Resource" path="res://datos/seleccion/personajes/marco.tres" id="8"]
 
 [resource]
 script = ExtResource("1")
-personajes = Array[ExtResource("2")]([ExtResource("3")])
-escenarios = Array[ExtResource("2")]([ExtResource("4")])
+personajes = Array[ExtResource("2")]([ExtResource("3"), ExtResource("8")])
+escenarios = Array[ExtResource("2")]([ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7")])

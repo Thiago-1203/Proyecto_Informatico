@@ -38,6 +38,15 @@ func eje(dispositivo: int, indice: JoyAxis, valor: float) -> void:
 	Input.flush_buffered_events()
 	await process_frame
 
+func escape() -> void:
+	for pulsada in [true, false]:
+		var evento := InputEventKey.new()
+		evento.physical_keycode = KEY_ESCAPE
+		evento.pressed = pulsada
+		Input.parse_input_event(evento)
+		Input.flush_buffered_events()
+		await process_frame
+
 func _probar() -> void:
 	mandos = root.get_node("EntradaMandos")
 	# No depender de que exista hardware en la máquina de CI.
@@ -68,7 +77,7 @@ func _probar() -> void:
 	exigir(not is_instance_valid(modos.selector_combate), "La misma pulsación de A no salta el selector de modos")
 	var indice: int = modos.indice_seleccionado
 	await toque(7, JOY_BUTTON_DPAD_RIGHT)
-	exigir(modos.indice_seleccionado == posmod(indice + 1, 3), "Cruceta recorre los modos")
+	exigir(modos.indice_seleccionado == posmod(indice + 1, modos.MODOS.size()), "Cruceta recorre los modos")
 	await toque(7, JOY_BUTTON_DPAD_LEFT)
 	await toque(19, JOY_BUTTON_A)
 	await create_timer(2.2).timeout
@@ -150,6 +159,24 @@ func _probar() -> void:
 	await boton(23, JOY_BUTTON_X, false)
 	await toque(23, JOY_BUTTON_START)
 	exigir(paused and nivel.get_node("MenuPausa").interfaz.visible, "START abre la pausa")
+	var pausa = nivel.get_node("MenuPausa")
+	await toque(23, JOY_BUTTON_DPAD_DOWN)
+	exigir(root.gui_get_focus_owner() == pausa.boton_controles, "La cruceta alcanza Ver controles en la pausa compartida")
+	await toque(23, JOY_BUTTON_A)
+	exigir(paused and pausa.controles_visibles(), "A abre la guía manteniendo el combate pausado")
+	exigir(not pausa.guia_controles.nota.texto.begins_with("EN EL TUTORIAL"), "La guía de combate explica ambos jugadores")
+	await toque(23, JOY_BUTTON_DPAD_DOWN)
+	exigir(root.gui_get_focus_owner() == pausa.guia_controles.boton_volver, "El foco permanece dentro de la guía")
+	await escape()
+	exigir(paused and not pausa.controles_visibles() and root.gui_get_focus_owner() == pausa.boton_controles, "Esc vuelve a pausa y restaura el foco sin reanudar")
+	await toque(23, JOY_BUTTON_A)
+	await toque(23, JOY_BUTTON_START)
+	exigir(paused and not pausa.controles_visibles(), "Start cierra sólo la guía cuando está abierta")
+	await toque(23, JOY_BUTTON_A)
+	await boton(23, JOY_BUTTON_B, true)
+	exigir(paused and not pausa.controles_visibles() and not Input.is_action_pressed("j1_patada"), "B vuelve a pausa sin dejar una patada presionada")
+	await boton(23, JOY_BUTTON_B, false)
+	await toque(23, JOY_BUTTON_DPAD_UP)
 	await toque(23, JOY_BUTTON_A)
 	exigir(not paused, "A confirma SEGUIR JUGANDO mientras el juego está pausado")
 	await toque(19, JOY_BUTTON_START)
@@ -158,6 +185,25 @@ func _probar() -> void:
 	exigir(not Input.is_action_pressed("j2_patada"), "B para reanudar no dispara una patada")
 	await boton(19, JOY_BUTTON_B, false)
 	nivel.free()
+	var seleccion = root.get_node("SeleccionPartida")
+	var ia_anterior: bool = seleccion.contra_ia
+	for contra_ia in [false, true]:
+		seleccion.contra_ia = contra_ia
+		for escenario in seleccion.escenarios:
+			var arena = load(escenario.escena).instantiate()
+			root.add_child(arena)
+			await create_timer(0.1).timeout
+			var gestor = arena.get_node("GestorPausa")
+			var menu_pausa = arena.get_node("MenuPausa")
+			gestor._pausar_combate()
+			menu_pausa.boton_controles.pressed.emit()
+			var posicion: Vector2 = arena.jugador1.position
+			await create_timer(0.1).timeout
+			exigir(paused and menu_pausa.controles_visibles() and arena.jugador1.position == posicion, "La guía pausa la arena %s con IA=%s" % [escenario.nombre, contra_ia])
+			menu_pausa.guia_controles.boton_volver.pressed.emit()
+			exigir(paused and not menu_pausa.controles_visibles(), "Volver conserva la pausa en %s" % escenario.nombre)
+			arena.free()
+	seleccion.contra_ia = ia_anterior
 	_finalizar()
 
 func _finalizar() -> void:

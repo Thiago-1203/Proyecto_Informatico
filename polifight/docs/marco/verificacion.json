@@ -1,0 +1,34 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "raster_frames_passed": 48,
+  "checks": {
+    "marco": {
+      "passed": true,
+      "result": "MARCO: 0 fallos"
+    },
+    "marco_native_1920x1080": {
+      "passed": true,
+      "result": "MARCO: 0 fallos"
+    },
+    "seleccion": {
+      "passed": true,
+      "result": "SELECCION: 0 fallos"
+    },
+    "patada_regresion": {
+      "passed": true,
+      "result": "PATADA: todas las comprobaciones pasaron"
+    },
+    "ulti_barbieri_regresion": {
+      "passed": true,
+      "result": "ULTI: 0 fallos"
+    },
+    "caminar_agachado_regresion": {
+      "passed": true,
+      "result": "CAMINAR AGACHADO: 0 fallos"
+    },
+    "cuatro_mapas_y_marco_ia": {
+      "passed": true,
+      "result": "MARCO INTEGRACION: 0 fallos"
+    }
+  }
+}

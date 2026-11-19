@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://escenas/juego/nivelI.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://cinematica_polifight/frames/frame_00.png" id="2_fondo"]
+
+[node name="FrenteColegio" instance=ExtResource("1_base")]
+escala_personajes = 1.1
+
+[node name="Background" parent="BackgroundLayer" index="0"]
+texture_filter = 1
+texture = ExtResource("2_fondo")
+
+[node name="AparicionJ1" parent="." index="2"]
+position = Vector2(420, 780)
+
+[node name="AparicionJ2" parent="." index="3"]
+position = Vector2(1500, 780)

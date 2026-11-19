@@ -38,6 +38,15 @@ func _probar() -> void:
 		await create_timer(0.7).timeout
 		await _comprobar(vp, modos)
 		modos.free()
+		var tutorial = load("res://escenas/juego/tutorial.tscn").instantiate()
+		vp.add_child(tutorial)
+		await create_timer(0.2).timeout
+		await _comprobar(vp, tutorial)
+		tutorial._alternar_pausa()
+		await _comprobar(vp, tutorial)
+		tutorial._mostrar_controles()
+		await _comprobar(vp, tutorial)
+		tutorial.free()
 		var selector = load("res://escenas/menu/selector_combate.tscn").instantiate()
 		vp.add_child(selector)
 		await selector.aparicion_finalizada
@@ -60,6 +69,8 @@ func _probar() -> void:
 		pausa.process_mode = Node.PROCESS_MODE_ALWAYS
 		pausa.mostrar()
 		await create_timer(0.3).timeout
+		await _comprobar(vp, pausa)
+		pausa.mostrar_controles()
 		await _comprobar(vp, pausa)
 		pausa.free()
 		vp.free()

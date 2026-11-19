@@ -7,6 +7,7 @@ const ESTILO = preload("res://scripts/menu/estilo_arcade.gd")
 @export var subtitulo: String
 @export var descripcion: String
 var disponible := false
+var es_tutorial := false
 var tiempo := 0.0
 var seleccionado := false:
 	set(valor):
@@ -38,8 +39,10 @@ func _draw() -> void:
 		var tamano := (ilustracion.get_size() * factor).floor()
 		var flotacion := roundf(sin(tiempo * 2.2) * 5.0) if seleccionado else 0.0
 		draw_texture_rect(ilustracion, Rect2((espacio.position + (espacio.size - tamano) * 0.5).floor() + Vector2(0, flotacion), tamano), false, Color.WHITE if disponible else Color("76829d"))
+	elif es_tutorial:
+		_dibujar_tutorial()
 	_centrar(titulo, 425, 8, Color("fff0b5") if seleccionado else Color("9ca9bf"))
-	_centrar("AMIGO O IA" if disponible else "PROXIMAMENTE", 515, 3, acento)
+	_centrar(subtitulo if es_tutorial else ("AMIGO O IA" if disponible else "PROXIMAMENTE"), 515, 3, acento)
 	if seleccionado:
 		var salto := roundf(sin(tiempo * 5.0) * 4.0)
 		FUENTE.dibujar_texto(self, ">", Vector2(22 + salto, 435), 3, acento)
@@ -50,3 +53,19 @@ func _centrar(valor: String, y: float, pixel: int, color: Color) -> void:
 	var origen := Vector2(floorf((size.x - FUENTE.calcular_ancho(valor, pixel)) * 0.5), y)
 	FUENTE.dibujar_texto(self, valor, origen + Vector2(3, 3), pixel, Color("030611"))
 	FUENTE.dibujar_texto(self, valor, origen, pixel, color)
+
+func _dibujar_tutorial() -> void:
+	var centro := size.x * 0.5
+	var azul := Color("52b8ff")
+	var oro := Color("ffb80d")
+	# Teclas y mando dibujados con la misma geometría de la interfaz arcade.
+	for tecla in [{"t": "W", "p": Vector2(-29, 102)}, {"t": "A", "p": Vector2(-95, 168)}, {"t": "S", "p": Vector2(-29, 168)}, {"t": "D", "p": Vector2(37, 168)}]:
+		var rect := Rect2(Vector2(centro, 0) + tecla["p"], Vector2(58, 58))
+		ESTILO.marco(self, rect, Color("1b3154"), azul, false)
+		FUENTE.dibujar_texto(self, tecla["t"], rect.position + Vector2(19, 17), 4, azul)
+	var cuerpo := Rect2(centro - 120, 266, 240, 85)
+	ESTILO.marco(self, cuerpo, Color("1b3154"), oro, false)
+	draw_rect(Rect2(centro - 92, 301, 54, 15), azul)
+	draw_rect(Rect2(centro - 73, 282, 15, 54), azul)
+	for punto in [Vector2(66, 285), Vector2(45, 306), Vector2(87, 306), Vector2(66, 327)]:
+		draw_rect(Rect2(Vector2(centro, 0) + punto, Vector2(12, 12)), oro)

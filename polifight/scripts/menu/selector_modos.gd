@@ -9,7 +9,6 @@ const BOTON = preload("res://scripts/menu/boton_arcade.gd")
 const FONDO_UI = preload("res://scripts/menu/menu_fondo.gd")
 const CABECERA = preload("res://scripts/menu/menu_cabecera.gd")
 const TARJETA = preload("res://scripts/menu/tarjeta_modo.gd")
-const FONDO_ANIMADO: PackedScene = preload("res://cinematica_polifight/cinematica_colegio.tscn")
 const RESOLUCION := Vector2(1920, 1080)
 const MODOS := [
 	{
@@ -30,9 +29,13 @@ const MODOS := [
 		"arte": preload("res://assets/ui/selector_modos/equipos.png"),
 		"escena": "",
 	},
+	{
+		"titulo": "TUTORIAL", "subtitulo": "APRENDE JUGANDO",
+		"descripcion": "UN PASO A LA VEZ. A TU RITMO.",
+		"arte": null,
+		"escena": "res://escenas/juego/tutorial.tscn",
+	},
 ]
-
-@export var usar_fondo_del_menu: bool = false
 
 @onready var lienzo: Control = $Lienzo
 @onready var carrusel: Control = $Lienzo/Carrusel
@@ -55,15 +58,6 @@ var selector_combate: Control
 
 
 func _ready() -> void:
-	# El menú conserva su propia instancia y su tiempo de animación al abrir los modos.
-	# Al ejecutar esta escena sola en el editor también se muestra un fondo animado.
-	if not usar_fondo_del_menu:
-		var fondo = FONDO_ANIMADO.instantiate()
-		fondo.name = "Fondo"
-		fondo.duracion_fundido = 0.0
-		add_child(fondo)
-		move_child(fondo, 0)
-		fondo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	resized.connect(_ajustar_escala)
 	lienzo.clip_contents = true
 	_crear_interfaz()
@@ -75,7 +69,8 @@ func _ready() -> void:
 		tarjeta.titulo = modo["titulo"]
 		tarjeta.subtitulo = modo["subtitulo"]
 		tarjeta.descripcion = modo["descripcion"]
-		tarjeta.size = Vector2(540, 600)
+		tarjeta.es_tutorial = modo["titulo"] == "TUTORIAL"
+		tarjeta.size = Vector2(400, 600)
 		tarjeta.disponible = not modo["escena"].is_empty()
 		tarjeta.elegida.connect(_elegir_modo.bind(_tarjetas.size()))
 		carrusel.add_child(tarjeta)
@@ -87,9 +82,12 @@ func _ready() -> void:
 
 
 func _reproducir_entrada() -> void:
-	modulate.a = 0.0
+	# El fondo permanece opaco para no revelar la portada tras cruzar la puerta.
+	$Fondo.modulate = Color.BLACK
+	lienzo.modulate.a = 0.0
 	_entrada = create_tween().set_parallel(true)
-	_entrada.tween_property(self, "modulate:a", 1.0, 0.24)
+	_entrada.tween_property($Fondo, "modulate", Color.WHITE, 0.24)
+	_entrada.tween_property(lienzo, "modulate:a", 1.0, 0.24)
 	for i in _tarjetas.size():
 		var tarjeta := _tarjetas[i]
 		var destino := tarjeta.position
@@ -142,6 +140,8 @@ func _input(event: InputEvent) -> void:
 		_saliendo = true
 		volver_solicitado.emit()
 	elif event.is_action_pressed(&"modo_confirmar") and _confirmacion_habilitada:
+		if event is InputEventJoypadButton:
+			get_node("/root/EntradaMandos").asignar_principal(event.device)
 		get_viewport().set_input_as_handled()
 		_confirmar()
 
@@ -170,7 +170,7 @@ func _actualizar_tarjetas(animar: bool) -> void:
 		var tarjeta := _tarjetas[i]
 		var central := i == indice_seleccionado
 		var escala := Vector2.ONE
-		var destino := Vector2(100 + i * 580, 295 if central else 315)
+		var destino := Vector2(100 + i * 440, 295 if central else 315)
 		var color := Color.WHITE
 		tarjeta.set("seleccionado", central)
 		tarjeta.z_index = 2 if central else 1
@@ -212,6 +212,14 @@ func _confirmar() -> void:
 	salida.tween_property($Oscurecimiento, "modulate:a", 0.0, 0.16)
 	await salida.finished
 	lienzo.hide()
+	if escena != "seleccion":
+		var error := get_tree().change_scene_to_file(escena)
+		if error != OK:
+			lienzo.show()
+			lienzo.modulate.a = 1.0
+			_saliendo = false
+			push_error("No se pudo abrir el tutorial: " + error_string(error))
+		return
 	selector_combate = SELECTOR_COMBATE.instantiate()
 	add_child(selector_combate)
 	selector_combate.volver_solicitado.connect(_cerrar_seleccion)

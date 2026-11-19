@@ -33,7 +33,10 @@ func _input(event: InputEvent) -> void:
 
 	get_viewport().set_input_as_handled()
 	if get_tree().paused:
-		_reanudar_combate()
+		if menu_pausa.controles_visibles():
+			menu_pausa.cerrar_controles()
+		else:
+			_reanudar_combate()
 	else:
 		_pausar_combate()
 

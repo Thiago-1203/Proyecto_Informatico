@@ -1,0 +1,10 @@
+Use case: identity-preserve. Production 2D pixel-art fighting-game sprite sheet of Marco performing a special summoning animation. Reference 1 is the EXISTING IN-GAME sprite: match its exact pixel density, outline, palette, head size, limb lengths and clothing. Reference 2 is the original character design: young lean man, short curly brown hair, black rectangular glasses, beige short-sleeve school shirt with small blue chest emblem over long black sleeves, charcoal blue jeans, dark sneakers. Keep that exact character. NOT a victory cheer: this is a deliberate summoning gesture, serious focused expression, OPEN HANDS with palms upward.
+One truly TRANSPARENT RGBA sheet, 1536 wide x1024 high, exactly THREE columns and TWO rows, six separate full-body poses, equal 512x512 cells. Fixed side fighting camera, facing screen RIGHT in three-quarter view, feet planted on identical baseline local y=456 in every cell, hips near x=256. Keep the same anatomical scale as reference 1: standing head top near y=64, feet at456. Raised palms may reach y=16 but never cropped. Do not shrink body to fit hands. Leave 16px clear padding.
+Read cells LEFT TO RIGHT, top then bottom:
+1: guard stance, bends elbows and starts opening both hands near chest.
+2: lift both open hands past shoulders, forearms upward, head starting to look up.
+3: BOTH ARMS FULLY RAISED OVERHEAD, open palms facing sky, slightly bent elbows, looking up with focused face. Both hands distinct and clearly visible.
+4: hold the summoning arms OVERHEAD, palms up, slightly shift wrist/finger pose and shirt to convey channeling; same feet, head and body scale as pose3.
+5: lower arms from overhead to shoulder height, open palms outward, focused recovery.
+6: return to usual fighting guard, fists ready.
+Crisp blocky pixel-art shading, dark outlines, restrained palette, NO smooth painting. All six cells must show same-size character. No letters, particles, glyphs, magic, aura, props, floor, ground shadow, text, grid lines, labels, borders or watermark. Letters are rendered separately by the engine.

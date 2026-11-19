@@ -132,20 +132,22 @@ func _on_jugar_pressed() -> void:
 	entrada_puerta.reproducir()
 	await entrada_puerta.finalizada
 	puerta_finalizada = true
-	entrada_puerta.set_process_input(false)
-	entrada_puerta.pantalla.hide()
-	entrada_puerta.queue_free()
-
+	$CinematicaColegio.hide()
+	$CinematicaColegio.set_process(false)
 	selector_modos = SELECTOR_MODOS.instantiate()
-	selector_modos.set("usar_fondo_del_menu", true)
 	selector_modos.connect("volver_solicitado", _cerrar_selector)
 	add_child(selector_modos)
 	selector_modos.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	entrada_puerta.set_process_input(false)
+	entrada_puerta.pantalla.hide()
+	entrada_puerta.queue_free()
 	_abriendo_selector = false
 
 
 func _cerrar_selector() -> void:
 	selector_modos.queue_free()
+	$CinematicaColegio.show()
+	$CinematicaColegio.set_process(true)
 	$CenterContainer.modulate.a = 1.0
 	$CenterContainer.show()
 	boton_jugar.disabled = false

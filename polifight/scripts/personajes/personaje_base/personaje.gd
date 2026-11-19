@@ -44,7 +44,8 @@ var cooldown_ataque_restante: float = 0.0
 @export_range(1.0, 500.0, 1.0) var stamina_maxima: float = 100.0
 @export_range(1.0, 100.0, 1.0) var costo_stamina_bloqueo: float = 25.0
 @export_range(0.0, 100.0, 1.0) var recuperacion_stamina_por_segundo: float = 12.0
-@export_range(0.5, 1.0, 0.05) var proporcion_reactivacion_bloqueo: float = 0.6
+## Al agotar la barra, recarga a esta fracción de la velocidad normal hasta llenarse.
+@export_range(0.05, 0.95, 0.05) var multiplicador_recuperacion_agotada: float = 0.5
 
 @export_category("Retroceso de golpes")
 @export_range(0.0, 1000.0, 10.0) var retroceso_golpe_horizontal: float = 180.0
@@ -101,7 +102,10 @@ func _process(delta: float) -> void:
 	if stamina_actual >= stamina_maxima:
 		return
 
-	_cambiar_stamina(stamina_actual + recuperacion_stamina_por_segundo * delta)
+	var recuperacion := recuperacion_stamina_por_segundo
+	if stamina_agotada:
+		recuperacion *= multiplicador_recuperacion_agotada
+	_cambiar_stamina(stamina_actual + recuperacion * delta)
 
 
 func _physics_process(delta: float) -> void:
@@ -332,7 +336,7 @@ func _cambiar_stamina(nueva_stamina: float) -> void:
 	stamina_actual = clampf(nueva_stamina, 0.0, stamina_maxima)
 	if is_zero_approx(stamina_actual):
 		stamina_agotada = true
-	elif stamina_agotada and stamina_actual >= stamina_maxima * proporcion_reactivacion_bloqueo:
+	elif stamina_agotada and stamina_actual >= stamina_maxima:
 		stamina_agotada = false
 
 	if not is_equal_approx(stamina_actual, stamina_anterior):

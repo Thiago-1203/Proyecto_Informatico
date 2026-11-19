@@ -15,8 +15,10 @@ func _ready() -> void:
 	collision_mask = 1
 	colision = CollisionShape2D.new()
 	var forma := RectangleShape2D.new()
-	forma.size = Vector2(110, 54)
+	# Alcanza también la hurtbox agachada; conserva el límite superior y la trayectoria.
+	forma.size = Vector2(110, 110)
 	colision.shape = forma
+	colision.position = Vector2(0, 28)
 	add_child(colision)
 	visual = AnimatedSprite2D.new()
 	visual.sprite_frames = CUADROS

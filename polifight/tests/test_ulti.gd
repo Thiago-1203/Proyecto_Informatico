@@ -12,10 +12,13 @@ func exigir(valor: bool, mensaje: String) -> void:
 		push_error(mensaje)
 		fallos += 1
 
-func preparar(numero: int) -> Personaje:
+func preparar(numero: int, escala: float = 1.0) -> Personaje:
 	if is_instance_valid(nivel):
 		nivel.free()
 	nivel = NIVEL.instantiate()
+	nivel.escala_personajes = escala
+	for nombre in ["AparicionJ1", "AparicionJ2"]:
+		nivel.get_node(nombre).position.y -= 200.0 * (escala - 1.0)
 	root.add_child(nivel)
 	current_scene = nivel
 	await create_timer(0.4, true, true).timeout
@@ -57,7 +60,28 @@ func _probar_carga(numero: int) -> void:
 		jugador.hitbox.finalizar_ataque()
 	exigir(is_equal_approx(jugador.get("carga_ulti"), 100.0), "La carga se limita a 100")
 
+func _probar_agachados() -> void:
+	for numero in [1, 2]:
+		for caminando in [false, true]:
+			var jugador: Personaje = await preparar(numero, 1.1 if caminando else 1.0)
+			var rival: Personaje = jugador.oponente
+			var direccion := rival.accion("derecha" if numero == 1 else "izquierda")
+			Input.action_press(rival.accion("agacharse"))
+			if caminando:
+				Input.action_press(direccion)
+			rival.maquina_estados.cambiar_a("Agacharse")
+			await physics_frame
+			exigir(rival.maquina_estados.es_estado_actual(&"CaminarAgachado" if caminando else &"Agacharse"), "El objetivo debe empezar agachado")
+			jugador.maquina_estados.cambiar_a("Ulti")
+			await create_timer(3.6, true, true).timeout
+			exigir(rival.vida_actual == 68, "La ulti debe conectar los cuatro códigos contra un rival agachado, quieto o caminando, en ambas direcciones")
+			exigir(jugador.vida_actual == 100, "La hitbox ampliada no debe causar autogolpes")
+			Input.action_release(rival.accion("agacharse"))
+			Input.action_release(direccion)
+
+
 func _probar() -> void:
+	await _probar_agachados()
 	for numero in [1, 2]:
 		await _probar_carga(numero)
 	for numero in [1, 2]:

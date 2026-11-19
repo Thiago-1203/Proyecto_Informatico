@@ -45,8 +45,25 @@ func _tecla(selector: Control, tecla: Key) -> void:
 
 func _probar() -> void:
 	seleccion = root.get_node("SeleccionPartida")
-	_exigir(seleccion.personajes.size() == 1, "Debe haber un único personaje real")
+	_exigir(seleccion.personajes.size() == 2 and seleccion.personajes[1].id == &"marco", "Barbieri y Marco deben estar disponibles")
+	var cantidad_personajes := seleccion.personajes.size()
 	_exigir(seleccion.escenarios[0].nombre == "LA TERRAZA", "El escenario debe llamarse La terraza")
+	var frente: FichaSeleccion
+	for ficha in seleccion.escenarios:
+		if ficha.id == &"frente_colegio":
+			frente = ficha
+	_exigir(frente != null, "El frente del colegio debe estar disponible en el catálogo")
+	if frente != null:
+		var nivel_frente := (load(frente.escena) as PackedScene).instantiate()
+		root.add_child(nivel_frente)
+		await create_timer(0.4).timeout
+		var fondo_frente := nivel_frente.get_node("BackgroundLayer/Background") as TextureRect
+		_exigir(fondo_frente.texture == frente.imagen and fondo_frente.material == null, "El frente debe usar la portada fija sin shader de nubes")
+		_exigir(nivel_frente.find_children("*", "Control", true, false).filter(func(nodo): return nodo.get_script() == load("res://cinematica_polifight/cinematica_colegio.gd")).is_empty(), "El frente no debe instanciar la animación de árboles")
+		await create_timer(0.3).timeout
+		_exigir(fondo_frente.texture == frente.imagen and fondo_frente.material == null, "La fachada debe permanecer estática durante el combate")
+		_exigir(nivel_frente.jugador1.is_on_floor() and nivel_frente.jugador2.is_on_floor(), "Los luchadores deben apoyarse sobre el suelo del frente")
+		nivel_frente.free()
 	var modos := MODOS.instantiate()
 	root.add_child(modos)
 	current_scene = modos
@@ -67,11 +84,11 @@ func _probar() -> void:
 	await process_frame
 	_exigir(selector.fondo_escenario.texture == selector.OSCURIDAD_PUERTA and not selector.sombra_fondo.visible, "Personajes debe usar la oscuridad original de la puerta")
 	_exigir(selector.estadisticas_visibles[0] == {"danio": 10, "stamina": 100.0}, "Las estadísticas deben venir de la escena real de Barbieri")
-	_exigir(not selector.contenido.has_node("DanioJ1") and not selector.contenido.has_node("StaminaJ1"), "El selector arcade omite los números de daño y stamina")
+	_exigir(selector.contenido.get_node("DanioJ1").texto == "DAÑO 10" and selector.contenido.get_node("StaminaJ1").texto == "STAMINA 100", "Barbieri debe mostrar sus valores reales sin decimales innecesarios")
 	_exigir(selector.tarjetas[0].find_children("*", "AnimationPlayer", true, false).is_empty(), "La tarjeta central no debe reproducir idle")
 	var retrato: TextureRect = selector.tarjetas[0].find_children("*", "TextureRect", true, false)[0]
 	var textura_retrato := retrato.texture
-	_exigir(selector.tarjetas.size() == 2, "Debe haber un personaje y una casilla vacía")
+	_exigir(selector.tarjetas.size() == cantidad_personajes + 1, "Debe haber una tarjeta por personaje y una casilla vacía")
 	_exigir(selector.vistas[0].animacion.is_playing() and selector.vistas[1].animacion.is_playing(), "Ambos personajes deben reproducir idle")
 	var animacion: AnimationPlayer = selector.vistas[0].animacion
 	animacion.seek(0.0, true)
@@ -81,17 +98,29 @@ func _probar() -> void:
 	_exigir(sprite.texture != textura_inicial, "El idle debe cambiar de fotograma")
 	_exigir(retrato.texture == textura_retrato, "El retrato central debe permanecer estático")
 	var posicion_idle := animacion.current_animation_position
-	_tecla(selector, KEY_D)
-	_exigir(selector.indices == [1, 0], "D debe mover solamente a J1 a la casilla vacía")
+	for i in cantidad_personajes:
+		_tecla(selector, KEY_D)
+	_exigir(selector.indices == [cantidad_personajes, 0], "D debe mover solamente a J1 a la casilla vacía")
 	_exigir(selector.estadisticas_visibles[0].is_empty(), "La casilla vacía no debe mostrar estadísticas de otro luchador")
+	_exigir(selector.contenido.get_node("DanioJ1").texto == "DAÑO --" and selector.contenido.get_node("StaminaJ1").texto == "STAMINA --", "La casilla vacía debe reemplazar ambas stats por guiones")
 	_tecla(selector, KEY_F)
 	_exigir(not selector.listos[0], "Una casilla vacía no puede confirmar un personaje")
-	_tecla(selector, KEY_A)
+	for i in cantidad_personajes:
+		_tecla(selector, KEY_A)
+	# J1 cambió su propia elección; desde aquí se comprueba que J2 no la reinicia.
+	animacion = selector.vistas[0].animacion
+	posicion_idle = animacion.current_animation_position
 	_tecla(selector, KEY_RIGHT)
 	_exigir(selector.indices == [0, 1], "Flecha derecha debe mover solamente a J2")
+	_exigir(selector.contenido.get_node("DanioJ2").texto == "DAÑO 8" and selector.contenido.get_node("StaminaJ2").texto == "STAMINA 125", "Marco debe mostrar menos daño y más stamina")
+	_exigir(selector.contenido.get_node("DanioJ1").texto == "DAÑO 10" and selector.contenido.get_node("StaminaJ1").texto == "STAMINA 100", "Cambiar J2 no debe alterar las stats visibles de J1")
 	_exigir(selector.vistas[0].animacion == animacion and animacion.current_animation_position >= posicion_idle, "Navegar no debe reiniciar el idle del otro jugador")
 	_tecla(selector, KEY_LEFT)
 	await _captura("personajes")
+	# Marco ocupa la segunda columna; desde ella se baja a Listo sin
+	# atravesar la casilla vacía de la siguiente fila.
+	_tecla(selector, KEY_D)
+	_tecla(selector, KEY_RIGHT)
 	_tecla(selector, KEY_S)
 	_tecla(selector, KEY_DOWN)
 	_exigir(selector.botones_listo[0].foco_jugadores == 1, "WASD debe resaltar el botón Listo de J1")
@@ -107,11 +136,12 @@ func _probar() -> void:
 	_exigir(selector.paso == selector.Paso.ESCENARIO, "Ambos listos deben poder avanzar a escenarios")
 	_exigir(selector._entrando and selector.fondo_escenario.modulate.a < 1.0, "El escenario debe aparecer desde negro")
 	await _esperar_aparicion(selector)
-	_exigir(selector.tarjetas.size() == 2, "Debe haber un escenario y una casilla vacía")
+	_exigir(selector.tarjetas.size() == seleccion.escenarios.size() + 1, "Debe aparecer cada escenario y una casilla vacía")
 	_exigir(selector.fondo_escenario.texture == seleccion.escenario.imagen, "El escenario debe ocupar el fondo")
 	_exigir(selector.fondo_escenario.size.is_equal_approx(selector.size), "El fondo debe cubrir la pantalla")
 	await _captura("escenarios")
-	_tecla(selector, KEY_RIGHT)
+	for i in seleccion.escenarios.size():
+		_tecla(selector, KEY_RIGHT)
 	_tecla(selector, KEY_DOWN)
 	_exigir(selector.boton_continuar.disabled, "La casilla vacía no debe permitir iniciar combate")
 	_tecla(selector, KEY_ENTER)
@@ -122,6 +152,8 @@ func _probar() -> void:
 	_exigir(selector.paso == selector.Paso.PERSONAJES and selector.listos == [false, false], "Cambiar luchadores debe devolver ambos cursores")
 	await _esperar_aparicion(selector)
 	_exigir(selector.fondo_escenario.texture == selector.OSCURIDAD_PUERTA, "Volver a personajes debe recuperar el negro de la puerta")
+	selector._elegir(0, 0)
+	selector._elegir(0, 1)
 	# El catálogo adicional debe funcionar sin tocar la interfaz.
 	var personaje_extra := seleccion.personajes[0].duplicate() as FichaSeleccion
 	personaje_extra.id = &"prueba"
@@ -141,18 +173,19 @@ func _probar() -> void:
 	escenario_extra.escena = ruta_escenario
 	seleccion.escenarios.append(escenario_extra)
 	selector._renderizar()
-	_exigir(selector.tarjetas.size() == 3, "Las entradas nuevas deben aparecer junto a la casilla vacía")
-	_tecla(selector, KEY_D)
-	_exigir(selector.indices == [1, 0], "Debe poder elegir un nuevo personaje sin mover a J2")
+	_exigir(selector.tarjetas.size() == seleccion.personajes.size() + 1, "Las entradas nuevas deben aparecer junto a la casilla vacía")
+	for i in cantidad_personajes:
+		_tecla(selector, KEY_D)
+	_exigir(selector.indices == [cantidad_personajes, 0], "Debe poder elegir un nuevo personaje sin mover a J2")
 	_exigir(selector.estadisticas_visibles[0] == {"danio": 23, "stamina": 145.0}, "Las stats deben actualizarse con el personaje seleccionado")
-	_exigir(not selector.contenido.has_node("DanioJ1"), "La selección arcade conserva los datos del catálogo sin mostrar estadísticas")
+	_exigir(selector.contenido.get_node("DanioJ1").texto == "DAÑO 23" and selector.contenido.get_node("StaminaJ1").texto == "STAMINA 145", "Un personaje nuevo debe mostrar automáticamente sus stats de combate")
 	_exigir(selector.estadisticas_visibles[1]["danio"] == 10, "Las stats de J2 deben conservar su elección")
 	_tecla(selector, KEY_F)
 	_tecla(selector, KEY_ENTER)
 	_tecla(selector, KEY_F)
 	_exigir(selector.paso == selector.Paso.ESCENARIO, "El catálogo nuevo debe mantener el flujo simultáneo")
 	await _esperar_aparicion(selector)
-	selector.tarjetas[1].pressed.emit()
+	selector.tarjetas[seleccion.escenarios.size() - 1].pressed.emit()
 	_exigir(seleccion.escenario == escenario_extra, "El mouse debe elegir el nuevo escenario")
 	_exigir(selector.fondo_escenario.texture == escenario_extra.imagen, "Cambiar de escenario debe cambiar el fondo")
 	_tecla(selector, KEY_S)
@@ -226,10 +259,10 @@ func _probar() -> void:
 		var extra := seleccion.personajes[0].duplicate() as FichaSeleccion
 		extra.id = StringName("prueba_%d" % i)
 		seleccion.personajes.append(extra)
-	segundo._elegir(21, 1)
+	segundo._elegir(seleccion.personajes.size() - 1, 1)
 	await process_frame
 	await process_frame
-	_exigir(segundo.tarjetas.size() == 23, "El catálogo grande debe mantener la casilla vacía")
+	_exigir(segundo.tarjetas.size() == seleccion.personajes.size() + 1, "El catálogo grande debe mantener la casilla vacía")
 	_exigir(segundo.scroll.scroll_vertical > 0, "La cuadrícula debe mostrar el cursor al desplazarse")
 	segundo.queue_free()
 	for ruta in [ruta_personaje, ruta_escenario]:

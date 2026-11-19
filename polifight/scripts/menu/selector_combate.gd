@@ -91,7 +91,7 @@ func _ready() -> void:
 	for i in 2:
 		var vista := VISTA.new()
 		vista.position = POSICIONES_VISTAS[i]
-		vista.size = Vector2(490, 400)
+		vista.size = Vector2(490, 350)
 		vista.z_index = 2
 		lienzo.add_child(vista)
 		vistas.append(vista)
@@ -405,7 +405,14 @@ func _renderizar_personajes() -> void:
 		var vacio := indices[i] >= seleccion.personajes.size()
 		estadisticas_visibles[i] = {} if vacio else ficha.obtener_estadisticas()
 		_texto("IA" if seleccion.contra_ia and i == 1 else "JUGADOR %d" % (i + 1), Rect2(x, 290, 520, 35), 4, color)
-		_texto("PROXIMAMENTE" if vacio else ficha.nombre, Rect2(x, 774, 520, 58), 6, BLANCO)
+		_texto("PROXIMAMENTE" if vacio else ficha.nombre, Rect2(x, 714, 520, 58), 6, BLANCO)
+		var stats := estadisticas_visibles[i]
+		_panel(Rect2(x + 25, 786, 225, 50), Color("101b31"), Color("344465"))
+		_panel(Rect2(x + 265, 786, 230, 50), Color("101b31"), Color("344465"))
+		var danio := "--" if stats.is_empty() else String.num(float(stats["danio"]), 2).trim_suffix(".0")
+		var stamina := "--" if stats.is_empty() else String.num(float(stats["stamina"]), 2).trim_suffix(".0")
+		_texto("DAÑO " + danio, Rect2(x + 35, 796, 205, 30), 3, color).name = "DanioJ%d" % (i + 1)
+		_texto("STAMINA " + stamina, Rect2(x + 275, 796, 210, 30), 3, color).name = "StaminaJ%d" % (i + 1)
 		var boton := _boton("LISTO!" if listos[i] else "CONFIRMAR", Rect2(x + 25, 855, 470, 64), _alternar_listo.bind(i), 4)
 		boton.foco_jugadores = (1 << i) if focos[i] == Foco.LISTO else 0
 		boton.color_normal = color

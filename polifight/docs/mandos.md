@@ -1,5 +1,10 @@
 # Mandos
 
+La pausa de todos los combates incluye **Ver controles**, con teclado de J1/J2 y
+equivalencias Xbox/PlayStation. Usa la misma guía que el tutorial. El botón Volver,
+Esc, Start o B regresa al menú de pausa sin reanudar la partida y devuelve el foco
+a Ver controles. Desde la pausa, Seguir jugando o Esc/Start/B reanuda el combate.
+
 El menú principal y la pausa usan `ui_accept` / `ui_cancel`, ahora con botón inferior y derecho además del teclado. El selector conserva sus dos cursores y consume los eventos que procesa para evitar que la GUI confirme o navegue dos veces.
 
 `EntradaMandos` asigna los IDs de dispositivo disponibles a J1/J2. El mando que abre JUGAR ocupa J1. La desconexión libera sus acciones y conserva el puesto del otro jugador; al reconectar se reemplazan las asignaciones del dispositivo anterior. Se mantienen las teclas originales.
@@ -26,6 +31,16 @@ Los nombres A/B/X/Y corresponden a la distribución Xbox; en otras marcas se usa
 Hay dos puestos de combate. Contra la IA, un mismo mando elige y confirma los dos personajes. En duelo local, cada mando mueve su propio cursor.
 
 ## Verificación
+
+Barbieri camina agachado manteniendo abajo y una dirección horizontal (teclado,
+cruceta o diagonal del stick). Usa la animación `Caminar_Agachado` en bucle y la
+mitad de la velocidad normal. Al soltar la dirección queda agachado; al soltar abajo
+camina de pie. Puede atacar, bloquear o saltar, y recupera la diagonal mantenida
+tras los ataques, el bloqueo o recibir daño. Su hurtbox conserva la postura agachada.
+
+`Godot --headless --path . --script res://tests/test_caminar_agachado.gd` verifica
+ambos jugadores, los tres fotogramas, las transiciones, la pausa y la independencia
+de controles.
 
 `Godot --headless --path . --script res://tests/test_mandos.gd`
 

@@ -1,10 +1,13 @@
 extends Estado_base
 
+var cayendo: bool = false
 
 
 func start()->void:
+	cayendo = false
 	nodo_controlado.velocity.y = nodo_controlado.JUMP_VELOCITY
 	nodo_controlado.play_animation("salto")
+	nodo_controlado.animacion.advance(0.0)
 
 func on_physics_process(delta: float) -> void:
 	var izquierda := nodo_controlado.accion("izquierda")
@@ -18,10 +21,12 @@ func on_physics_process(delta: float) -> void:
 	
 	
 	
-	if nodo_controlado.velocity.y < 0.0:
-		nodo_controlado.play_animation("salto")
-	else:
+	# Cada fase se inicia una sola vez. Al terminar sus cuadros se mantiene
+	# la última pose, sin volver a preparar el salto mientras está en el aire.
+	if nodo_controlado.velocity.y >= 0.0 and not cayendo:
+		cayendo = true
 		nodo_controlado.play_animation("caida")
+		nodo_controlado.animacion.advance(0.0)
 		
 	nodo_controlado.move_and_slide()
 	

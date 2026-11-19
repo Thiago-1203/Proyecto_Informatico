@@ -43,7 +43,8 @@ func actualizar(personaje: Personaje, delta: float) -> void:
 	if not (estados.es_estado_actual(&"Idle") or estados.es_estado_actual(&"Caminar") or estados.es_estado_actual(&"Bloqueando")):
 		acciones.clear()
 		return
-	var distancia := absf(rival.global_position.x - personaje.global_position.x)
+	# Los alcances se comparan en las unidades originales del luchador.
+	var distancia := absf(rival.global_position.x - personaje.global_position.x) / absf(personaje.global_scale.x)
 	var hacia := "derecha" if rival.global_position.x > personaje.global_position.x else "izquierda"
 	var lejos := "izquierda" if hacia == "derecha" else "derecha"
 	# Avances y retrocesos cortos: no seguir corriendo hasta la próxima decisión.

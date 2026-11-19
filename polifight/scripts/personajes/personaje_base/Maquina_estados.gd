@@ -26,6 +26,15 @@ func _iniciar_estado()->void:
 	estado_actual.start()
 
 func cambiar_a(nuevo_estado:String) -> void:
+	# Todos los retornos al movimiento resuelven también la diagonal agachada.
+	if (
+		nuevo_estado in ["Caminar", "Agacharse"]
+		and tiene_estado(&"CaminarAgachado")
+		and nodo_controlado.is_on_floor()
+		and nodo_controlado.entrada_presionada(nodo_controlado.accion("agacharse"))
+	):
+		var direccion := nodo_controlado.eje_entrada(nodo_controlado.accion("izquierda"), nodo_controlado.accion("derecha"))
+		nuevo_estado = "CaminarAgachado" if direccion != 0.0 else "Agacharse"
 	if nuevo_estado == "Ulti" and (not nodo_controlado.has_method("puede_usar_ulti") or not nodo_controlado.call("puede_usar_ulti")):
 		return
 	# Puños y patadas comparten recuperación, incluso al alternarlos o usar IA.

@@ -5,6 +5,8 @@ extends Node2D
 # Cada escenario aporta sus puntos de aparición; el catálogo aporta los luchadores.
 @export var punto_jugador1: NodePath = ^"AparicionJ1"
 @export var punto_jugador2: NodePath = ^"AparicionJ2"
+## Escala uniforme del luchador completo, incluidas sus colisiones y ataques.
+@export_range(0.5, 2.0, 0.05) var escala_personajes: float = 1.0
 
 var jugador1: Personaje
 var jugador2: Personaje
@@ -42,6 +44,7 @@ func _crear_jugador(numero: int, punto: NodePath) -> Personaje:
 	if jugador == null:
 		return null
 	jugador.name = "Jugador%d" % numero
+	jugador.scale *= escala_personajes
 	jugador.position = (get_node(punto) as Node2D).position
 	add_child(jugador)
 	return jugador

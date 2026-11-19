@@ -1,0 +1,1280 @@
+{
+  "character": "Marco",
+  "engine": "Godot 4.7.1",
+  "reference_source": "User attachment: WhatsApp Image 2026-11-18 at 9.30.08 PM.jpeg",
+  "visual_direction": "Lean young fighter with brown curly hair, glasses, beige shirt over black sleeves, charcoal jeans and dark sneakers. Crisp dark outlines and one palette derived from the supplied reference.",
+  "native_canvas": [
+    512,
+    512
+  ],
+  "world_floor_offset": 200,
+  "standing_height_first_frame": 392,
+  "pixel_grid": 4,
+  "max_colors_per_frame": 97,
+  "alpha": "binary RGBA",
+  "filter": "nearest; no mipmaps",
+  "generation_mode": "built-in image_gen",
+  "source_sheets": [
+    "fuentes/movimiento.png",
+    "fuentes/combate.png",
+    "fuentes/reacciones.png",
+    "fuentes/ulti.png"
+  ],
+  "source_sheet_size_actual": [
+    1254,
+    1254
+  ],
+  "normalization": "scripts/assets/preparar_marco.py; fixed anatomical scale, grounded sole at y=456; jump/fall preserve the fixed origin.",
+  "ultimate": "Lluvia de nombres de tipografías: seis poses de invocación, cuatro oleadas con Arial, Times New Roman y Sans Serif.",
+  "animations": {
+    "idle": 1.0,
+    "caminar_adelante": 0.64,
+    "caminar_atras": 0.64,
+    "salto": 0.4,
+    "caida": 0.32,
+    "agacharse": 0.3,
+    "Caminar_Agachado": 0.8,
+    "Caminar_Agachado_atras": 0.8,
+    "puño": 0.5,
+    "patada": 0.7,
+    "bloqueo": 0.3,
+    "recibirGolpe": 0.47,
+    "KO": 1.15,
+    "victoria": 1.6,
+    "ulti": 2.75
+  },
+  "validation": {
+    "raster_report": "docs/marco/asset-report.json",
+    "contact_sheet": "docs/marco/contacto.png",
+    "runtime_test": "tests/test_marco.gd",
+    "native_preview": "docs/marco/combate-j1.png",
+    "ultimate_raster_report": "docs/marco/ulti-asset-report.json",
+    "ultimate_contact_sheet": "docs/marco/ulti-contacto.png",
+    "ultimate_runtime_test": "tests/test_ulti_marco.gd"
+  },
+  "assets": [
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_01.png",
+      "state": "agacharse",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_02.png",
+      "state": "agacharse",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_03.png",
+      "state": "agacharse",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_04.png",
+      "state": "agacharse",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_01.png",
+      "state": "bloqueo",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_02.png",
+      "state": "bloqueo",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_03.png",
+      "state": "bloqueo",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_04.png",
+      "state": "bloqueo",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_01.png",
+      "state": "caida",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_02.png",
+      "state": "caida",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_03.png",
+      "state": "caida",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_04.png",
+      "state": "caida",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_01.png",
+      "state": "caminar",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_02.png",
+      "state": "caminar",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_03.png",
+      "state": "caminar",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_04.png",
+      "state": "caminar",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_01.png",
+      "state": "caminar_agachado",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_02.png",
+      "state": "caminar_agachado",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_03.png",
+      "state": "caminar_agachado",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_04.png",
+      "state": "caminar_agachado",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_01.png",
+      "state": "idle",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_02.png",
+      "state": "idle",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_03.png",
+      "state": "idle",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_04.png",
+      "state": "idle",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_01.png",
+      "state": "ko",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_02.png",
+      "state": "ko",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_03.png",
+      "state": "ko",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_04.png",
+      "state": "ko",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_01.png",
+      "state": "patada",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_02.png",
+      "state": "patada",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_03.png",
+      "state": "patada",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_04.png",
+      "state": "patada",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_01.png",
+      "state": "punio",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_02.png",
+      "state": "punio",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_03.png",
+      "state": "punio",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_04.png",
+      "state": "punio",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_01.png",
+      "state": "recibir_golpe",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_02.png",
+      "state": "recibir_golpe",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_03.png",
+      "state": "recibir_golpe",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_04.png",
+      "state": "recibir_golpe",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_01.png",
+      "state": "salto",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_02.png",
+      "state": "salto",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_03.png",
+      "state": "salto",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_04.png",
+      "state": "salto",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_01.png",
+      "state": "victoria",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_02.png",
+      "state": "victoria",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_03.png",
+      "state": "victoria",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_04.png",
+      "state": "victoria",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; hitbox/hurtbox en escenas/personajes/marco.tscn",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/prompts.json",
+        "reference": "fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_01.png",
+      "state": "ulti",
+      "frame": 1,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; letras independientes en letra_marco.gd",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/ulti.prompt.txt",
+        "reference": "idle/idle_01.png y fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_02.png",
+      "state": "ulti",
+      "frame": 2,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; letras independientes en letra_marco.gd",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/ulti.prompt.txt",
+        "reference": "idle/idle_01.png y fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_03.png",
+      "state": "ulti",
+      "frame": 3,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; letras independientes en letra_marco.gd",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/ulti.prompt.txt",
+        "reference": "idle/idle_01.png y fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_04.png",
+      "state": "ulti",
+      "frame": 4,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; letras independientes en letra_marco.gd",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/ulti.prompt.txt",
+        "reference": "idle/idle_01.png y fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_05.png",
+      "state": "ulti",
+      "frame": 5,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; letras independientes en letra_marco.gd",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/ulti.prompt.txt",
+        "reference": "idle/idle_01.png y fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    },
+    {
+      "path": "assets/characters/Marco/Ulti/ulti_06.png",
+      "state": "ulti",
+      "frame": 6,
+      "size": [
+        512,
+        512
+      ],
+      "pivot": [
+        256,
+        456
+      ],
+      "collision_role": "visual_only; letras independientes en letra_marco.gd",
+      "source": {
+        "kind": "ai_generated",
+        "tool": "image_gen (integrated)",
+        "prompt_set": "fuentes/ulti.prompt.txt",
+        "reference": "idle/idle_01.png y fuentes/referencia.jpeg"
+      },
+      "license": "Generated for this project from the user-supplied character reference; no third-party asset pack.",
+      "technical_checks_passed": true
+    }
+  ],
+  "typography": {
+    "families": [
+      "Arial Bold (Proton OFL build)",
+      "Times New Roman Regular (Proton OFL build)",
+      "DejaVu Sans Bold (Sans Serif)"
+    ],
+    "source": "Arial/Times: user-installed Proton Experimental fonts (OFL-compatible versions); Sans Serif: existing DejaVu Sans Bold. Font files bundled in assets/fonts.",
+    "license": [
+      "assets/fonts/tipografias_marco/LICENSE-Arial-Times.txt",
+      "assets/fonts/tipografias_marco/LICENSE.txt"
+    ],
+    "rendering": "Godot Font: complete font names, vertical 90-degree orientation, up to 64px font size, 600px maximum length, black fill with a light 3px outline; 64x72 impact core.",
+    "labels": [
+      "Arial",
+      "Times New Roman",
+      "Sans Serif"
+    ],
+    "fall_speed": 400,
+    "wave_column_offset": 88,
+    "font_size_max": 64,
+    "text_length_max": 600,
+    "wave_times": [
+      0.65,
+      1.2,
+      1.75,
+      2.3
+    ],
+    "projectile_lifetime_max": 5,
+    "central_column_offsets": [
+      -88,
+      0,
+      88,
+      -88
+    ]
+  }
+}

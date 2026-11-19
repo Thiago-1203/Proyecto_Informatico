@@ -1,0 +1,965 @@
+{
+  "ok": true,
+  "assets": [
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 13164,
+      "color_count": 86,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 212224,
+      "content_bounds": [
+        124,
+        40,
+        400,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12416,
+      "color_count": 82,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213712,
+      "content_bounds": [
+        120,
+        88,
+        396,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11364,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217216,
+      "content_bounds": [
+        124,
+        136,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/agacharse/agacharse_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11148,
+      "color_count": 86,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217616,
+      "content_bounds": [
+        124,
+        148,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12282,
+      "color_count": 81,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213360,
+      "content_bounds": [
+        120,
+        56,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11724,
+      "color_count": 77,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 215968,
+      "content_bounds": [
+        120,
+        56,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11235,
+      "color_count": 77,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217824,
+      "content_bounds": [
+        120,
+        76,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/bloqueo/bloqueo_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11908,
+      "color_count": 79,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 216384,
+      "content_bounds": [
+        120,
+        56,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 9700,
+      "color_count": 82,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 229296,
+      "content_bounds": [
+        164,
+        36,
+        376,
+        336
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11509,
+      "color_count": 87,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 222928,
+      "content_bounds": [
+        164,
+        48,
+        376,
+        416
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11807,
+      "color_count": 89,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 220368,
+      "content_bounds": [
+        156,
+        68,
+        380,
+        452
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caida/caida_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11766,
+      "color_count": 86,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 219664,
+      "content_bounds": [
+        132,
+        88,
+        384,
+        452
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12662,
+      "color_count": 90,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217136,
+      "content_bounds": [
+        104,
+        60,
+        420,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11649,
+      "color_count": 85,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 221664,
+      "content_bounds": [
+        164,
+        52,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12089,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 219872,
+      "content_bounds": [
+        128,
+        68,
+        400,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar/caminar_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11291,
+      "color_count": 88,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 222352,
+      "content_bounds": [
+        180,
+        56,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11265,
+      "color_count": 87,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 218144,
+      "content_bounds": [
+        120,
+        136,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11713,
+      "color_count": 85,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 216240,
+      "content_bounds": [
+        120,
+        128,
+        444,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11525,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217632,
+      "content_bounds": [
+        140,
+        128,
+        404,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/caminar_agachado/caminar_agachado_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11516,
+      "color_count": 89,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 216464,
+      "content_bounds": [
+        176,
+        124,
+        412,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12232,
+      "color_count": 86,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217632,
+      "content_bounds": [
+        124,
+        64,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12398,
+      "color_count": 89,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217296,
+      "content_bounds": [
+        128,
+        52,
+        392,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11920,
+      "color_count": 85,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 218000,
+      "content_bounds": [
+        128,
+        84,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/idle/idle_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12263,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 217488,
+      "content_bounds": [
+        124,
+        64,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12249,
+      "color_count": 86,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 212160,
+      "content_bounds": [
+        88,
+        72,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11608,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 215632,
+      "content_bounds": [
+        28,
+        164,
+        416,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 9763,
+      "color_count": 83,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 219344,
+      "content_bounds": [
+        56,
+        296,
+        440,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/ko/ko_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 7386,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 229488,
+      "content_bounds": [
+        40,
+        352,
+        460,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12483,
+      "color_count": 83,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 216176,
+      "content_bounds": [
+        136,
+        36,
+        356,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12310,
+      "color_count": 81,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 214576,
+      "content_bounds": [
+        124,
+        40,
+        468,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12544,
+      "color_count": 86,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 216512,
+      "content_bounds": [
+        144,
+        36,
+        352,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/patada/patada_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 13040,
+      "color_count": 85,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 212432,
+      "content_bounds": [
+        116,
+        40,
+        400,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 13012,
+      "color_count": 87,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 211104,
+      "content_bounds": [
+        116,
+        44,
+        400,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12479,
+      "color_count": 81,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 212384,
+      "content_bounds": [
+        112,
+        48,
+        468,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 13073,
+      "color_count": 83,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 211616,
+      "content_bounds": [
+        116,
+        48,
+        400,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/punio/punio_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12874,
+      "color_count": 90,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 211728,
+      "content_bounds": [
+        116,
+        44,
+        400,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12348,
+      "color_count": 83,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 212848,
+      "content_bounds": [
+        120,
+        68,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12742,
+      "color_count": 88,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 210256,
+      "content_bounds": [
+        96,
+        68,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12225,
+      "color_count": 82,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213472,
+      "content_bounds": [
+        120,
+        72,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/recibir_golpe/recibir_golpe_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12049,
+      "color_count": 87,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213952,
+      "content_bounds": [
+        120,
+        56,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11260,
+      "color_count": 82,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 220640,
+      "content_bounds": [
+        132,
+        116,
+        376,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12154,
+      "color_count": 92,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 219152,
+      "content_bounds": [
+        132,
+        56,
+        388,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11139,
+      "color_count": 87,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 223424,
+      "content_bounds": [
+        164,
+        40,
+        380,
+        396
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/salto/salto_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 9850,
+      "color_count": 85,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 228928,
+      "content_bounds": [
+        164,
+        36,
+        380,
+        336
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_01.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12157,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213728,
+      "content_bounds": [
+        120,
+        56,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_02.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12180,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213344,
+      "content_bounds": [
+        120,
+        44,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_03.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 12630,
+      "color_count": 82,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 211408,
+      "content_bounds": [
+        120,
+        52,
+        384,
+        456
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/characters/Marco/victoria/victoria_04.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 512,
+      "bytes": 11999,
+      "color_count": 84,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 213472,
+      "content_bounds": [
+        120,
+        44,
+        384,
+        456
+      ],
+      "problems": []
+    }
+  ]
+}

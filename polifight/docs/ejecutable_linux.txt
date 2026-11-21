@@ -1,0 +1,36 @@
+POLIFIGHT — LINUX (64 BITS, INTEL/AMD)
+
+JUGAR
+Abrí PoliFight.x86_64 con doble clic. No necesitás instalar Godot.
+El juego lleva sus recursos dentro del ejecutable.
+Si Linux pregunta qué hacer, elegí «Ejecutar».
+Si no permite abrirlo, en Propiedades > Permisos habilitá
+«Permitir ejecutar el archivo como un programa».
+
+INSTALAR EN EL MENÚ DE APLICACIONES
+Abrí una terminal en esta carpeta y ejecutá:
+    bash Instalar.sh
+Después buscá «PoliFight» en el menú de aplicaciones.
+El instalador usa Bash y Python 3, y no necesita sudo.
+
+DESINSTALAR
+Eliminá ~/.local/share/polifight y
+~/.local/share/applications/polifight.desktop.
+Si configuraste XDG_DATA_HOME, esas rutas están dentro de ese directorio.
+
+COMPARTIR
+Pasá PoliFight-Linux.tar.gz. La otra persona debe extraerlo y abrir
+PoliFight.x86_64. Esta versión es para Linux; Windows necesita otra exportación.
+
+ACTUALIZAR DESPUÉS DE CAMBIAR EL JUEGO
+Desde la carpeta del proyecto:
+    bash scripts/distribucion/exportar_linux.sh
+Requiere Godot y las plantillas de exportación de la misma versión.
+En Godot: Editor > Administrar plantillas de exportación.
+La exportación también está configurada en Proyecto > Exportar > Linux.
+Después ejecutá otra vez build/PoliFight-Linux/Instalar.sh para actualizar
+la copia instalada.
+
+LICENCIAS
+Los avisos del motor Godot y las fuentes se incluyen en licencias/.
+Godot: https://godotengine.org/license/

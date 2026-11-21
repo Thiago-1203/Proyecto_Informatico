@@ -13,6 +13,7 @@ config_version=5
 config/name="polifight"
 run/main_scene="uid://d0k4okrrhr7f5"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://assets/ui/PoliFight_LOGO.png"
 
 [autoload]
 
